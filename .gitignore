@@ -1,0 +1,9 @@
+.gradle/
+.idea/
+build/
+classes/
+*.iml
+out/
+!src/app/build/
+src/app/node_modules/
+secrets.properties
