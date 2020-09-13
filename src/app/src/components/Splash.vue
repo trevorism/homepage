@@ -2,7 +2,6 @@
 <div id="splash">
   <HeaderBar></HeaderBar>
   Splash content
-  {{cookie}}
 </div>
 </template>
 
@@ -13,11 +12,8 @@ export default {
   components: {HeaderBar},
   data () {
     return {
-      "cookie": ""
+      'cookie': ''
     }
-  },
-  mounted() {
-    this.cookie = document.cookie
   }
 
 }

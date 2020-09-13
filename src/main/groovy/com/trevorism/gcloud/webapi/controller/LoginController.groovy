@@ -43,5 +43,4 @@ class LoginController {
         return Response.status(401)
     }
 
-
 }
