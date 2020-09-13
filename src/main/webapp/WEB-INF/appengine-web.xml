@@ -5,6 +5,7 @@
     <version>0-0-1</version>
     <service>homepage</service>
     <threadsafe>true</threadsafe>
+    <sessions-enabled>true</sessions-enabled>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
     </system-properties>
