@@ -10,6 +10,9 @@
           <a @click="logout()" style="color: red">Logout</a>
         </div>
       </div>
+      <div>
+        <router-link style="color: green" to="/admin">Admin</router-link>
+      </div>
     </section>
   </div>
 </template>
