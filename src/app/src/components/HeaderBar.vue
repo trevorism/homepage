@@ -55,12 +55,11 @@ export default {
   methods: {
     checkAuthenticated: function () {
       let session = this.$cookies.get('session')
-      let self = this
       this.authenticated = !!session
 
       axios.get('api/user', { 'headers': { 'Authorization': 'bearer ' + session } })
-        .then((val) => {
-          self.username = val.data.username
+        .then(val => {
+          this.username = val.data.username
         })
         .catch((val) => {
           this.username = 'error'
