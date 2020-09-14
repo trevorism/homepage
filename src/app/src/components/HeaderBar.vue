@@ -1,28 +1,84 @@
 <template>
   <div id="header">
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <h1 class="title">Trevorism</h1>
+    <b-navbar>
+      <template slot="brand">
+        <b-navbar-item tag="router-link" :to="{ path: '/' }">
+          <img src="favicon.ico">
+        </b-navbar-item>
+      </template>
+      <template slot="start">
+        <b-navbar-item href="#">
+          Contact
+        </b-navbar-item>
+        <b-navbar-item href="#">
+          Careers
+        </b-navbar-item>
+
+      </template>
+
+      <template slot="end">
         <div v-if="!authenticated">
-          <router-link style="color: red" to="/login">Login</router-link>
+          <b-navbar-item tag="div">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <router-link class="button is-light" to="/login">Login</router-link>
+            </div>
+          </b-navbar-item>
         </div>
         <div v-else>
-          <a @click="logout()" style="color: red">Logout</a>
+          <b-navbar-item tag="div">
+            <div class="buttons">
+              <a @click="logout()" class="button is-primary">Logout</a>
+            </div>
+            Welcome {{username}}
+          </b-navbar-item>
         </div>
-      </div>
-      <div>
-        <router-link style="color: green" to="/admin">Admin</router-link>
-      </div>
-    </section>
+      </template>
+
+    </b-navbar>
   </div>
 </template>
 
 <script>
-import auth from '../mixins/auth'
+import axios from 'axios'
 
 export default {
   name: 'Header',
-  mixins: [auth],
+  data () {
+    return {
+      authenticated: false,
+      username: ''
+    }
+  },
+  methods: {
+    checkAuthenticated: function () {
+      let session = this.$cookies.get('session')
+      let self = this
+      this.authenticated = !!session
+
+      axios.get('api/user', { 'headers': { 'Authorization': 'bearer ' + session } })
+        .then((val) => {
+          self.username = val.data.username
+        })
+        .catch((val) => {
+          this.username = 'error'
+        })
+    },
+    logout: function () {
+      let self = this
+      axios.post('api/logout')
+        .then(() => {
+          console.log('Here, successes')
+          self.$cookies.remove('session')
+          self.checkAuthenticated()
+        })
+        .catch(() => {
+          console.log('Here, error')
+        })
+    }
+  },
   mounted () {
     this.checkAuthenticated()
   }
