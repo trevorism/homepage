@@ -24,7 +24,7 @@ import javax.ws.rs.core.Response
 class LoginController {
 
     HttpClient httpClient = new JsonHttpClient()
-    HeadersHttpClient headersHttpClient = new HeadersJsonHttpClient()
+
 
     @ApiOperation(value = "Login to Trevorism")
     @POST
@@ -35,6 +35,7 @@ class LoginController {
         String token = httpClient.post("https://auth.trevorism.com/token", json)
 
         if(token) {
+            //Only needed if we are refreshing session on insecure server calls
             httpServletRequest.getSession().setAttribute("session", token)
             NewCookie cookie = new NewCookie("session",token,"/",null,null, 15*60,false)
             return Response.ok().cookie(cookie).build()

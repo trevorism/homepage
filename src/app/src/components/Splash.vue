@@ -31,8 +31,8 @@ export default {
         .then((val) => {
           self.text = val
         })
-        .catch(() => {
-          self.text = 'error'
+        .catch((val) => {
+          self.text = val
         })
     },
     clear: function () {
