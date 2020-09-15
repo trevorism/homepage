@@ -1,7 +1,7 @@
 <template>
   <div id="admin">
     <HeaderBar></HeaderBar>
-    Only accessible to logged-in Admin users
+    <div id="adminText">Only accessible to logged-in Admin users</div>
   </div>
 </template>
 

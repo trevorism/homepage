@@ -108,4 +108,4 @@ war{
 }
 
 war.dependsOn("buildApp")
-check.dependsOn("testApp")
+//check.dependsOn("testApp")
