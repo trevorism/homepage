@@ -40,7 +40,14 @@ class RefreshCookieFilter implements ContainerResponseFilter {
             Cookie cookie = new Cookie("session",token)
             cookie.setPath("/")
             cookie.setMaxAge(15*60)
+            cookie.setSecure(getSecureCookieValue())
             response.addCookie(cookie)
         }
+    }
+
+    private boolean getSecureCookieValue() {
+        if (System.getenv("LOCALHOST_COOKIES"))
+            return false
+        return true
     }
 }
