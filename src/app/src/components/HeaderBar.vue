@@ -31,8 +31,6 @@
         <b-navbar-item href="/admin" v-if="admin">
           Admin
         </b-navbar-item>
-
-
       </template>
 
       <template slot="end">
@@ -40,19 +38,18 @@
           <b-navbar-item tag="div">
             <div class="buttons">
               <a class="button is-primary">
-                <strong>Sign up</strong>
+                Register
               </a>
               <router-link class="button is-light" to="/login">Login</router-link>
             </div>
           </b-navbar-item>
         </div>
         <div v-else>
-          <b-navbar-item tag="div">
-            <div class="buttons">
+          <b-navbar-dropdown class="navHeight" :label="username">
+            <b-navbar-item tag="div">
               <a @click="logout()" class="button is-primary">Logout</a>
-            </div>
-            Welcome {{username}}
-          </b-navbar-item>
+            </b-navbar-item>
+          </b-navbar-dropdown>
         </div>
       </template>
 
@@ -76,23 +73,20 @@ export default {
     checkAuthenticated: function () {
       let session = this.$cookies.get('session')
       this.authenticated = !!session
-
-      axios.get('api/user', { 'headers': { 'Authorization': 'bearer ' + session } })
-        .then(val => {
-          this.username = val.data.username
-          this.admin = val.data.admin
-        })
-        .catch((val) => {
-          this.username = 'error'
-        })
+      if (this.authenticated) {
+        this.username = this.$cookies.get('user_name')
+        this.admin = this.$cookies.get('admin') === 'true'
+      }
     },
     logout: function () {
       let self = this
       axios.post('api/logout')
         .then(() => {
-          console.log('Here, successes')
           self.$cookies.remove('session')
-          self.checkAuthenticated()
+          self.$cookies.remove('user_name')
+          self.$cookies.remove('admin')
+          this.checkAuthenticated()
+          self.$router.push('/').catch(() => {})
         })
         .catch(() => {
           console.log('Here, error')
@@ -108,5 +102,8 @@ export default {
 <style scoped>
   .navbar-background{
     background: black;
+  }
+  .navHeight{
+    height: 52px;
   }
 </style>

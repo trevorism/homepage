@@ -20,6 +20,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/logout',
+      name: 'Logout',
+      component: Splash
+    },
+    {
       path: '/admin',
       name: 'Admin',
       component: Admin,
