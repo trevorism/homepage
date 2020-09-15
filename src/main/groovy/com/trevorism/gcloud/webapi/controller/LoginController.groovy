@@ -38,9 +38,6 @@ class LoginController {
         String json = gson.toJson(TokenRequest.fromLoginRequest(loginRequest))
         String token = httpClient.post("https://auth.trevorism.com/token", json)
 
-        println httpServletRequest.getContextPath()
-
-
         if(token) {
             //Only needed if we are refreshing session on insecure server calls
             setTokenOnSession(httpServletRequest, token)
