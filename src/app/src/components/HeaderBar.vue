@@ -1,18 +1,37 @@
 <template>
   <div id="header">
-    <b-navbar>
+    <b-navbar class="navbar navbar-background">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          <img src="favicon.ico">
+          <img src="../assets/TrevorismLogo.png">
         </b-navbar-item>
       </template>
       <template slot="start">
+        <b-navbar-dropdown label="Apps">
+          <b-navbar-item href="http://registry.datastore.trevorism.com">
+            Service Registry
+          </b-navbar-item>
+          <b-navbar-item href="https://click.trevorism.com">
+            Click
+          </b-navbar-item>
+        </b-navbar-dropdown>
+
+        <b-navbar-dropdown label="Articles">
+          <b-navbar-item href="/admin">
+            Admin
+          </b-navbar-item>
+        </b-navbar-dropdown>
+
         <b-navbar-item href="#">
           Contact
         </b-navbar-item>
         <b-navbar-item href="#">
           Careers
         </b-navbar-item>
+        <b-navbar-item href="/admin" v-if="admin">
+          Admin
+        </b-navbar-item>
+
 
       </template>
 
@@ -49,7 +68,8 @@ export default {
   data () {
     return {
       authenticated: false,
-      username: ''
+      username: '',
+      admin: false
     }
   },
   methods: {
@@ -60,6 +80,7 @@ export default {
       axios.get('api/user', { 'headers': { 'Authorization': 'bearer ' + session } })
         .then(val => {
           this.username = val.data.username
+          this.admin = val.data.admin
         })
         .catch((val) => {
           this.username = 'error'
@@ -85,5 +106,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .navbar-background{
+    background: black;
+  }
 </style>

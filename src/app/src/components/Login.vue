@@ -1,16 +1,22 @@
 <template>
-<div id="login">
-  <b-field label="username">
-    <b-input v-model="username"></b-input>
-  </b-field>
-  <b-field label="password">
-    <b-input type="password" v-model="password"></b-input>
-  </b-field>
-  <button class="button is-primary" :disabled="disabled" @click="invokeButton">
-    Submit
-    <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-  </button>
-</div>
+<section id="login" class="container">
+  <router-link to="/"><img src="../assets/TrevorismLogoWhite.png"></router-link>
+  <h1 class="title is-4 vertSpacer">Login to Trevorism</h1>
+  <form class="loginBorder">
+    <div class="marginSpacer">
+      <b-field class="control-label" label="Username">
+        <b-input v-model="username" :autofocus="true"></b-input>
+      </b-field>
+      <b-field label="Password">
+        <b-input type="password" v-model="password"></b-input>
+      </b-field>
+      <button class="button is-primary" :disabled="disabled" @click="invokeButton">
+        Submit
+        <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+      </button>
+    </div>
+  </form>
+</section>
 </template>
 
 <script>
@@ -49,5 +55,20 @@ export default {
 </script>
 
 <style scoped>
-
+  #login{
+    text-align: center;
+    margin-top: 60px;
+    width: 600px;
+  }
+  .vertSpacer {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+  .loginBorder{
+    border: #dddddd 1px solid;
+    background: #efefef;
+  }
+  .marginSpacer {
+    margin: 20px
+  }
 </style>
