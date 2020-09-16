@@ -8,16 +8,11 @@ import org.apache.http.client.methods.CloseableHttpResponse
 import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
-import javax.ws.rs.client.ClientRequestContext
-import javax.ws.rs.client.ClientResponseContext
-import javax.ws.rs.client.ClientResponseFilter
 import javax.ws.rs.container.ContainerRequestContext
 import javax.ws.rs.container.ContainerResponseContext
 import javax.ws.rs.container.ContainerResponseFilter
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.HttpHeaders
-import javax.ws.rs.core.NewCookie
-import javax.ws.rs.ext.Provider
 
 class RefreshCookieFilter implements ContainerResponseFilter {
 
@@ -37,7 +32,7 @@ class RefreshCookieFilter implements ContainerResponseFilter {
             CloseableHttpResponse result = headersHttpClient.post("https://auth.trevorism.com/token/refresh","{}",["Authorization":bearerString])
             String token = ResponseUtils.getEntity(result)
 
-            Cookie cookie = new Cookie("session",token)
+            Cookie cookie = new Cookie("session", token)
             cookie.setPath("/")
             cookie.setMaxAge(15*60)
             cookie.setSecure(getSecureCookieValue())
@@ -45,7 +40,7 @@ class RefreshCookieFilter implements ContainerResponseFilter {
         }
     }
 
-    private boolean getSecureCookieValue() {
+    private static boolean getSecureCookieValue() {
         if (System.getenv("LOCALHOST_COOKIES"))
             return false
         return true

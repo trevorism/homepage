@@ -49,7 +49,7 @@ class LoginController {
             def response = headersJsonHttpClient.get("https://auth.trevorism.com/user/${claimProperties.id}", ["Authorization": "bearer ${token}".toString()])
             User user = gson.fromJson(ResponseUtils.getEntity(response), User)
 
-            NewCookie sessionCookie = new NewCookie("session", token, "/", null, null, 15 * 60, secureCookies)
+            NewCookie sessionCookie = new NewCookie("session", token, "/", null, null, 15 * 60, secureCookies, true)
             NewCookie usernameCookie = new NewCookie("user_name", user.getUsername(), "/", null, null, 15 * 60, secureCookies)
             NewCookie adminCookie = new NewCookie("admin", user.admin.toString(), "/", null, null, 15 * 60, secureCookies)
 

@@ -71,11 +71,10 @@ export default {
   },
   methods: {
     checkAuthenticated: function () {
-      let session = this.$cookies.get('session')
-      this.authenticated = !!session
-      if (this.authenticated) {
-        this.username = this.$cookies.get('user_name')
-        this.admin = this.$cookies.get('admin') === 'true'
+      this.username = this.$cookies.get('user_name')
+      this.admin = this.$cookies.get('admin') === 'true'
+      if (this.username) {
+        this.authenticated = true
       }
     },
     logout: function () {
@@ -86,7 +85,8 @@ export default {
           self.$cookies.remove('user_name')
           self.$cookies.remove('admin')
           this.checkAuthenticated()
-          self.$router.push('/').catch(() => {})
+          self.$router.push('/').catch(() => {
+          })
         })
         .catch(() => {
           console.log('Here, error')
@@ -100,10 +100,11 @@ export default {
 </script>
 
 <style scoped>
-  .navbar-background{
-    background: black;
-  }
-  .navHeight{
-    height: 52px;
-  }
+.navbar-background {
+  background: black;
+}
+
+.navHeight {
+  height: 52px;
+}
 </style>

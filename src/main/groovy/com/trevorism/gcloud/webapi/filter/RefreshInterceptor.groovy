@@ -15,6 +15,7 @@ class RefreshInterceptor implements DynamicFeature{
             return
 
         context.register(RefreshCookieFilter.class)
+        context.register(TestFilter.class)
     }
 }
 

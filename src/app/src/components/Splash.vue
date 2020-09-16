@@ -26,8 +26,7 @@ export default {
   methods: {
     myButton: function () {
       let self = this
-      let session = this.$cookies.get('session')
-      axios.get('api/secure', { 'headers': { 'Authorization': 'bearer ' + session } })
+      axios.get('api/secure')
         .then((val) => {
           self.text = val
         })

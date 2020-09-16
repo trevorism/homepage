@@ -29,8 +29,8 @@ export default new Router({
       name: 'Admin',
       component: Admin,
       beforeEnter: (to, from, next) => {
-        let session = Vue.$cookies.get('session')
-        if (session) {
+        let admin = Vue.$cookies.get('admin')
+        if (admin) {
           return next()
         }
         return next('/login')
