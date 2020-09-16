@@ -1,6 +1,5 @@
 package com.trevorism.gcloud.webapi.controller
 
-
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 
@@ -10,6 +9,7 @@ import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.NewCookie
 import javax.ws.rs.core.Response
 
 @Api("Logout Operations")
@@ -20,7 +20,8 @@ class LogoutController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     Response logout(@Context HttpServletRequest httpServletRequest) {
-        httpServletRequest.getSession().removeAttribute("session")
-        return Response.noContent().build()
+        httpServletRequest.getSession().invalidate()
+        NewCookie sessionCookie = new NewCookie("session", "", "/", null, null, 15 * 60, false, true)
+        return Response.noContent().cookie(sessionCookie).build()
     }
 }

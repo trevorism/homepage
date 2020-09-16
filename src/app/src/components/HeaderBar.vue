@@ -81,7 +81,6 @@ export default {
       let self = this
       axios.post('api/logout')
         .then(() => {
-          self.$cookies.remove('session')
           self.$cookies.remove('user_name')
           self.$cookies.remove('admin')
           this.checkAuthenticated()
