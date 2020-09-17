@@ -9,7 +9,8 @@
 
 Current Version: 0.1.0
 
-##Development
+## Development
+
 Install latest node, npm LTS
 
 Run the server on localhost:8080 : `gradle appengineRun`
@@ -18,3 +19,4 @@ Run the client server on localhost:3000 : `cd src/app; npm run dev`
 
 Add a LOCALHOST_COOKIES environment variable with a value of true to develop on localhost
 
+Add a `secrets.properties` to src/main/resources with `clientId` and `clientSecret` values
