@@ -1,5 +1,6 @@
 package com.trevorism.gcloud.webapi.controller
 
+import com.trevorism.gcloud.webapi.service.Localhost
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 
@@ -21,7 +22,7 @@ class LogoutController {
     @Consumes(MediaType.APPLICATION_JSON)
     Response logout(@Context HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate()
-        NewCookie sessionCookie = new NewCookie("session", "", "/", null, null, 15 * 60, false, true)
+        NewCookie sessionCookie = new NewCookie("session", "", "/", null, null, 15 * 60, !Localhost.isLocal(), false)
         return Response.noContent().cookie(sessionCookie).build()
     }
 }

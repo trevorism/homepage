@@ -1,6 +1,6 @@
 <template>
 <section id="login" class="container">
-  <router-link to="/"><img src="../assets/TrevorismLogoWhite.png"></router-link>
+  <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
   <h1 class="title is-4 vertSpacer">Login to Trevorism</h1>
   <form class="loginBorder">
     <div class="marginSpacer">
@@ -44,7 +44,13 @@ export default {
       axios.post('api/login', request)
         .then(() => {
           this.disabled = false
-          self.$router.push('/')
+
+          let returnUrl = self.$route.query.return_url
+          if (returnUrl) {
+            window.location.href = returnUrl
+          } else {
+            self.$router.push('/')
+          }
         })
         .catch(() => {
           this.disabled = false

@@ -7,6 +7,7 @@
  
 [Trevorism.com](https://trevorism.com)
 
+Current Version: 0.1.0
 
 ##Development
 Install latest node, npm LTS

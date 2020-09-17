@@ -33,7 +33,8 @@ export default new Router({
         if (admin) {
           return next()
         }
-        return next('/login')
+        let returnUrl = window.location.origin + '/admin'
+        return next('/login?return_url=' + returnUrl)
       }
     }
   ]

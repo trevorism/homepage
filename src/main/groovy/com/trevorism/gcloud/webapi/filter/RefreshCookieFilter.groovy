@@ -18,23 +18,22 @@ class RefreshCookieFilter implements ContainerResponseFilter {
 
     private HeadersHttpClient headersHttpClient = new HeadersJsonHttpClient()
 
-    @Context HttpServletRequest request
-    @Context HttpServletResponse response
+    @Context
+    HttpServletRequest request
+    @Context
+    HttpServletResponse response
 
     @Override
     void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         String bearerString = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION)
 
-        //You can get the token without bearer from the session, for functions that are not secured...
-        //println request.getSession().getAttribute("session")
-
-        if(bearerString && bearerString.toLowerCase().startsWith("bearer ") && !bearerString.endsWith("null")){
-            CloseableHttpResponse result = headersHttpClient.post("https://auth.trevorism.com/token/refresh","{}",["Authorization":bearerString])
+        if (bearerString && bearerString.toLowerCase().startsWith("bearer ") && !bearerString.endsWith("null")) {
+            CloseableHttpResponse result = headersHttpClient.post("https://auth.trevorism.com/token/refresh", "{}", ["Authorization": bearerString])
             String token = ResponseUtils.getEntity(result)
 
             Cookie cookie = new Cookie("session", token)
             cookie.setPath("/")
-            cookie.setMaxAge(15*60)
+            cookie.setMaxAge(15 * 60)
             cookie.setSecure(getSecureCookieValue())
             response.addCookie(cookie)
         }

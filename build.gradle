@@ -66,7 +66,7 @@ appengine {
         projectId = "trevorism"
         stopPreviousVersion = true
         promote = true
-        version = "0-0-1"
+        version = "0-1-0"
     }
 }
 
@@ -78,6 +78,16 @@ task deliver {
     dependsOn("build","appengineDeploy")
     appengineDeploy.mustRunAfter("check")
 }
+
+processResources{
+    doLast{
+        copy{
+            from "${System.getProperty("user.home")}/${project.name}/secrets.properties"
+            into "build/resources/main"
+        }
+    }
+}
+
 
 node {
     version = '12.11.1'

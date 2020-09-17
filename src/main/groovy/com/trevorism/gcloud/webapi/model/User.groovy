@@ -1,5 +1,8 @@
 package com.trevorism.gcloud.webapi.model
 
+import groovy.transform.ToString
+
+@ToString
 class User {
 
     String id
@@ -8,4 +11,8 @@ class User {
     String image
     boolean admin
 
+    static User NULL_USER = new User()
+    static boolean isNullUser(User user) {
+        return !(user?.username)
+    }
 }

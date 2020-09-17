@@ -73,9 +73,7 @@ export default {
     checkAuthenticated: function () {
       this.username = this.$cookies.get('user_name')
       this.admin = this.$cookies.get('admin') === 'true'
-      if (this.username) {
-        this.authenticated = true
-      }
+      this.authenticated = !!this.username
     },
     logout: function () {
       let self = this
