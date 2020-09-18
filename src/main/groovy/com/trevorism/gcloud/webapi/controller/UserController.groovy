@@ -22,7 +22,6 @@ class UserController {
 
     @ApiOperation(value = "Register a new user")
     @POST
-    @Path
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Secure(Roles.USER)
