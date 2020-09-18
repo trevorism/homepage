@@ -47,7 +47,7 @@ class LoginController {
         return Response.ok().entity(user).cookie(sessionCookie, usernameCookie, adminCookie).build()
     }
 
-    @ApiOperation(value = "Login to Trevorism")
+    @ApiOperation(value = "Sends an email for forgotten passwords")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("forgot")
@@ -55,11 +55,11 @@ class LoginController {
         userSessionService.generateForgotPasswordLink(request)
     }
 
-    @ApiOperation(value = "Login to Trevorism")
+    @ApiOperation(value = "Resets password")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("reset/{guid}")
-    void forgotPassword(@PathParam("guid") String resetId){
+    void resetPassword(@PathParam("guid") String resetId){
         userSessionService.resetPassword(resetId)
     }
 }

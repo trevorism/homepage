@@ -76,7 +76,7 @@ class DefaultUserSessionService implements UserSessionService {
     @Override
     void generateForgotPasswordLink(ForgotPasswordRequest forgotPasswordRequest) {
         List<User> users = getAllUsers()
-        User user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
+        def user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
         if (!user) {
             throw new RuntimeException("Unable to find user with email ${forgotPasswordRequest.email}")
         }

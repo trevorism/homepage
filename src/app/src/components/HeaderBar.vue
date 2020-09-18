@@ -46,6 +46,9 @@
         </div>
         <div v-else>
           <b-navbar-dropdown class="navHeight" :label="username">
+            <b-navbar-item href="/account">
+              Account
+            </b-navbar-item>
             <b-navbar-item tag="div">
               <a @click="logout()" class="button is-primary">Logout</a>
             </b-navbar-item>

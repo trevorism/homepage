@@ -4,8 +4,29 @@ import Splash from '@/components/Splash'
 import Login from '@/components/Login'
 import Admin from '@/components/Admin'
 import ForgotPassword from '@/components/ForgotPassword'
+import Account from '@/components/Account'
+import ChangePassword from '@/components/ChangePassword'
 
 Vue.use(Router)
+
+function adminOnly (to, from, next, reRouteLocation) {
+  let admin = Vue.$cookies.get('admin')
+  if (admin) {
+    return next()
+  }
+  return next(reRouteLocation)
+}
+
+function userOnly (to, from, next, reRouteLocation) {
+  let username = Vue.$cookies.get('user_name')
+  if (username) {
+    return next()
+  }
+  if (reRouteLocation) {
+    return next(reRouteLocation)
+  }
+  return next('/')
+}
 
 export default new Router({
   mode: 'history',
@@ -31,16 +52,25 @@ export default new Router({
       component: ForgotPassword
     },
     {
+      path: '/account',
+      name: 'Account',
+      component: Account,
+      beforeEnter: userOnly
+    },
+    {
+      path: '/change',
+      name: 'ChangePassword',
+      component: ChangePassword,
+      beforeEnter: userOnly
+    },
+    {
       path: '/admin',
       name: 'Admin',
       component: Admin,
       beforeEnter: (to, from, next) => {
-        let admin = Vue.$cookies.get('admin')
-        if (admin) {
-          return next()
-        }
         let returnUrl = window.location.origin + '/admin'
-        return next('/login?return_url=' + returnUrl)
+        let reRoute = '/login?return_url=' + returnUrl
+        return adminOnly(to, from, next, reRoute)
       }
     }
   ]
