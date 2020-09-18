@@ -10,6 +10,7 @@ class User {
     String email
     String image
     boolean admin
+    boolean active
 
     static User NULL_USER = new User()
     static boolean isNullUser(User user) {

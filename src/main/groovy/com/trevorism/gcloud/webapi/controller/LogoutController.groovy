@@ -14,7 +14,7 @@ import javax.ws.rs.core.NewCookie
 import javax.ws.rs.core.Response
 
 @Api("Logout Operations")
-@Path("logout")
+@Path("/logout")
 class LogoutController {
 
     @ApiOperation(value = "Logout of Trevorism")

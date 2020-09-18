@@ -15,7 +15,7 @@ import javax.ws.rs.Produces
 import javax.ws.rs.core.MediaType
 
 @Api("User Operations")
-@Path("user")
+@Path("/user")
 class UserController {
 
     private UserSessionService userSessionService = new DefaultUserSessionService()

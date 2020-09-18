@@ -4,10 +4,17 @@
   <h1 class="title is-4 vertSpacer">Login to Trevorism</h1>
   <form class="loginBorder">
     <div class="marginSpacer">
-      <b-field class="control-label" label="Username">
+      <label class="loginLabel">Username</label>
+      <b-field>
         <b-input v-model="username" :autofocus="true"></b-input>
       </b-field>
-      <b-field label="Password">
+      <div>
+        <label class="loginLabel">Password</label>
+        <div class="loginLink">
+          <router-link tabindex="-1" to="/forgot">Forgot Password</router-link>
+        </div>
+      </div>
+      <b-field>
         <b-input type="password" v-model="password"></b-input>
       </b-field>
       <button class="button is-primary" :disabled="disabled" @click="invokeButton">
@@ -75,6 +82,16 @@ export default {
     background: #efefef;
   }
   .marginSpacer {
-    margin: 20px
+    margin: 20px;
   }
+  .loginLabel {
+    float: left;
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  .loginLink{
+    float: right;
+    margin-right: 5px;
+  }
+
 </style>

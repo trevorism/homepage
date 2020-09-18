@@ -13,7 +13,7 @@ import javax.ws.rs.core.HttpHeaders
 import javax.ws.rs.core.MediaType
 
 @Api("Secure Operations")
-@Path("secure")
+@Path("/secure")
 class SecureController {
 
     @ApiOperation(value = "Secure")
