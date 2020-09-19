@@ -4,7 +4,7 @@
       <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
     </div>
     <div class="is-size-4 mt-6 mb-6">Login to Trevorism</div>
-    <div class="loginLink is-pulled-right">
+    <div class="loginLink is-pulled-right mr-4">
       <router-link class="has-text-info" tabindex="-1" to="/forgot">Forgot Password?</router-link>
     </div>
     <form class="loginBorder">
@@ -27,10 +27,12 @@
                    v-model="password">
           </b-input>
         </b-field>
-        <button class="button is-primary" :disabled="disabled" @click="invokeButton">
-          Submit
-          <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-        </button>
+        <div class="is-centered has-text-centered">
+          <button class="button is-primary" :disabled="disabled" @click="invokeButton">
+            Submit
+            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+          </button>
+        </div>
       </div>
     </form>
     <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
@@ -64,7 +66,7 @@ export default {
       axios.post('api/login', request)
         .then(() => {
           this.disabled = false
-
+          this.clear()
           let returnUrl = self.$route.query.return_url
           if (returnUrl) {
             window.location.href = returnUrl
@@ -74,8 +76,13 @@ export default {
         })
         .catch(() => {
           this.errorMessage = 'Unable to login'
+          this.clear()
           this.disabled = false
         })
+    },
+    clear: function () {
+      this.username = ''
+      this.password = ''
     }
   }
 }

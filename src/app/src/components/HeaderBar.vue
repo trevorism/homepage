@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <b-navbar class="navbar navbar-background">
+    <b-navbar class="navbar has-background-black">
       <template slot="brand">
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
           <img src="../assets/TrevorismLogo.png">
@@ -98,11 +98,8 @@ export default {
 </script>
 
 <style scoped>
-.navbar-background {
-  background: black;
-}
-
 .navHeight {
   height: 52px;
 }
+
 </style>

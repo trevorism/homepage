@@ -15,10 +15,13 @@
             :autofocus="true">
           </b-input>
         </b-field>
-        <button class="button is-info" :disabled="disabled" @click="invokeButton">
-          Submit
-          <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-        </button>
+
+        <div class="is-centered has-text-centered">
+          <button class="button is-info" :disabled="disabled" @click="invokeButton">
+            Submit
+            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+          </button>
+        </div>
       </div>
     </form>
     <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
