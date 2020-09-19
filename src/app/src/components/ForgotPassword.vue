@@ -1,7 +1,7 @@
 <template>
   <section id="forgot" class="container formWidth">
     <div class="has-text-centered is-centered mt-6 mb-6">
-    <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
+      <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
     </div>
     <div class="is-size-4 mt-6 mb-6">Forgot Password on Trevorism</div>
     <div class="is-size-6  mt-6 mb-6">We will send you a link to reset your password.</div>

@@ -32,12 +32,12 @@ class LoginController {
     Response login(LoginRequest loginRequest) {
         String token = userSessionService.getToken(loginRequest)
         if (!token) {
-            return Response.status(401).build()
+            return Response.status(400).build()
         }
 
         User user = userSessionService.getUserFromToken(token)
         if (User.isNullUser(user)) {
-            return Response.status(401).build()
+            return Response.status(400).build()
         }
 
         boolean secureCookies = !Localhost.isLocal()

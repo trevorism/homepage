@@ -22,7 +22,7 @@
         </div>
       </div>
     </section>
-    <section class="container">
+    <section class="container mt-6">
       <div class="columns">
         <div class="column is-two-fifths">
           <div style="height:350px" class="is-pulled-left">
