@@ -1,45 +1,48 @@
 <template>
   <div id="splash">
     <HeaderBar></HeaderBar>
-    <section class="container mt-6">
-      <div class="columns">
-        <div class="column is-two-fifths">
-          <div class="title">Trevorism is a platform for building platforms.</div>
-
-          <div class="card-content subtitle">
-            <ul class="mt-3 ml-6" style="list-style-type: circle">
-              <li class="mt-3">Open Source</li>
-              <li class="mt-3">Scale On Demand</li>
-              <li class="mt-3">Built in Security</li>
-              <li class="mt-3">Blazing fast speed to market</li>
+    <section class="glassBackground">
+      <div class="container" style="height: 320px">
+        <div class="pb-4">&nbsp;</div>
+        <div class="card has-background-warning-light" style="width:600px">
+          <div class="card-header">
+            <div class="is-size-4 mx-6 has-text-weight-semibold">
+              Trevorism is a platform for building software platforms.
+            </div>
+          </div>
+          <div class="card-content">
+            <ul class="ml-6" style="list-style-type: circle">
+              <li class="">Open Source</li>
+              <li class="mt-2">Scale On Demand</li>
+              <li class="mt-2">Built in Security</li>
+              <li class="mt-2">Blazing fast speed to market</li>
             </ul>
           </div>
         </div>
-        <div class="column is-three-fifths">
-          <div style="height:400px">
-          <img alt="logo" src="../assets/glassbuilding.jpg" style="height:400px" >
-          </div>
-        </div>
       </div>
     </section>
-    <section class="container mt-6">
-      <div class="columns">
-        <div class="column is-two-fifths">
-          <div style="height:350px" class="is-pulled-left">
-          <img alt="logo" src="../assets/puzzle.jpg" style="height:350px">
+    <section class="puzzleBackground">
+      <div class="pb-4">&nbsp;</div>
+      <div class="container" style="height: 140px">
+        <div class="card has-background-info-light is-pulled-right" style="width:600px">
+          <div class="card-header">
+            <div class="is-size-4 mx-6 has-text-weight-semibold">
+              Balance complexity with elegance.
+            </div>
           </div>
-        </div>
-        <div class="column is-three-fifths mx-6 mt-6">
-          <div class="is-size-4">Pluggable microservices architecture enables easy extensibility.</div>
-
-          <div class="is-size-4 mt-6">RESTful APIs simplified for consumption by client libraries, user interfaces, and
-            command line interfaces.
+          <div class="card-content">
+            <ul class="ml-6" style="list-style-type: circle">
+              <li class="">Pluggable microservices architecture enables easy extensibility</li>
+              <li class="mt-2">RESTful APIs simplified for use by client libraries, user interfaces, and
+                command line interfaces</li>
+            </ul>
           </div>
         </div>
       </div>
+      <div class="pb-6">&nbsp;</div>
     </section>
     <footer>
-      <div class="container" >
+      <div class="container">
         <div class="hero-body has-text-centered is-size-3">
           Learn More
           <div class="has-text-centered">
@@ -48,7 +51,6 @@
             <span class="is-size-6 ml-6"><router-link to="/">Contact Us</router-link></span>
           </div>
         </div>
-
       </div>
     </footer>
   </div>
@@ -65,5 +67,17 @@ export default {
 </script>
 
 <style scoped>
+  .glassBackground {
+    background-image: url("../assets/glassbuildingmed.jpg");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 1280px 720px;
+  }
+  .puzzleBackground {
+    background-image: url("../assets/puzzlemed.jpg");
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 1280px 720px;
+  }
 
 </style>

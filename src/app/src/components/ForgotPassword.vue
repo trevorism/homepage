@@ -24,6 +24,9 @@
         </div>
       </div>
     </form>
+    <div v-if="successMessage !== ''" class="has-text-centered">{{successMessage}}
+      <router-link class="is-info ml-4" to="/login">Login</router-link>
+    </div>
     <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
   </section>
 </template>
@@ -37,12 +40,12 @@ export default {
     return {
       email: '',
       disabled: false,
-      errorMessage: ''
+      errorMessage: '',
+      successMessage: ''
     }
   },
   methods: {
     invokeButton: function () {
-      let self = this
       let request = {
         email: this.email
       }
@@ -50,10 +53,12 @@ export default {
       axios.post('api/login/forgot', request)
         .then(() => {
           this.disabled = false
-          self.$router.push('/')
+          this.errorMessage = ''
+          this.successMessage = 'Email sent successfully!'
         })
         .catch(() => {
           this.errorMessage = 'Unable to find the email address'
+          this.successMessage = ''
           this.disabled = false
         })
     }
