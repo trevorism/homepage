@@ -25,6 +25,8 @@ class DefaultUserSessionService implements UserSessionService {
         String json = gson.toJson(TokenRequest.fromLoginRequest(loginRequest))
         try {
             String result = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
+            if(result.startsWith("<html>"))
+                throw new RuntimeException("Bad Request to get token")
             log.fine("Successful login, token: ${result}")
             return result
         } catch (Exception e) {
@@ -103,6 +105,14 @@ class DefaultUserSessionService implements UserSessionService {
         String toPost = gson.toJson(["username":link.username])
         httpClient.post("https://auth.trevorism.com/user/reset", toPost, ["Authorization": "bearer ${token}".toString()])
         forgotPasswordLinkRepository.delete(resetId)
+    }
+
+    @Override
+    boolean changePassword(ChangePasswordRequest changePasswordRequest, String token) {
+        String json = gson.toJson(changePasswordRequest)
+        def response = httpClient.post("https://auth.trevorism.com/user/change", json, ["Authorization": "bearer ${token}".toString()])
+        String value = ResponseUtils.getEntity(response)
+        return value == "true"
     }
 
     boolean validate(RegistrationRequest registrationRequest) {

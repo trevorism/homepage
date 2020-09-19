@@ -37,9 +37,7 @@
         <div v-if="!authenticated">
           <b-navbar-item tag="div">
             <div class="buttons">
-              <a class="button is-primary">
-                Register
-              </a>
+              <router-link class="button is-primary" to="/register">Register</router-link>
               <router-link class="button is-light" to="/login">Login</router-link>
             </div>
           </b-navbar-item>
@@ -89,7 +87,7 @@ export default {
           })
         })
         .catch(() => {
-          console.log('Here, error')
+
         })
     }
   },

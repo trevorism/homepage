@@ -1,5 +1,6 @@
 package com.trevorism.gcloud.webapi.service
 
+import com.trevorism.gcloud.webapi.model.ChangePasswordRequest
 import com.trevorism.gcloud.webapi.model.ForgotPasswordRequest
 import com.trevorism.gcloud.webapi.model.LoginRequest
 import com.trevorism.gcloud.webapi.model.RegistrationRequest
@@ -18,4 +19,6 @@ interface UserSessionService {
     void generateForgotPasswordLink(ForgotPasswordRequest forgotPasswordRequest)
 
     void resetPassword(String resetId)
+
+    boolean changePassword(ChangePasswordRequest changePasswordRequest, String bearerToken)
 }

@@ -1,5 +1,6 @@
 package com.trevorism.gcloud.webapi.service
 
+import com.trevorism.gcloud.webapi.model.ChangePasswordRequest
 import com.trevorism.gcloud.webapi.model.LoginRequest
 import com.trevorism.gcloud.webapi.model.RegistrationRequest
 import com.trevorism.gcloud.webapi.model.User
@@ -37,4 +38,5 @@ class DefaultUserSessionServiceTest {
         assert !userSessionService.validate(new RegistrationRequest(username: "ab", password: "123456", email: "test@trevorism.com"))
 
     }
+
 }

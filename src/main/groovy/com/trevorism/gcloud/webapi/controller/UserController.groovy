@@ -1,5 +1,6 @@
 package com.trevorism.gcloud.webapi.controller
 
+import com.trevorism.gcloud.webapi.model.ChangePasswordRequest
 import com.trevorism.gcloud.webapi.model.RegistrationRequest
 import com.trevorism.gcloud.webapi.model.User
 import com.trevorism.gcloud.webapi.service.DefaultUserSessionService
@@ -9,14 +10,7 @@ import com.trevorism.secure.Secure
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 
-import javax.servlet.http.HttpServletRequest
-import javax.ws.rs.Consumes
-import javax.ws.rs.CookieParam
-import javax.ws.rs.GET
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
-import javax.ws.rs.core.Context
+import javax.ws.rs.*
 import javax.ws.rs.core.Cookie
 import javax.ws.rs.core.MediaType
 
@@ -42,5 +36,19 @@ class UserController {
     User getUser(@CookieParam("session") Cookie cookie) {
         String value = cookie.value
         return userSessionService.getUserFromToken(value)
+    }
+
+    @ApiOperation(value = "Register a new user")
+    @POST
+    @Path("change")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secure(Roles.USER)
+    void changePassword(ChangePasswordRequest request, @CookieParam("session") Cookie cookie) {
+        String value = cookie.value
+        def result = userSessionService.changePassword(request, value)
+        if (!result){
+            throw new RuntimeException("Unable to change password successfully")
+        }
     }
 }

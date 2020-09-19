@@ -6,6 +6,7 @@ import Admin from '@/components/Admin'
 import ForgotPassword from '@/components/ForgotPassword'
 import Account from '@/components/Account'
 import ChangePassword from '@/components/ChangePassword'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -62,6 +63,11 @@ export default new Router({
       name: 'ChangePassword',
       component: ChangePassword,
       beforeEnter: userOnly
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/admin',

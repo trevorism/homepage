@@ -1,13 +1,19 @@
 <template>
-  <section id="forgot" class="container">
+  <section id="forgot" class="container formWidth">
+    <div class="has-text-centered is-centered mt-6 mb-6">
     <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
-    <h1 class="title is-4 vertSpacer">Forgot Password</h1>
-    <h2 class="title is-6 vertSpacer">We will send you a link to reset your password.</h2>
+    </div>
+    <div class="is-size-4 mt-6 mb-6">Forgot Password on Trevorism</div>
+    <div class="is-size-6  mt-6 mb-6">We will send you a link to reset your password.</div>
     <form class="loginBorder">
-      <div class="marginSpacer">
-        <label class="loginLabel">Email Address</label>
-        <b-field>
-          <b-input v-model="email" :autofocus="true"></b-input>
+      <div class="mx-4 mt-4 mb-4">
+        <b-field label="Email Address">
+          <b-input
+            type="email"
+            required
+            v-model="email"
+            :autofocus="true">
+          </b-input>
         </b-field>
         <button class="button is-info" :disabled="disabled" @click="invokeButton">
           Submit
@@ -15,6 +21,7 @@
         </button>
       </div>
     </form>
+    <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
   </section>
 </template>
 
@@ -26,7 +33,8 @@ export default {
   data () {
     return {
       email: '',
-      disabled: false
+      disabled: false,
+      errorMessage: ''
     }
   },
   methods: {
@@ -42,6 +50,7 @@ export default {
           self.$router.push('/')
         })
         .catch(() => {
+          this.errorMessage = 'Unable to find the email address'
           this.disabled = false
         })
     }
@@ -50,26 +59,11 @@ export default {
 </script>
 
 <style scoped>
-  #forgot{
-    text-align: center;
-    margin-top: 60px;
-    width: 600px;
-  }
-  .vertSpacer {
-    margin-top: 60px;
-    margin-bottom: 60px;
-  }
   .loginBorder{
     border: #dddddd 1px solid;
     background: #efefef;
   }
-  .marginSpacer {
-    margin: 20px;
+  .formWidth {
+    width: 400px
   }
-  .loginLabel {
-    float: left;
-    margin-left: 5px;
-    font-weight: bold;
-  }
-
 </style>
