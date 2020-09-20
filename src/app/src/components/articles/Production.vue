@@ -10,7 +10,6 @@
         February 2018
       </div>
 
-
       <div class="content">
         <h3>What does a complete, productionalized web service look like?</h3>
 
