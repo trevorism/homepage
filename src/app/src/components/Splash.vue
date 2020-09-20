@@ -23,7 +23,7 @@
     </section>
     <section class="puzzleBackground">
       <div class="pb-4">&nbsp;</div>
-      <div class="container" style="height: 140px">
+      <div class="container" style="height: 160px">
         <div class="card has-background-info-light is-pulled-right" style="width:600px">
           <div class="card-header">
             <div class="is-size-4 mx-6 has-text-weight-semibold">
@@ -33,8 +33,8 @@
           <div class="card-content">
             <ul class="ml-6" style="list-style-type: circle">
               <li class="">Pluggable microservices architecture enables easy extensibility</li>
-              <li class="mt-2">RESTful APIs simplified for use by client libraries, user interfaces, and
-                command line interfaces</li>
+              <li class="mt-2">Functionality exposed by RESTful APIs to ensure interoperability</li>
+              <li class="mt-2">User Interfaces, CLIs, and Client Libraries make using and administering the platform a breeze</li>
             </ul>
           </div>
         </div>

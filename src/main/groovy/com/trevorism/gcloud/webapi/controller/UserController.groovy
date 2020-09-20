@@ -24,9 +24,11 @@ class UserController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Secure(Roles.USER)
     boolean register(RegistrationRequest registrationRequest) {
-        return userSessionService.registerUser(registrationRequest)
+        def result = userSessionService.registerUser(registrationRequest)
+        if (!result){
+            throw new RuntimeException("Unable to change password successfully")
+        }
     }
 
     @ApiOperation(value = "Get the current user")

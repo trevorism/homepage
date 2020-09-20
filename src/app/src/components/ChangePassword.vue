@@ -71,6 +71,11 @@ export default {
     invokeButton: function () {
       let self = this
 
+      if (this.newPassword !== this.repeatPassword) {
+        this.errorMessage = 'The new and repeat passwords do not match'
+        return
+      }
+
       let request = {
         username: this.username,
         currentPassword: this.currentPassword,
