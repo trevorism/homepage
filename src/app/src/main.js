@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueCookies from 'vue-cookies'
 
+import VueCookies from 'vue-cookies'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 

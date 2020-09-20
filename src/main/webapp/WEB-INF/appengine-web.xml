@@ -2,8 +2,7 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <runtime>java8</runtime>
     <application>trevorism</application>
-    <version>0-1-0</version>
-    <service>homepage</service>
+    <version>0-3-0</version>
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
     <system-properties>

@@ -46,9 +46,9 @@
         <div class="hero-body has-text-centered is-size-3">
           Learn More
           <div class="has-text-centered">
-            <span class="is-size-6 mr-6"><router-link to="/">Documentation</router-link></span>
-            <span class="is-size-6 ml-6 mr-6"><router-link to="/">Apps</router-link></span>
-            <span class="is-size-6 ml-6"><router-link to="/">Contact Us</router-link></span>
+            <span class="is-size-6 mr-6"><router-link to="/docs">Documentation</router-link></span>
+            <span class="is-size-6 ml-6 mr-6"><router-link to="/apps">Apps</router-link></span>
+            <span class="is-size-6 ml-6"><router-link to="/contact">Contact Us</router-link></span>
           </div>
         </div>
       </div>

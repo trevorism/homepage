@@ -8,25 +8,31 @@
       </template>
       <template slot="start">
         <b-navbar-dropdown label="Apps">
-          <b-navbar-item href="http://registry.datastore.trevorism.com">
-            Service Registry
+          <b-navbar-item href="https://www.trevorism.com">
+            Home
           </b-navbar-item>
           <b-navbar-item href="https://click.trevorism.com">
             Click
           </b-navbar-item>
-        </b-navbar-dropdown>
-
-        <b-navbar-dropdown label="Articles">
-          <b-navbar-item href="/admin">
-            Admin
+          <b-navbar-item href="http://registry.datastore.trevorism.com">
+            Service Registry
+          </b-navbar-item>
+          <b-navbar-item href="http://status.event.trevorism.com">
+            Event Status
           </b-navbar-item>
         </b-navbar-dropdown>
 
-        <b-navbar-item href="#">
+        <b-navbar-dropdown label="Articles">
+          <b-navbar-item href="/articles/trends">
+            Technology Trends
+          </b-navbar-item>
+          <b-navbar-item href="/articles/production">
+            Productionalized Service
+          </b-navbar-item>
+        </b-navbar-dropdown>
+
+        <b-navbar-item href="/contact">
           Contact
-        </b-navbar-item>
-        <b-navbar-item href="#">
-          Careers
         </b-navbar-item>
         <b-navbar-item href="/admin" v-if="admin">
           Admin

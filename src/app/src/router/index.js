@@ -7,6 +7,11 @@ import ForgotPassword from '@/components/ForgotPassword'
 import Account from '@/components/Account'
 import ChangePassword from '@/components/ChangePassword'
 import Register from '@/components/Register'
+import Apps from '@/components/Apps'
+import Docs from '@/components/Docs'
+import Contact from '@/components/Contact'
+import Trends from '@/components/articles/Trends'
+import Production from '@/components/articles/Production'
 
 Vue.use(Router)
 
@@ -68,6 +73,31 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/docs',
+      name: 'Docs',
+      component: Docs
+    },
+    {
+      path: '/apps',
+      name: 'Apps',
+      component: Apps
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact
+    },
+    {
+      path: '/articles/trends',
+      name: 'trends',
+      component: Trends
+    },
+    {
+      path: '/articles/production',
+      name: 'production',
+      component: Production
     },
     {
       path: '/admin',
