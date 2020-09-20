@@ -7,15 +7,15 @@
         <div class="card has-background-warning-light" style="width:600px">
           <div class="card-header">
             <div class="is-size-4 mx-6 has-text-weight-semibold">
-              Trevorism is a platform for building software platforms.
+              Trevorism is a platform for building software ecosystems.
             </div>
           </div>
           <div class="card-content">
             <ul class="ml-6" style="list-style-type: circle">
-              <li class="">Open Source</li>
+              <li class="">Blazing fast speed to market</li>
               <li class="mt-2">Scale On Demand</li>
               <li class="mt-2">Built in Security</li>
-              <li class="mt-2">Blazing fast speed to market</li>
+              <li class="mt-2">Open Source</li>
             </ul>
           </div>
         </div>
@@ -68,12 +68,14 @@ export default {
 
 <style scoped>
   .glassBackground {
+    background-color: #A7DEFA;
     background-image: url("../assets/glassbuildingmed.jpg");
     background-repeat: no-repeat;
     background-position: right;
     background-size: 1280px 720px;
   }
   .puzzleBackground {
+    background-color: #391802;
     background-image: url("../assets/puzzlemed.jpg");
     background-repeat: no-repeat;
     background-position: left;
