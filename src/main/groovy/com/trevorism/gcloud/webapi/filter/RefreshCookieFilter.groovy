@@ -1,5 +1,6 @@
 package com.trevorism.gcloud.webapi.filter
 
+import com.trevorism.gcloud.webapi.service.Localhost
 import com.trevorism.http.headers.HeadersHttpClient
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.http.util.ResponseUtils
@@ -30,9 +31,11 @@ class RefreshCookieFilter implements ContainerResponseFilter {
         if (bearerString && bearerString.toLowerCase().startsWith("bearer ") && !bearerString.endsWith("null")) {
             CloseableHttpResponse result = headersHttpClient.post("https://auth.trevorism.com/token/refresh", "{}", ["Authorization": bearerString])
             String token = ResponseUtils.getEntity(result)
+            String domain = Localhost.isLocal() ? "" : "trevorism.com"
 
             Cookie cookie = new Cookie("session", token)
             cookie.setPath("/")
+            cookie.setDomain(domain)
             cookie.setMaxAge(15 * 60)
             cookie.setSecure(getSecureCookieValue())
             response.addCookie(cookie)
