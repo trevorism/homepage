@@ -1,6 +1,6 @@
 <template>
   <div id="logout">
-    <HeaderBar></HeaderBar>
+    <HeaderBar ref="headerBarIsm"></HeaderBar>
     <div class="container mt-6 mb-6">
       <div class="title mb-6">
         Log out of Trevorism
@@ -32,8 +32,7 @@ export default {
     axios.post('api/logout')
       .then(() => {
         self.disabled = false
-        self.$cookies.remove('user_name')
-        self.$cookies.remove('admin')
+        self.$refs.headerBarIsm.checkAuthenticated()
         self.message = 'Bye!'
       })
       .catch(() => {
