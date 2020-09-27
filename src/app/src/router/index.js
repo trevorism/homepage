@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Splash from '@/components/Splash'
 import Login from '@/components/Login'
+import Logout from '@/components/Logout'
 import Admin from '@/components/Admin'
 import ForgotPassword from '@/components/ForgotPassword'
 import Account from '@/components/Account'
@@ -50,7 +51,7 @@ export default new Router({
     {
       path: '/logout',
       name: 'Logout',
-      component: Splash
+      component: Logout
     },
     {
       path: '/forgot',

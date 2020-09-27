@@ -54,7 +54,7 @@
               Account
             </b-navbar-item>
             <b-navbar-item tag="div">
-              <a @click="logout()" class="button is-primary">Logout</a>
+              <router-link class="button is-primary" to="/logout">Logout</router-link>
             </b-navbar-item>
           </b-navbar-dropdown>
         </div>
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   name: 'Header',
@@ -81,20 +80,6 @@ export default {
       this.username = this.$cookies.get('user_name')
       this.admin = this.$cookies.get('admin') === 'true'
       this.authenticated = !!this.username
-    },
-    logout: function () {
-      let self = this
-      axios.post('api/logout')
-        .then(() => {
-          self.$cookies.remove('user_name')
-          self.$cookies.remove('admin')
-          this.checkAuthenticated()
-          self.$router.push('/').catch(() => {
-          })
-        })
-        .catch(() => {
-
-        })
     }
   },
   mounted () {
