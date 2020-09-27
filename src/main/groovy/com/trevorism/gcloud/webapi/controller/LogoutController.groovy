@@ -23,6 +23,6 @@ class LogoutController {
     Response logout(@Context HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate()
         NewCookie sessionCookie = new NewCookie("session", "", "/", null, null, 15 * 60, !Localhost.isLocal(), false)
-        return Response.noContent().cookie(sessionCookie).build()
+        return Response.noContent().cookie(sessionCookie).header("Access-Control-Allow-Origin", "*").build()
     }
 }
