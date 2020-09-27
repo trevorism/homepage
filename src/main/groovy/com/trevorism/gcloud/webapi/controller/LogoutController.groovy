@@ -22,7 +22,11 @@ class LogoutController {
     @Consumes(MediaType.APPLICATION_JSON)
     Response logout(@Context HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate()
-        NewCookie sessionCookie = new NewCookie("session", "", "/", null, null, 15 * 60, !Localhost.isLocal(), false)
-        return Response.noContent().cookie(sessionCookie).build()
+        boolean secureCookies = !Localhost.isLocal()
+        String domain = Localhost.isLocal() ? null : "trevorism.com"
+        NewCookie sessionCookie = new NewCookie("session", "", "/", domain, null, 15 * 60, secureCookies, true)
+        NewCookie usernameCookie = new NewCookie("user_name", "", "/", domain, null, 15 * 60, secureCookies)
+        NewCookie adminCookie = new NewCookie("admin", "", "/", domain, null, 15 * 60, secureCookies)
+        return Response.noContent().cookie(sessionCookie, usernameCookie, adminCookie).build()
     }
 }
