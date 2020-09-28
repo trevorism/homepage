@@ -24,9 +24,9 @@ class LogoutController {
         httpServletRequest.getSession().invalidate()
         boolean secureCookies = !Localhost.isLocal()
         String domain = Localhost.isLocal() ? null : "trevorism.com"
-        NewCookie sessionCookie = new NewCookie("session", "", "/", domain, null, 15 * 60, secureCookies, true)
-        NewCookie usernameCookie = new NewCookie("user_name", "", "/", domain, null, 15 * 60, secureCookies)
-        NewCookie adminCookie = new NewCookie("admin", "", "/", domain, null, 15 * 60, secureCookies)
+        NewCookie sessionCookie = new NewCookie("session", "", "/", domain, null, 0, secureCookies, true)
+        NewCookie usernameCookie = new NewCookie("user_name", "", "/", domain, null, 0, secureCookies)
+        NewCookie adminCookie = new NewCookie("admin", "", "/", domain, null, 0, secureCookies)
         return Response.noContent().cookie(sessionCookie, usernameCookie, adminCookie).build()
     }
 }
