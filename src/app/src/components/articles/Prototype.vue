@@ -35,7 +35,6 @@
       </section>
 
       <section class="content">
-        <h4>PDD Process</h4>
         <ol>
           <li>Design the prototype</li>
           <li>Develop the prototype</li>
