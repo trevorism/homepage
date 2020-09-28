@@ -10,6 +10,6 @@ class ForgotPasswordLink {
     Date expireDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime().plusHours(1).toDate()
 
     String toResetUrl() {
-        return "https://homepage-dot-trevorism.appspot.com/api/login/reset/${id}"
+        return "https://www.trevorism.com/api/login/reset/${id}"
     }
 }

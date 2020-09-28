@@ -11,6 +11,7 @@ import Register from '@/components/Register'
 import Apps from '@/components/Apps'
 import Docs from '@/components/Docs'
 import Contact from '@/components/Contact'
+import Prototype from '@/components/articles/Prototype'
 import Trends from '@/components/articles/Trends'
 import Production from '@/components/articles/Production'
 
@@ -89,6 +90,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/articles/prototype',
+      name: 'prototype',
+      component: Prototype
     },
     {
       path: '/articles/trends',

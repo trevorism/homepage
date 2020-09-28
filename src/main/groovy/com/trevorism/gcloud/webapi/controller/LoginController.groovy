@@ -8,13 +8,10 @@ import com.trevorism.gcloud.webapi.service.Localhost
 import com.trevorism.gcloud.webapi.service.UserSessionService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 
-import javax.ws.rs.Consumes
-import javax.ws.rs.GET
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.PathParam
-import javax.ws.rs.Produces
+import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.NewCookie
 import javax.ws.rs.core.Response
@@ -29,6 +26,8 @@ class LoginController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiResponses(value = [@ApiResponse(code = 200, message = "Login Successful"),
+            @ApiResponse(code = 400, message = "Failed to login")])
     Response login(LoginRequest loginRequest) {
         String token = userSessionService.getToken(loginRequest)
         if (!token) {
@@ -52,15 +51,27 @@ class LoginController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("forgot")
-    void forgotPassword(ForgotPasswordRequest request){
-        userSessionService.generateForgotPasswordLink(request)
+    @ApiResponses(value = [@ApiResponse(code = 204, message = "Successfully sent forgot password request"),
+            @ApiResponse(code = 400, message = "Failed to send the forgot password request")])
+    void forgotPassword(ForgotPasswordRequest request) {
+        try {
+            userSessionService.generateForgotPasswordLink(request)
+        } catch (Exception e) {
+            throw new BadRequestException(e)
+        }
     }
 
     @ApiOperation(value = "Resets password")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("reset/{guid}")
-    void resetPassword(@PathParam("guid") String resetId){
-        userSessionService.resetPassword(resetId)
+    @ApiResponses(value = [@ApiResponse(code = 204, message = "Successfully sent reset request"),
+            @ApiResponse(code = 400, message = "Failed to send the reset request")])
+    void resetPassword(@PathParam("guid") String resetId) {
+        try {
+            userSessionService.resetPassword(resetId)
+        } catch (Exception e) {
+            throw new BadRequestException(e)
+        }
     }
 }

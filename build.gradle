@@ -62,7 +62,6 @@ dependencies {
     testImplementation 'junit:junit:4.13'
 }
 
-
 appengine {
     deploy {
         projectId = "trevorism"
@@ -89,7 +88,6 @@ processResources{
         }
     }
 }
-
 
 node {
     version = '12.11.1'

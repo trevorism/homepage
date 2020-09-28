@@ -23,17 +23,45 @@
         </b-navbar-dropdown>
 
         <b-navbar-dropdown label="Articles">
+          <b-navbar-item href="/articles/prototype">
+            Prototype Driven Development 05/2013
+          </b-navbar-item>
           <b-navbar-item href="/articles/trends">
-            Technology Trends
+            Technology Trends 02/2018
           </b-navbar-item>
           <b-navbar-item href="/articles/production">
-            Productionalized Service
+            Productionalized Service 02/2018
           </b-navbar-item>
         </b-navbar-dropdown>
 
         <b-navbar-item href="/contact">
           Contact
         </b-navbar-item>
+
+        <b-navbar-dropdown label="Tools" v-if="authenticated">
+          <b-navbar-item href="http://trevorism-build.eastus.cloudapp.azure.com/">
+            Jenkins
+          </b-navbar-item>
+          <b-navbar-item href="https://github.com/trevorism">
+            Github
+          </b-navbar-item>
+          <b-navbar-item href="https://kanbanflow.com/board/a6a2c3aa67d9492ac64007975f9f322a">
+            Kanban Flow
+          </b-navbar-item>
+          <b-navbar-item href="https://www.npmjs.com/search?q=%40trevorism">
+            NPM
+          </b-navbar-item>
+          <b-navbar-item href="http://trevorism-build.eastus.cloudapp.azure.com/nexus">
+            Nexus
+          </b-navbar-item>
+          <b-navbar-item href="https://console.cloud.google.com">
+            Google Cloud
+          </b-navbar-item>
+          <b-navbar-item href="https://admin.google.com/u/1/?pli=1">
+            Google Apps
+          </b-navbar-item>
+        </b-navbar-dropdown>
+
         <b-navbar-item href="/admin" v-if="admin">
           Admin
         </b-navbar-item>
