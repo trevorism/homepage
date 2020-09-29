@@ -14,9 +14,10 @@ import java.util.logging.Logger
 
 class DefaultUserSessionService implements UserSessionService {
 
+    private static final Logger log = Logger.getLogger(DefaultUserSessionService.class.getName())
+
     private HeadersJsonHttpClient httpClient = new HeadersJsonHttpClient()
     private final Gson gson = new Gson()
-    private static final Logger log = Logger.getLogger(DefaultUserSessionService.class.getName())
     private PropertiesProvider propertiesProvider = new PropertiesProvider()
     private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new PingingDatastoreRepository<>(ForgotPasswordLink.class)
 
@@ -115,7 +116,7 @@ class DefaultUserSessionService implements UserSessionService {
         return value == "true"
     }
 
-    boolean validate(RegistrationRequest registrationRequest) {
+    private boolean validate(RegistrationRequest registrationRequest) {
         if (!(registrationRequest?.username?.length() >= 3)) {
             return false
         }
