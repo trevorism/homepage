@@ -42,7 +42,7 @@ class LoginController {
         boolean secureCookies = !Localhost.isLocal()
         String domain = Localhost.isLocal() ? null : "trevorism.com"
         NewCookie sessionCookie = new NewCookie("session", token, "/", domain, null, 15 * 60, secureCookies, true)
-        NewCookie usernameCookie = new NewCookie("user_name", user.getUsername(), "/", domain, null, 15 * 60, secureCookies)
+        NewCookie usernameCookie = new NewCookie("user_name", loginRequest.username, "/", domain, null, 15 * 60, secureCookies)
         NewCookie adminCookie = new NewCookie("admin", user.admin.toString(), "/", domain, null, 15 * 60, secureCookies)
         return Response.ok().entity(user).cookie(sessionCookie, usernameCookie, adminCookie).build()
     }
