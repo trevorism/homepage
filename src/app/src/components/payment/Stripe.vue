@@ -56,7 +56,7 @@ export default {
         .then((response) => {
           this.disabled = false
           this.errorMessage = ''
-          this.successMessage = 'Rerouting to payment provider'
+          this.successMessage = 'Rerouting to payment provider...'
           stripe.redirectToCheckout({
             sessionId: response.data.id
           })

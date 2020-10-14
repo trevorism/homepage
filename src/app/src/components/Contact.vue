@@ -11,8 +11,11 @@
       <div class="subtitle">
         Please contact us at hr@trevorism.com for career information.
       </div>
+      <div class="title mt-6 mb-6">
+        Funding
+      </div>
       <div class="subtitle">
-        Funding: help fund Trevorism by making a payment below. We would certainly appreciate it!
+        Help fund Trevorism by making a payment below. We would certainly appreciate it!
         <div class="mt-6"><stripe/></div>
       </div>
     </div>
