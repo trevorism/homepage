@@ -62,7 +62,7 @@ export default {
           })
         })
         .catch(() => {
-          this.errorMessage = 'Invalid amount. Please enter an amount over $0.99'
+          this.errorMessage = 'Submission Error. Please enter an amount over $0.99'
           this.successMessage = ''
           this.disabled = false
         })
