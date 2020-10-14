@@ -14,6 +14,7 @@ import Contact from '@/components/Contact'
 import Prototype from '@/components/articles/Prototype'
 import Trends from '@/components/articles/Trends'
 import Production from '@/components/articles/Production'
+import PaymentSuccess from '../components/payment/PaymentSuccess'
 
 Vue.use(Router)
 
@@ -90,6 +91,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/paymentsuccess',
+      name: 'paymentSuccess',
+      component: PaymentSuccess
     },
     {
       path: '/articles/prototype',
