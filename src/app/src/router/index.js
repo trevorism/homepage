@@ -14,7 +14,7 @@ import Contact from '@/components/Contact'
 import Prototype from '@/components/articles/Prototype'
 import Trends from '@/components/articles/Trends'
 import Production from '@/components/articles/Production'
-import PaymentSuccess from '../components/payment/PaymentSuccess'
+import PaymentSuccess from '@/components/payment/PaymentSuccess'
 
 Vue.use(Router)
 
@@ -70,7 +70,11 @@ export default new Router({
       path: '/change',
       name: 'ChangePassword',
       component: ChangePassword,
-      beforeEnter: userOnly
+      beforeEnter: (to, from, next) => {
+        let returnUrl = window.location.origin + '/change'
+        let reRoute = '/login?return_url=' + returnUrl
+        return userOnly(to, from, next, reRoute)
+      }
     },
     {
       path: '/register',
