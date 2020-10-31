@@ -6,7 +6,7 @@
         Contact Us
       </div>
       <div class="subtitle">
-        Please contact us at feedback@trevorism.com for pricing or general inquiries.
+        Please contact us at feedback@trevorism.com for pricing, feature requests, or general inquiries.
       </div>
       <div class="subtitle">
         Please contact us at hr@trevorism.com for career information.
@@ -15,7 +15,7 @@
         Funding
       </div>
       <div class="subtitle">
-        Help fund Trevorism by making a payment below. We would certainly appreciate it!
+        Help fund Trevorism by making a payment below. We certainly would appreciate it!
         <div class="mt-6"><stripe/></div>
       </div>
     </div>
