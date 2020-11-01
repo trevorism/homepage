@@ -7,7 +7,7 @@
  
 [Trevorism.com](https://trevorism.com)
 
-Current Version: 0.4.0
+Current Version: 0.5.0
 
 ## Development
 

@@ -3,6 +3,7 @@ package com.trevorism.gcloud.webapi.service
 import com.trevorism.data.Repository
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
+import com.trevorism.https.SecureHttpClient
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.entity.StringEntity
 import org.junit.Test
@@ -23,20 +24,21 @@ class DefaultUserSessionServiceTest {
 
     @Test
     void testRegisterUser() {
+        userSessionService.secureHttpClient = [get : {url -> "[{\"username\":\"another\"}]"}] as SecureHttpClient
+
         assert !userSessionService.registerUser(new RegistrationRequest(username: "another", password: "123456", email: "another@trevorism.com"))
     }
 
     @Test
     void testDoesUsernameExist() {
+        userSessionService.secureHttpClient = [get : {url -> "[{\"username\":\"another\"}]"}] as SecureHttpClient
         assert userSessionService.doesUsernameExist("another")
         assert !userSessionService.doesUsernameExist("ab")
     }
 
     @Test
     void testValidate() {
-        userSessionService.httpClient = [get : { url, map ->
-            return ([getEntity: { new StringEntity("[]") }] as CloseableHttpResponse)
-        }] as HeadersJsonHttpClient
+        userSessionService.secureHttpClient = [get : {url -> "[]"}] as SecureHttpClient
 
         assert !userSessionService.validate(null)
         assert !userSessionService.validate(new RegistrationRequest())
@@ -49,9 +51,7 @@ class DefaultUserSessionServiceTest {
     @Test
     void testResetPassword() {
         userSessionService.forgotPasswordLinkRepository = [get: { x -> new ForgotPasswordLink() }, delete: { x -> new ForgotPasswordLink() }] as Repository
-        userSessionService.httpClient = [post: { url, content, map ->
-            return ([getEntity: { new StringEntity("token") }] as CloseableHttpResponse)
-        }] as HeadersJsonHttpClient
+        userSessionService.secureHttpClient = [post : {url, json -> "{}"}] as SecureHttpClient
         userSessionService.resetPassword("reset")
         assert true
     }
@@ -83,4 +83,5 @@ class DefaultUserSessionServiceTest {
         }] as HeadersJsonHttpClient
         assert !userSessionService.changePassword(new ChangePasswordRequest(), "token")
     }
+
 }

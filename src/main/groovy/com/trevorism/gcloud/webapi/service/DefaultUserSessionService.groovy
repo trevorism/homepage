@@ -6,9 +6,10 @@ import com.trevorism.data.Repository
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.http.util.ResponseUtils
+import com.trevorism.https.DefaultSecureHttpClient
+import com.trevorism.https.SecureHttpClient
 import com.trevorism.secure.ClaimProperties
 import com.trevorism.secure.ClaimsProvider
-import com.trevorism.secure.PropertiesProvider
 
 import java.util.logging.Logger
 
@@ -17,16 +18,16 @@ class DefaultUserSessionService implements UserSessionService {
     private static final Logger log = Logger.getLogger(DefaultUserSessionService.class.getName())
 
     private HeadersJsonHttpClient httpClient = new HeadersJsonHttpClient()
+    private SecureHttpClient secureHttpClient = SecureHttpClientSingleton.getInstance().getSecureHttpClient()
+    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new PingingDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
     private final Gson gson = new Gson()
-    private PropertiesProvider propertiesProvider = new PropertiesProvider()
-    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new PingingDatastoreRepository<>(ForgotPasswordLink.class)
 
     @Override
     String getToken(LoginRequest loginRequest) {
         String json = gson.toJson(TokenRequest.fromLoginRequest(loginRequest))
         try {
             String result = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
-            if(result.startsWith("<html>"))
+            if (result.startsWith("<html>"))
                 throw new RuntimeException("Bad Request to get token")
             log.fine("Successful login, token: ${result}")
             return result
@@ -69,17 +70,15 @@ class DefaultUserSessionService implements UserSessionService {
     }
 
     private List getAllUsers() {
-        String json = gson.toJson(new TokenRequest(id: propertiesProvider.getProperty("clientId"), password: propertiesProvider.getProperty("clientSecret"), type: "app"))
-        String token = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
-        def response = httpClient.get("https://auth.trevorism.com/user", ["Authorization": "bearer ${token}".toString()])
-        List<User> users = gson.fromJson(ResponseUtils.getEntity(response), List.class)
+        def response = secureHttpClient.get("https://auth.trevorism.com/user")
+        List<User> users = gson.fromJson(response, List.class)
         return users
     }
 
     @Override
     void generateForgotPasswordLink(ForgotPasswordRequest forgotPasswordRequest) {
         List<User> users = getAllUsers()
-        def user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
+        User user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
         if (!user) {
             throw new RuntimeException("Unable to find user with email ${forgotPasswordRequest.email}")
         }
@@ -101,10 +100,8 @@ class DefaultUserSessionService implements UserSessionService {
         if (link.expireDate.before(new Date())) {
             throw new RuntimeException("Reset link has expired")
         }
-        String json = gson.toJson(new TokenRequest(id: propertiesProvider.getProperty("clientId"), password: propertiesProvider.getProperty("clientSecret"), type: "app"))
-        String token = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
-        String toPost = gson.toJson(["username":link.username])
-        httpClient.post("https://auth.trevorism.com/user/reset", toPost, ["Authorization": "bearer ${token}".toString()])
+        String toPost = gson.toJson(["username": link.username])
+        secureHttpClient.post("https://auth.trevorism.com/user/reset", toPost)
         forgotPasswordLinkRepository.delete(resetId)
     }
 
