@@ -23,6 +23,9 @@
         </b-navbar-dropdown>
 
         <b-navbar-dropdown label="Articles">
+          <b-navbar-item href="/docs">
+            Trevorism Documentation
+          </b-navbar-item>
           <b-navbar-item href="/articles/prototype">
             Prototype Driven Development 05/2013
           </b-navbar-item>
