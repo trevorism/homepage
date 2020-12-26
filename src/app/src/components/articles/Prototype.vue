@@ -92,6 +92,9 @@
       </section>
 
     </div>
+    <footer>
+      <hr/>
+    </footer>
   </div>
 </template>
 

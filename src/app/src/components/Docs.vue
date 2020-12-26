@@ -58,6 +58,9 @@
       </div>
 
     </div>
+    <footer>
+      <hr/>
+    </footer>
   </div>
 </template>
 
