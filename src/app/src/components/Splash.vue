@@ -49,6 +49,7 @@
             <span class="is-size-6 mr-6"><router-link to="/docs">Documentation</router-link></span>
             <span class="is-size-6 ml-6 mr-6"><router-link to="/apps">Apps</router-link></span>
             <span class="is-size-6 ml-6"><router-link to="/contact">Contact Us</router-link></span>
+            <span class="is-size-6 ml-6"><a href="https://twitter.com/TrevorismLLC?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @TrevorismLLC</a></span>
           </div>
         </div>
       </div>
