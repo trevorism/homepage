@@ -21,4 +21,6 @@ interface UserSessionService {
     void resetPassword(String resetId)
 
     boolean changePassword(ChangePasswordRequest changePasswordRequest, String bearerToken)
+
+    void sendLoginEvent(User user)
 }

@@ -55,6 +55,9 @@ export default {
       disabled: false
     }
   },
+  mounted () {
+    axios.get('api/authWarmup')
+  },
   methods: {
     invokeButton: function () {
       let self = this

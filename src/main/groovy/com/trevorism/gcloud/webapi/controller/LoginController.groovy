@@ -39,6 +39,8 @@ class LoginController {
             return Response.status(400).build()
         }
 
+        userSessionService.sendLoginEvent(user)
+
         boolean secureCookies = !Localhost.isLocal()
         String domain = Localhost.isLocal() ? null : "trevorism.com"
         NewCookie sessionCookie = new NewCookie("session", token, "/", domain, null, 15 * 60, secureCookies, true)

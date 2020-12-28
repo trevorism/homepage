@@ -1,5 +1,7 @@
 package com.trevorism.gcloud.webapi.controller
 
+import com.trevorism.http.async.AsyncHttpClient
+import com.trevorism.http.async.AsyncJsonHttpClient
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.Contact
@@ -43,5 +45,13 @@ class RootController {
     @Path("help")
     Response help(){
         Response.temporaryRedirect(new URI("/swagger/index.html")).build()
+    }
+
+    @ApiOperation(value = "Warms up the authorization service")
+    @GET
+    @Path("authWarmup")
+    void warmupAuthService(){
+        AsyncHttpClient client = new AsyncJsonHttpClient()
+        client.get("https://auth.trevorism.com/ping")
     }
 }

@@ -3,6 +3,9 @@ package com.trevorism.gcloud.webapi.service
 import com.google.gson.Gson
 import com.trevorism.data.PingingDatastoreRepository
 import com.trevorism.data.Repository
+import com.trevorism.event.EventProducer
+import com.trevorism.event.EventhubProducer
+import com.trevorism.event.PingingEventProducer
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.http.util.ResponseUtils
@@ -20,6 +23,7 @@ class DefaultUserSessionService implements UserSessionService {
     private HeadersJsonHttpClient httpClient = new HeadersJsonHttpClient()
     private SecureHttpClient secureHttpClient = SecureHttpClientSingleton.getInstance().getSecureHttpClient()
     private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new PingingDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
+    private EventProducer<User> eventProducer = new PingingEventProducer<>(secureHttpClient)
     private final Gson gson = new Gson()
 
     @Override
@@ -111,6 +115,11 @@ class DefaultUserSessionService implements UserSessionService {
         def response = httpClient.post("https://auth.trevorism.com/user/change", json, ["Authorization": "bearer ${token}".toString()])
         String value = ResponseUtils.getEntity(response)
         return value == "true"
+    }
+
+    @Override
+    void sendLoginEvent(User user) {
+        eventProducer.sendEvent("login", user)
     }
 
     private boolean validate(RegistrationRequest registrationRequest) {
