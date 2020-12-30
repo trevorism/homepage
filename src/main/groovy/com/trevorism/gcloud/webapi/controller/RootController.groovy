@@ -1,6 +1,5 @@
 package com.trevorism.gcloud.webapi.controller
 
-import com.trevorism.http.JsonHttpClient
 import com.trevorism.http.async.AsyncHttpClient
 import com.trevorism.http.async.AsyncJsonHttpClient
 import io.swagger.annotations.Api
@@ -52,9 +51,8 @@ class RootController {
     @GET
     @Path("authWarmup")
     void warmupAuthService(){
-        JsonHttpClient client = new JsonHttpClient()
-        client.get("https://auth.trevorism.com/ping")
+        AsyncHttpClient client = new AsyncJsonHttpClient()
         client.get("https://datastore.trevorism.com/ping")
-
+        client.get("https://auth.trevorism.com/ping")
     }
 }
