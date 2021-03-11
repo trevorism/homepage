@@ -9,8 +9,9 @@
         Why Trevorism?
       </div>
       <div class="content">
-        Building software applications is difficult and expensive.
-        Trevorism allows developers to bake best practices into applications and allows them to evolve over time.
+        Building software systems from scratch is difficult and expensive.
+        Trevorism allows developers to bake best practices into applications
+        and allows them to evolve over time with pluggable functionality.
       </div>
       <div class="subtitle">
         How does Trevorism do this?
@@ -27,7 +28,7 @@
         What is Trevorism?
       </div>
       <div class="content">
-        Trevorism is a set of distributed web services which wrap popular cloud services.
+        Trevorism is a set of distributed web services organized in a lightweight software platform.
         Together, they form a live reference implementation for an enterprise-grade software system.
       </div>
       <div class="content">
