@@ -17,12 +17,12 @@
         How does Trevorism do this?
       </div>
       <div class="content">
-        Software systems share common patterns: User Interfaces, Business Logic, Security, Logging, Testing, Deployment to name a few.
+        Software systems share common patterns: User Interfaces, Business Logic, Databases, Security, Logging, Testing, Deployment, etc.
         We bring our extensive experience in building and maintaining applications to enable fast construction of software systems.
-        We achieve this by establishing a hierarchy of interfaces for each common software system pattern.
+        We achieve this by defining a hierarchy of interfaces for each common software system pattern.
         The highest level in the hierarchy is the simplest interface, and each level down unlocks additional functionality.
-        Implementations choose sensible defaults.
-        This allows consumers of the functionality to choose their level of complexity as their requirements become more complex.
+        Trevorism includes reference implementations of each interface which chooses sensible defaults.
+        This allows consumers of Trevorism to rapidly establish common software patterns in their own systems.
       </div>
       <div class="subtitle">
         What is Trevorism?
@@ -47,7 +47,7 @@
       <div class="content">
         <ul>
           <li>Open source</li>
-          <li>Minimal technology cost</li>
+          <li>Minimal technology maintenance cost</li>
           <li>One button press for a new production service</li>
           <li>Continuous delivery</li>
           <li>Scale on demand</li>
