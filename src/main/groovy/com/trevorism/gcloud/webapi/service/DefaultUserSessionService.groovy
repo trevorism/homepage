@@ -1,15 +1,16 @@
 package com.trevorism.gcloud.webapi.service
 
 import com.google.gson.Gson
+import com.trevorism.data.FastDatastoreRepository
 import com.trevorism.data.PingingDatastoreRepository
 import com.trevorism.data.Repository
+import com.trevorism.data.model.filtering.FilterBuilder
+import com.trevorism.data.model.filtering.SimpleFilter
 import com.trevorism.event.EventProducer
-import com.trevorism.event.EventhubProducer
 import com.trevorism.event.PingingEventProducer
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.http.util.ResponseUtils
-import com.trevorism.https.DefaultSecureHttpClient
 import com.trevorism.https.SecureHttpClient
 import com.trevorism.secure.ClaimProperties
 import com.trevorism.secure.ClaimsProvider
@@ -22,19 +23,15 @@ class DefaultUserSessionService implements UserSessionService {
 
     private HeadersJsonHttpClient httpClient = new HeadersJsonHttpClient()
     private SecureHttpClient secureHttpClient = SecureHttpClientSingleton.getInstance().getSecureHttpClient()
-    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new PingingDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
-    private EventProducer<User> eventProducer = new PingingEventProducer<>(secureHttpClient)
+    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new FastDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
+
     private final Gson gson = new Gson()
 
     @Override
     String getToken(LoginRequest loginRequest) {
         String json = gson.toJson(TokenRequest.fromLoginRequest(loginRequest))
         try {
-            String result = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
-            if (result.startsWith("<html>"))
-                throw new RuntimeException("Bad Request to get token")
-            log.fine("Successful login, token: ${result}")
-            return result
+            return invokeTokenRequest(json)
         } catch (Exception e) {
             log.fine("Invalid login")
             log.finer(e.message)
@@ -68,21 +65,23 @@ class DefaultUserSessionService implements UserSessionService {
 
     @Override
     boolean doesUsernameExist(String username) {
-        List<User> users = getAllUsers()
-
-        return users.find() { it.username == username }
+         return findUser(new SimpleFilter("username","=",username.toLowerCase()))
     }
 
-    private List getAllUsers() {
-        def response = secureHttpClient.get("https://auth.trevorism.com/user")
-        List<User> users = gson.fromJson(response, List.class)
-        return users
+    private User findUser(SimpleFilter simpleFilter) {
+        Repository<User> repository = new FastDatastoreRepository<>(User)
+        def list = repository.filter(new FilterBuilder().addFilter(simpleFilter).build())
+        if(list){
+            return list[0]
+        }
+        return null
     }
 
     @Override
     void generateForgotPasswordLink(ForgotPasswordRequest forgotPasswordRequest) {
-        List<User> users = getAllUsers()
+        List<User> users = new FastDatastoreRepository<>(User).list()
         User user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
+
         if (!user) {
             throw new RuntimeException("Unable to find user with email ${forgotPasswordRequest.email}")
         }
@@ -119,6 +118,7 @@ class DefaultUserSessionService implements UserSessionService {
 
     @Override
     void sendLoginEvent(User user) {
+        EventProducer<User> eventProducer = new PingingEventProducer<>(secureHttpClient)
         eventProducer.sendEvent("login", user)
     }
 
@@ -140,5 +140,13 @@ class DefaultUserSessionService implements UserSessionService {
         }
 
         return true
+    }
+
+    private String invokeTokenRequest(String json) {
+        String result = ResponseUtils.getEntity(httpClient.post("https://auth.trevorism.com/token", json, [:]))
+        if (result.startsWith("<html>"))
+            throw new RuntimeException("Bad Request to get token")
+        log.fine("Successful login, token: ${result}")
+        return result
     }
 }

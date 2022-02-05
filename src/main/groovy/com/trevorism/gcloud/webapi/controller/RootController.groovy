@@ -53,6 +53,7 @@ class RootController {
     void warmupAuthService(){
         AsyncHttpClient client = new AsyncJsonHttpClient()
         client.get("https://datastore.trevorism.com/ping")
-        client.get("https://auth.trevorism.com/ping")
+        client.get("https://event.trevorism.com/ping")
+        client.get("https://auth.trevorism.com/ping").get()
     }
 }
