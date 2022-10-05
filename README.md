@@ -1,13 +1,12 @@
 # homepage
-![Jenkins](https://img.shields.io/jenkins/build/http/trevorism-build.eastus.cloudapp.azure.com/homepage)
-![Jenkins Coverage](https://img.shields.io/jenkins/coverage/jacoco/http/trevorism-build.eastus.cloudapp.azure.com/homepage)
+![Build](https://github.com/trevorism/homepage/actions/workflows/deploy.yml/badge.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/trevorism/homepage)
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/homepage)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/homepage)
  
 [Trevorism.com](https://trevorism.com)
 
-Current Version: 0.7.0
+Current Version: 0.8.0
 
 ## Development
 

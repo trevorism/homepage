@@ -1,16 +1,15 @@
 package com.trevorism.gcloud.webapi.service
 
-import com.trevorism.event.EventProducer
-import com.trevorism.event.PingingEventProducer
+import com.trevorism.EmailClient
 import com.trevorism.gcloud.webapi.model.Email
 
 class ForgotPasswordEmailer {
 
-    private static EventProducer<Email> eventProducer = new PingingEventProducer<>()
+    private EmailClient emailClient = new EmailClient()
 
-    static void sendForgotPasswordEmail(String emailAddress, String username, String link){
+    void sendForgotPasswordEmail(String emailAddress, String username, String link){
         Email email = new Email(recipients: emailAddress, subject: "Trevorism: Forgot Password", body: buildBody(username, link))
-        eventProducer.sendEvent("email", email)
+        emailClient.sendEmail(email)
     }
 
     private static String buildBody(String username, String link) {

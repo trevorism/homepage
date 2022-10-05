@@ -4,6 +4,7 @@ import com.stripe.Stripe
 import com.stripe.model.checkout.Session
 import com.stripe.param.checkout.SessionCreateParams
 import com.trevorism.gcloud.webapi.model.PaymentRequest
+import com.trevorism.secure.ClasspathBasedPropertiesProvider
 import com.trevorism.secure.PropertiesProvider
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -18,8 +19,6 @@ import javax.ws.rs.core.MediaType
 @Path("/payment")
 class PaymentController {
 
-    private PropertiesProvider propertiesProvider = new PropertiesProvider()
-
     @ApiOperation(value = "Create a new Stripe Payment Session")
     @POST
     @Path("session")
@@ -29,7 +28,8 @@ class PaymentController {
         if(paymentRequest.dollars < 0.99){
             throw new RuntimeException("Unable to process; insufficient funds for payment")
         }
-        Stripe.apiKey = propertiesProvider.getProperty("stripeApiKey")
+        PropertiesProvider propertiesProvider = new ClasspathBasedPropertiesProvider()
+        Stripe.apiKey = propertiesProvider.getProperty("apiKey")
 
         SessionCreateParams.LineItem.PriceData.ProductData productData = SessionCreateParams.LineItem.PriceData.ProductData.builder().setName("Funding Trevorism").build()
         SessionCreateParams.LineItem.PriceData priceData = SessionCreateParams.LineItem.PriceData.builder()
