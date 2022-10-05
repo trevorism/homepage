@@ -2,12 +2,9 @@ package com.trevorism.gcloud.webapi.service
 
 import com.google.gson.Gson
 import com.trevorism.data.FastDatastoreRepository
-import com.trevorism.data.PingingDatastoreRepository
 import com.trevorism.data.Repository
 import com.trevorism.data.model.filtering.FilterBuilder
 import com.trevorism.data.model.filtering.SimpleFilter
-import com.trevorism.event.EventProducer
-import com.trevorism.event.PingingEventProducer
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.http.util.ResponseUtils
@@ -15,6 +12,7 @@ import com.trevorism.https.SecureHttpClient
 import com.trevorism.secure.ClaimProperties
 import com.trevorism.secure.ClaimsProvider
 
+import java.time.LocalDateTime
 import java.util.logging.Logger
 
 class DefaultUserSessionService implements UserSessionService {
@@ -65,13 +63,13 @@ class DefaultUserSessionService implements UserSessionService {
 
     @Override
     boolean doesUsernameExist(String username) {
-         return findUser(new SimpleFilter("username","=",username.toLowerCase()))
+        return findUser(new SimpleFilter("username", "=", username.toLowerCase()))
     }
 
     private User findUser(SimpleFilter simpleFilter) {
         Repository<User> repository = new FastDatastoreRepository<>(User)
         def list = repository.filter(new FilterBuilder().addFilter(simpleFilter).build())
-        if(list){
+        if (list) {
             return list[0]
         }
         return null
@@ -91,7 +89,7 @@ class DefaultUserSessionService implements UserSessionService {
         ForgotPasswordLink forgotPasswordLink = new ForgotPasswordLink(username: user.username)
 
         forgotPasswordLink = forgotPasswordLinkRepository.create(forgotPasswordLink)
-        ForgotPasswordEmailer.sendForgotPasswordEmail(forgotPasswordRequest.email, forgotPasswordLink.username, forgotPasswordLink.toResetUrl())
+        new ForgotPasswordEmailer().sendForgotPasswordEmail(forgotPasswordRequest.email, forgotPasswordLink.username, forgotPasswordLink.toResetUrl())
     }
 
     @Override
@@ -118,8 +116,7 @@ class DefaultUserSessionService implements UserSessionService {
 
     @Override
     void sendLoginEvent(User user) {
-        EventProducer<User> eventProducer = new PingingEventProducer<>(secureHttpClient)
-        eventProducer.sendEvent("login", user)
+        log.info("User ${user.username} logged in at ${LocalDateTime.now()}")
     }
 
     private boolean validate(RegistrationRequest registrationRequest) {

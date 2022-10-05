@@ -29,9 +29,6 @@
       <div class="subtitle">
         Please contact us at feedback@trevorism.com for pricing, feature requests, or general inquiries.
       </div>
-      <div class="subtitle">
-        Please contact us at hr@trevorism.com for information regarding a career at Trevorism LLC.
-      </div>
       <div class="title mt-6 mb-6">
         Funding
       </div>
