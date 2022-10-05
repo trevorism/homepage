@@ -1,6 +1,7 @@
 package com.trevorism.gcloud.webapi.service
 
 import com.trevorism.data.Repository
+import com.trevorism.data.model.filtering.SimpleFilter
 import com.trevorism.gcloud.webapi.model.*
 import com.trevorism.http.headers.HeadersJsonHttpClient
 import com.trevorism.https.SecureHttpClient
@@ -25,6 +26,7 @@ class DefaultUserSessionServiceTest {
     @Test
     void testRegisterUser() {
         userSessionService.secureHttpClient = [get : {url -> "[{\"username\":\"another\"}]"}] as SecureHttpClient
+        userSessionService.repository = [filter: { f -> [new User()]}] as Repository<User>
 
         assert !userSessionService.registerUser(new RegistrationRequest(username: "another", password: "123456", email: "another@trevorism.com"))
     }
@@ -32,6 +34,11 @@ class DefaultUserSessionServiceTest {
     @Test
     void testDoesUsernameExist() {
         userSessionService.secureHttpClient = [get : {url -> "[{\"username\":\"another\"}]"}] as SecureHttpClient
+        userSessionService.repository = [filter: { f ->
+            if(f.simpleFilters[0].value == "another")
+                return [new User(username: "another")]
+            return null
+        }] as Repository<User>
         assert userSessionService.doesUsernameExist("another")
         assert !userSessionService.doesUsernameExist("ab")
     }
@@ -39,6 +46,7 @@ class DefaultUserSessionServiceTest {
     @Test
     void testValidate() {
         userSessionService.secureHttpClient = [get : {url -> "[]"}] as SecureHttpClient
+        userSessionService.repository = [filter: { f -> null}] as Repository<User>
 
         assert !userSessionService.validate(null)
         assert !userSessionService.validate(new RegistrationRequest())

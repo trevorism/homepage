@@ -11,6 +11,8 @@ import com.trevorism.http.util.ResponseUtils
 import com.trevorism.https.SecureHttpClient
 import com.trevorism.secure.ClaimProperties
 import com.trevorism.secure.ClaimsProvider
+import com.trevorism.secure.ClasspathBasedPropertiesProvider
+import com.trevorism.secure.PropertiesProvider
 
 import java.time.LocalDateTime
 import java.util.logging.Logger
@@ -22,6 +24,8 @@ class DefaultUserSessionService implements UserSessionService {
     private HeadersJsonHttpClient httpClient = new HeadersJsonHttpClient()
     private SecureHttpClient secureHttpClient = SecureHttpClientSingleton.getInstance().getSecureHttpClient()
     private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new FastDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
+    private Repository<User> repository = new FastDatastoreRepository<>(User, secureHttpClient)
+    private PropertiesProvider propertiesProvider = new ClasspathBasedPropertiesProvider()
 
     private final Gson gson = new Gson()
 
@@ -40,7 +44,7 @@ class DefaultUserSessionService implements UserSessionService {
     @Override
     User getUserFromToken(String token) {
         try {
-            ClaimProperties claimProperties = ClaimsProvider.getClaims(token)
+            ClaimProperties claimProperties = ClaimsProvider.getClaims(token, propertiesProvider.getProperty("signingKey"))
             def response = httpClient.get("https://auth.trevorism.com/user/${claimProperties.id}", ["Authorization": "bearer ${token}".toString()])
             User user = gson.fromJson(ResponseUtils.getEntity(response), User)
             return user
@@ -67,7 +71,6 @@ class DefaultUserSessionService implements UserSessionService {
     }
 
     private User findUser(SimpleFilter simpleFilter) {
-        Repository<User> repository = new FastDatastoreRepository<>(User)
         def list = repository.filter(new FilterBuilder().addFilter(simpleFilter).build())
         if (list) {
             return list[0]
@@ -77,7 +80,7 @@ class DefaultUserSessionService implements UserSessionService {
 
     @Override
     void generateForgotPasswordLink(ForgotPasswordRequest forgotPasswordRequest) {
-        List<User> users = new FastDatastoreRepository<>(User).list()
+        List<User> users = repository.list()
         User user = users.find { it.email.toLowerCase() == forgotPasswordRequest.email.toLowerCase() }
 
         if (!user) {
