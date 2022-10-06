@@ -17,9 +17,6 @@
           <b-navbar-item href="http://registry.datastore.trevorism.com">
             Service Registry
           </b-navbar-item>
-          <b-navbar-item href="http://status.event.trevorism.com">
-            Event Status
-          </b-navbar-item>
         </b-navbar-dropdown>
 
         <b-navbar-dropdown label="Articles">
@@ -45,9 +42,6 @@
         </b-navbar-item>
 
         <b-navbar-dropdown label="Tools" v-if="authenticated">
-          <b-navbar-item href="http://trevorism-build.eastus.cloudapp.azure.com/">
-            Jenkins
-          </b-navbar-item>
           <b-navbar-item href="https://github.com/trevorism">
             Github
           </b-navbar-item>
@@ -56,9 +50,6 @@
           </b-navbar-item>
           <b-navbar-item href="https://www.npmjs.com/search?q=%40trevorism">
             NPM
-          </b-navbar-item>
-          <b-navbar-item href="http://trevorism-build.eastus.cloudapp.azure.com/nexus">
-            Nexus
           </b-navbar-item>
           <b-navbar-item href="https://console.cloud.google.com">
             Google Cloud
