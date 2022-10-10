@@ -14,7 +14,7 @@
           <b-navbar-item href="https://click.trevorism.com">
             Click
           </b-navbar-item>
-          <b-navbar-item href="http://registry.datastore.trevorism.com">
+          <b-navbar-item href="https://active.project.trevorism.com/">
             Service Registry
           </b-navbar-item>
         </b-navbar-dropdown>
