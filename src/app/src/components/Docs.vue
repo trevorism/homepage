@@ -19,7 +19,7 @@
       <div class="content">
         Software systems share common patterns: User Interfaces, Business Logic, Databases, Security, Logging, Testing, Deployment, etc.
         We bring our extensive experience in building and maintaining applications to enable fast construction of software systems.
-        We achieve this by defining a hierarchy of interfaces for each common software system pattern.
+        We achieve this by defining a hierarchy of interfaces for each common software system pattern and exposing them as a RESTful API.
         The highest level in the hierarchy is the simplest interface, and each level down unlocks additional functionality.
         Trevorism includes reference implementations of each interface which chooses sensible defaults.
         This allows consumers of Trevorism to rapidly establish common software patterns in their own systems.
@@ -30,6 +30,17 @@
       <div class="content">
         Trevorism is a set of distributed web services organized in a lightweight software platform.
         Together, they form a live reference implementation for an enterprise-grade software system.
+      </div>
+      <div class="columns">
+        <div class="column">
+          <div class="subtitle" style="text-align: center">Trevorism APIs</div>
+          <img src="../assets/Trevorism_APIs.png">
+        </div>
+        <div class="column">
+          <div class="subtitle" style="text-align: center">API Interactions</div>
+          <img src="../assets/API_Interactions.png">
+        </div>
+
       </div>
       <div class="content">
         Users of Trevorism have several options for leveraging these services:
