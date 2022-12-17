@@ -1,0 +1,46 @@
+name: Test application
+
+on:
+  workflow_dispatch:
+    inputs:
+      TEST_TYPE:
+        required: false
+        type: string
+        default: acceptance
+        description: Either 'unit' or 'acceptance'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: 'gradle'
+
+      - name: Chmod gradlew
+        run: chmod +x ./gradlew
+
+      - name: Unit test with Gradle
+        uses: gradle/gradle-build-action@v2.3.1
+        if: ${{inputs.TEST_TYPE == 'unit'}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: clean test
+
+      - name: Acceptance test with Gradle
+        uses: gradle/gradle-build-action@v2.3.1
+        if: ${{inputs.TEST_TYPE == 'acceptance'}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          arguments: clean acceptance
