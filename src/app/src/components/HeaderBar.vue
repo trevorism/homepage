@@ -11,8 +11,8 @@
           <b-navbar-item href="https://www.trevorism.com">
             Home
           </b-navbar-item>
-          <b-navbar-item href="https://click.trevorism.com">
-            Click
+          <b-navbar-item href="https://timeline.draw.trevorism.com">
+            Timeline Generator
           </b-navbar-item>
           <b-navbar-item href="https://active.project.trevorism.com">
             Service Registry
