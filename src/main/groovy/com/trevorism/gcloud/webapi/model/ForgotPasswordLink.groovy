@@ -2,12 +2,13 @@ package com.trevorism.gcloud.webapi.model
 
 import java.time.Instant
 import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 
 class ForgotPasswordLink {
 
     String id
     String username
-    Date expireDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime().plusHours(1).toDate()
+    Date expireDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS))
 
     String toResetUrl() {
         return "https://www.trevorism.com/api/login/reset/${id}"

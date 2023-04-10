@@ -1,32 +1,23 @@
 package com.trevorism.gcloud.webapi.controller
 
 import com.trevorism.gcloud.webapi.service.Localhost
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Post
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 
-import javax.servlet.http.HttpServletRequest
-import javax.ws.rs.Consumes
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.core.Context
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.NewCookie
-import javax.ws.rs.core.Response
 
-@Api("Logout Operations")
-@Path("/logout")
+@Controller("/api/logout")
 class LogoutController {
 
-    @ApiOperation(value = "Logout of Trevorism")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    Response logout(@Context HttpServletRequest httpServletRequest) {
-        httpServletRequest.getSession().invalidate()
-        boolean secureCookies = !Localhost.isLocal()
-        String domain = Localhost.isLocal() ? null : "trevorism.com"
-        NewCookie sessionCookie = new NewCookie("session", "", "/", domain, null, 0, secureCookies, true)
-        NewCookie usernameCookie = new NewCookie("user_name", "", "/", domain, null, 0, secureCookies)
-        NewCookie adminCookie = new NewCookie("admin", "", "/", domain, null, 0, secureCookies)
-        return Response.noContent().cookie(sessionCookie, usernameCookie, adminCookie).build()
+    @Tag(name = "Logout Operations")
+    @Operation(summary = "Logout of Trevorism")
+    @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    HttpResponse logout() {
+        //Logout of the session
+        HttpResponse response = HttpResponse.noContent()
     }
 }

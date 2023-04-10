@@ -1,3 +1,7 @@
+# 0.9.0
+
+Upgrade to java 17, micronaut 
+
 # 0.8.0
 
 Move site to github actions. Update for dependencies.

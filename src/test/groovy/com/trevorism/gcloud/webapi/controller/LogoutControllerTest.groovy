@@ -1,18 +1,14 @@
 package com.trevorism.gcloud.webapi.controller
 
-import org.junit.Test
-
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
-import javax.ws.rs.core.Response
+import org.junit.jupiter.api.Test
 
 class LogoutControllerTest {
 
     @Test
     void testLogout() {
         LogoutController logoutController = new LogoutController()
-        Response response = logoutController.logout([getSession:{ [invalidate:{}] as HttpSession }] as HttpServletRequest)
+        def response = logoutController.logout()
         assert response
-        assert response.status == 204
+        assert response.status.code == 204
     }
 }

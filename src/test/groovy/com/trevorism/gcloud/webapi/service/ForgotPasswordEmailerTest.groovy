@@ -1,6 +1,6 @@
 package com.trevorism.gcloud.webapi.service
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ForgotPasswordEmailerTest {
 
