@@ -20,4 +20,5 @@ class LogoutController {
         //Logout of the session
         HttpResponse response = HttpResponse.noContent()
     }
+
 }

@@ -108,7 +108,7 @@ task installNodeDependencies(type: NpmTask) {
 
 task buildApp(type: NpmTask) {
     dependsOn('installNodeDependencies')
-    //outputs.dir("src/app/dist")
+    outputs.dir("src/app/dist")
     group = "npm"
     args = ['run', 'build']
 }
@@ -126,8 +126,7 @@ task runApp(type: NpmTask) {
 task copyFrontEnd(type: Copy){
     dependsOn("buildApp")
     mustRunAfter(compileGroovy)
-    //from "src/app/dist"
-    from "${buildDir}/dist"
+    from "src/app/dist"
     into "${buildDir}/resources/main/public"
 }
 
