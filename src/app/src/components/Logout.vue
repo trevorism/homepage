@@ -9,12 +9,12 @@
         {{ message }}
       </div>
     </div>
-    <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+    <b-loading :is-full-page="false" v-model:active="disabled" :can-cancel="false"></b-loading>
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from './HeaderBar.vue'
 import axios from 'axios'
 
 export default {

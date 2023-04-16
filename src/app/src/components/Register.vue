@@ -41,7 +41,7 @@
             <button class="button is-primary" :disabled="disabled" @click="invokeButton">
               Submit
             </button>
-            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+            <b-loading :is-full-page="false" v-model:active="disabled" :can-cancel="false"></b-loading>
           </div>
         </div>
       </form>
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from './HeaderBar.vue'
 import axios from 'axios'
 
 export default {

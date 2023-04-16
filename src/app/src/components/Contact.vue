@@ -32,17 +32,12 @@
       <div class="title mt-6 mb-6">
         Funding
       </div>
-      <div class="subtitle">
-        Help fund Trevorism by making a payment below. We certainly would appreciate it!
-        <div class="mt-6"><stripe/></div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
-import Stripe from './payment/Stripe'
+import HeaderBar from './HeaderBar.vue'
 
 export default {
   name: 'Contact',

@@ -30,7 +30,7 @@
         <div class="is-centered has-text-centered">
           <button class="button is-primary" :disabled="disabled" @click="invokeButton">
             Submit
-            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
+            <b-loading :is-full-page="false" v-model:active="disabled" :can-cancel="false"></b-loading>
           </button>
         </div>
       </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Header from './HeaderBar'
+import Header from './HeaderBar.vue'
 import axios from 'axios'
 
 export default {

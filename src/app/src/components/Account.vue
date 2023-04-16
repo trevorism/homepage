@@ -17,7 +17,7 @@
         <footer class="card-footer">
           <p class="card-footer-item"><router-link to="/change">Change Password</router-link></p>
         </footer>
-        <b-loading :is-full-page="false" :active.sync="loading" :can-cancel="false"></b-loading>
+        <b-loading :is-full-page="false" v-model:active="loading" :can-cancel="false"></b-loading>
       </div>
     </section>
 
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from './HeaderBar.vue'
 import axios from 'axios'
 
 export default {

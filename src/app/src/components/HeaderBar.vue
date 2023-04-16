@@ -1,12 +1,12 @@
 <template>
   <div id="header">
     <b-navbar class="navbar has-background-black">
-      <template slot="brand">
+      <template>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
           <img src="../assets/TrevorismLogo.png">
         </b-navbar-item>
       </template>
-      <template slot="start">
+      <template>
         <b-navbar-dropdown label="Apps">
           <b-navbar-item href="https://www.trevorism.com">
             Home
@@ -64,7 +64,7 @@
         </b-navbar-item>
       </template>
 
-      <template slot="end">
+      <template>
         <div v-if="!authenticated">
           <b-navbar-item tag="div">
             <div class="buttons">
@@ -92,7 +92,7 @@
 <script>
 
 export default {
-  name: 'Header',
+  name: 'HeaderBar',
   data () {
     return {
       authenticated: false,
@@ -102,8 +102,10 @@ export default {
   },
   methods: {
     checkAuthenticated: function () {
-      this.username = this.$cookies.get('user_name')
-      this.admin = this.$cookies.get('admin') === 'true'
+      //this.username = this.cookies.get('user_name')
+      //this.admin = this.cookies.get('admin') === 'true'
+      this.username = 'trevorb'
+      this.admin = true
       this.authenticated = !!this.username
     }
   },

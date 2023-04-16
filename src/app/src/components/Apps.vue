@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from './HeaderBar.vue'
 
 export default {
   name: 'Apps',
