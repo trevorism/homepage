@@ -1,6 +1,6 @@
 <template>
   <div id="prototype">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <div class="container">
       <div class="title mt-6">
         Prototype Driven Development
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import HeaderBar from '../HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'Prototype',

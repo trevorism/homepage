@@ -1,6 +1,6 @@
 <template>
   <div id="apps">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <div class="container mt-6 mb-6">
       <div class="title mb-6">
         Apps
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'Apps',

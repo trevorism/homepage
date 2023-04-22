@@ -1,6 +1,6 @@
 <template>
   <div id="improvement">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <div class="container">
       <div class="title mt-6">
         Scientific Improvement
@@ -127,7 +127,7 @@
 </template>
 
 <script>
-import HeaderBar from '../HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'improvement',

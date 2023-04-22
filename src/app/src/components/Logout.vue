@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {

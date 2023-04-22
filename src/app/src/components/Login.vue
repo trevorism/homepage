@@ -1,4 +1,5 @@
 <template>
+  <header-bar :local=true></header-bar>
   <section id="login" class="container formWidth">
     <div class="has-text-centered is-centered mt-6 mb-6">
       <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
@@ -41,12 +42,12 @@
 </template>
 
 <script>
-import Header from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
   name: 'Login',
-  components: {Header},
+  components: {HeaderBar},
   data () {
     return {
       username: '',

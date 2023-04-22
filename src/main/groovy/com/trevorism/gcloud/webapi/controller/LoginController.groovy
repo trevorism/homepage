@@ -11,6 +11,8 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
+import io.micronaut.http.cookie.Cookie
+import io.micronaut.http.netty.cookies.NettyCookie
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.apache.hc.client5.http.HttpResponseException
@@ -36,13 +38,11 @@ class LoginController {
 
         userSessionService.sendLoginEvent(user)
 
-        //boolean secureCookies = !Localhost.isLocal()
-        //String domain = Localhost.isLocal() ? null : "trevorism.com"
-        //NettyCookie sessionCookie = new NettyCookie("session", token, "/", domain, null, 15 * 60, secureCookies, true)
-        //NettyCookie usernameCookie = new NettyCookie("user_name", loginRequest.username, "/", domain, null, 15 * 60, secureCookies)
-        //NettyCookie adminCookie = new NettyCookie("admin", user.admin.toString(), "/", domain, null, 15 * 60, secureCookies)
-        //return HttpResponse.ok().entity(user).cookie(sessionCookie, usernameCookie, adminCookie).build()
-        return HttpResponse.ok()
+        def cookie1 = new NettyCookie("session", token).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
+        def cookie2 = new NettyCookie("user_name", loginRequest.username).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
+        def cookie3 = new NettyCookie("admin", user.admin.toString()).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
+
+        return HttpResponse.ok().cookies([cookie1, cookie2, cookie3] as Set<Cookie>)
     }
 
     @Tag(name = "Login Operations")

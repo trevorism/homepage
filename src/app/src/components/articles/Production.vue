@@ -1,6 +1,6 @@
 <template>
   <div id="production">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <div class="container">
       <div class="title mt-6">
         Productionalized Web Service
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import HeaderBar from '../HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'production',

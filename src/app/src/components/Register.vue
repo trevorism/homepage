@@ -1,47 +1,41 @@
 <template>
   <div id="register">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <section class="container formWidth">
       <div class="is-size-4 mt-6 mb-6">Register for Trevorism</div>
       <form class="loginBorder">
         <div class="mx-4 mt-4 mb-4">
-          <b-field label="Username">
-            <b-input type="text"
-                     required
-                     validation-message="Must be at least 3 characters"
-                     minlength="3"
-                     v-model="username"
-                     :autofocus="true">
-            </b-input>
-          </b-field>
-          <b-field label="Email">
-            <b-input type="email"
-                     required
-                     v-model="email">
-
-            </b-input>
-          </b-field>
-          <b-field label="Password">
-            <b-input type="password"
-                     required
-                     validation-message="Must be at least 6 characters"
-                     minlength="6"
-                     v-model="newPassword">
-            </b-input>
-          </b-field>
-          <b-field label="Repeat Password">
-            <b-input type="password"
-                     required
-                     validation-message="Must be at least 6 characters and match the new password"
-                     minlength="6"
-                     v-model="repeatPassword">
-            </b-input>
-          </b-field>
+          <va-input type="text"
+                    required
+                    error-messages="Must be at least 3 characters"
+                    label="Username"
+                    minlength="3"
+                    v-model="username"
+                    :autofocus="true">
+          </va-input>
+          <va-input type="email"
+                    required
+                    label="Email"
+                    v-model="email">
+          </va-input>
+          <va-input type="password"
+                    required
+                    error-messages="Must be at least 6 characters"
+                    label="Password"
+                    minlength="6"
+                    v-model="newPassword">
+          </va-input>
+          <va-input type="password"
+                    required
+                    error-messages="Must be at least 6 characters and match the new password"
+                    label="Repeat Password"
+                    minlength="6"
+                    v-model="repeatPassword">
+          </va-input>
           <div class="is-centered has-text-centered">
             <button class="button is-primary" :disabled="disabled" @click="invokeButton">
               Submit
             </button>
-            <b-loading :is-full-page="false" v-model:active="disabled" :can-cancel="false"></b-loading>
           </div>
         </div>
       </form>
@@ -54,7 +48,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {

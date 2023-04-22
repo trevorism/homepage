@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useCookies } from "vue3-cookies";
 import Splash from '../components/Splash.vue'
 import Login from "../components/Login.vue";
 import Logout from "../components/Logout.vue";
@@ -15,19 +16,21 @@ import Production from "../components/articles/Production.vue";
 import Improvement from "../components/articles/Improvement.vue";
 import Admin from "../components/Admin.vue";
 
+const { cookies } = useCookies();
+
 function adminOnly (to, from, next, reRouteLocation) {
-   // let admin = Vue.$cookies.get('admin')
-   // if (admin) {
-   //     return next()
-  //  }
+    let admin = cookies.get('admin')
+    if (admin) {
+        return next()
+    }
     return next(reRouteLocation)
 }
 
 function userOnly (to, from, next, reRouteLocation) {
-  //  let username = Vue.$cookies.get('user_name')
-  //  if (username) {
-  //      return next()
-   // }
+    let username = cookies.get('user_name')
+    if (username) {
+        return next()
+    }
     if (reRouteLocation) {
         return next(reRouteLocation)
     }

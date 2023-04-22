@@ -1,6 +1,6 @@
 <template>
   <div id="contact">
-    <HeaderBar></HeaderBar>
+      <HeaderBar :local="true"></HeaderBar>
     <div class="container mt-6 mb-6">
       <div class="title mb-6">
         Consultant Services
@@ -29,19 +29,16 @@
       <div class="subtitle">
         Please contact us at feedback@trevorism.com for pricing, feature requests, or general inquiries.
       </div>
-      <div class="title mt-6 mb-6">
-        Funding
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'Contact',
-  components: {Stripe, HeaderBar}
+  components: {HeaderBar}
 }
 </script>
 

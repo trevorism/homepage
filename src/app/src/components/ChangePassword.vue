@@ -1,6 +1,6 @@
 <template>
   <div id="change">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <section class="container formWidth">
       <div class="is-size-4 mt-6 mb-6">Change Password on Trevorism</div>
       <form class="loginBorder">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar.vue'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
