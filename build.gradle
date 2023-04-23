@@ -17,15 +17,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.5'
-        classpath 'com.trevorism:gradle-acceptance-plugin:2.2.0'
+        classpath 'com.trevorism:gradle-acceptance-plugin:2.3.1'
     }
 }
 
 plugins {
     id("groovy")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.7.0"
-    id("com.github.node-gradle.node") version "3.5.1"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "3.7.8"
+    id("com.github.node-gradle.node") version "3.6.0"
 }
 
 apply plugin: 'com.google.cloud.tools.appengine'
@@ -134,3 +134,5 @@ jar.dependsOn("copyFrontEnd")
 run.dependsOn("copyFrontEnd")
 buildLayers.dependsOn("copyFrontEnd")
 shadowJar.dependsOn("copyFrontEnd")
+compileTestGroovy.mustRunAfter('copyFrontEnd')
+compileAcceptanceGroovy.mustRunAfter('copyFrontEnd')
