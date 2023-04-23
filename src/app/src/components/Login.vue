@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center" id="prototype">
   <header-bar :local=true></header-bar>
-  <div id="login" class="container formWidth">
+  <div id="login" class="container">
     <div class="grid justify-items-center">
       <h2 class=" text-xl font-bold py-6 my-6">Login to Trevorism</h2>
       <div class="grid justify-items-right">
@@ -40,7 +40,7 @@
         </div>
       </div>
     </form>
-    <va-alert class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
+    <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
     </div>
   </div>
   </div>

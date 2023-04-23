@@ -1,49 +1,58 @@
 <template>
-  <div id="register">
+  <div class="grid justify-items-center" id="register">
     <HeaderBar :local="true"></HeaderBar>
-    <section class="container formWidth">
-      <div class="is-size-4 mt-6 mb-6">Register for Trevorism</div>
-      <form class="loginBorder">
-        <div class="mx-4 mt-4 mb-4">
-          <va-input type="text"
-                    required
-                    error-messages="Must be at least 3 characters"
-                    label="Username"
-                    minlength="3"
-                    v-model="username"
-                    :autofocus="true">
-          </va-input>
-          <va-input type="email"
-                    required
-                    label="Email"
-                    v-model="email">
-          </va-input>
-          <va-input type="password"
-                    required
-                    error-messages="Must be at least 6 characters"
-                    label="Password"
-                    minlength="6"
-                    v-model="newPassword">
-          </va-input>
-          <va-input type="password"
-                    required
-                    error-messages="Must be at least 6 characters and match the new password"
-                    label="Repeat Password"
-                    minlength="6"
-                    v-model="repeatPassword">
-          </va-input>
-          <div class="is-centered has-text-centered">
-            <button class="button is-primary" :disabled="disabled" @click="invokeButton">
-              Submit
-            </button>
-          </div>
+    <div class="container">
+      <div class="grid justify-items-center">
+        <h2 class=" text-xl font-bold py-6 my-6">Register for Trevorism</h2>
+        <form class="border-2 rounded-md w-80">
+          <div class="mx-4 mt-4 mb-4">
+            <va-input v-model="username"
+                      type="text"
+                      class="mb-6 w-full"
+                      :rules="[(v) => v.length >= 3]"
+                      required
+                      error-messages="Must be at least 3 characters"
+                      label="Username"
+                      minlength="3"
+                      autofocus="true">
+            </va-input>
+            <va-input type="email"
+                      class="mb-6 w-full"
+                      required
+                      label="Email"
+                      v-model="email">
+            </va-input>
+            <va-input type="password"
+                      class="mb-6 w-full"
+                      required
+                      :rules="[(v) => v.length >= 6]"
+                      error-messages="Must be at least 6 characters"
+                      label="Password"
+                      minlength="6"
+                      v-model="newPassword">
+            </va-input>
+            <va-input type="password"
+                      class="mb-6 w-full"
+                      required
+                      :rules="[(v) => v.length >= 6, (v) => (v === this.newPassword)]"
+                      error-messages="Must be at least 6 characters and match the new password"
+                      label="Repeat Password"
+                      minlength="6"
+                      v-model="repeatPassword">
+            </va-input>
+            <div class="grid justify-items-center">
+              <va-button color="success" :disabled="disabled" @click="invokeButton">
+                Submit
+              </va-button>
+            </div>
         </div>
-      </form>
-      <div v-if="successMessage !== ''" class="has-text-centered">{{successMessage}}
+        </form>
+      <div v-if="successMessage !== ''" class="w-80 text-center">{{successMessage}}
         <router-link class="is-info ml-4" to="/">Home</router-link>
       </div>
-      <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
-    </section>
+      <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
+      </div>
+    </div>
   </div>
 </template>
 
