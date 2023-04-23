@@ -1,6 +1,6 @@
 <template>
   <div id="account">
-    <HeaderBar></HeaderBar>
+    <HeaderBar :local="true"></HeaderBar>
     <section class="container">
       <h1 class="title is-4 mt-6">Trevorism Profile</h1>
 
@@ -17,7 +17,6 @@
         <footer class="card-footer">
           <p class="card-footer-item"><router-link to="/change">Change Password</router-link></p>
         </footer>
-        <b-loading :is-full-page="false" :active.sync="loading" :can-cancel="false"></b-loading>
       </div>
     </section>
 
@@ -25,11 +24,11 @@
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
-  name: 'Account',
+  name: "Account",
   components: {HeaderBar},
   data () {
     return {

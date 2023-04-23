@@ -4,76 +4,66 @@ import com.trevorism.gcloud.webapi.model.ForgotPasswordRequest
 import com.trevorism.gcloud.webapi.model.LoginRequest
 import com.trevorism.gcloud.webapi.model.User
 import com.trevorism.gcloud.webapi.service.DefaultUserSessionService
-import com.trevorism.gcloud.webapi.service.Localhost
 import com.trevorism.gcloud.webapi.service.UserSessionService
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiResponse
-import io.swagger.annotations.ApiResponses
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Body
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
+import io.micronaut.http.cookie.Cookie
+import io.micronaut.http.netty.cookies.NettyCookie
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
+import org.apache.hc.client5.http.HttpResponseException
 
-import javax.ws.rs.*
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.NewCookie
-import javax.ws.rs.core.Response
-
-@Api("Login Operations")
-@Path("/login")
+@Controller("/api/login")
 class LoginController {
 
     private UserSessionService userSessionService = new DefaultUserSessionService()
 
-    @ApiOperation(value = "Login to Trevorism")
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @ApiResponses(value = [@ApiResponse(code = 200, message = "Login Successful"),
-            @ApiResponse(code = 400, message = "Failed to login")])
-    Response login(LoginRequest loginRequest) {
+    @Tag(name = "Login Operations")
+    @Operation(summary = "Login to Trevorism")
+    @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    HttpResponse login(@Body LoginRequest loginRequest) {
         String token = userSessionService.getToken(loginRequest)
         if (!token) {
-            return Response.status(400).build()
+            throw new HttpResponseException(400, "Invalid username or password")
         }
 
         User user = userSessionService.getUserFromToken(token)
         if (User.isNullUser(user)) {
-            return Response.status(400).build()
+            throw new HttpResponseException(400, "Unable to find user")
         }
 
         userSessionService.sendLoginEvent(user)
 
-        boolean secureCookies = !Localhost.isLocal()
-        String domain = Localhost.isLocal() ? null : "trevorism.com"
-        NewCookie sessionCookie = new NewCookie("session", token, "/", domain, null, 15 * 60, secureCookies, true)
-        NewCookie usernameCookie = new NewCookie("user_name", loginRequest.username, "/", domain, null, 15 * 60, secureCookies)
-        NewCookie adminCookie = new NewCookie("admin", user.admin.toString(), "/", domain, null, 15 * 60, secureCookies)
-        return Response.ok().entity(user).cookie(sessionCookie, usernameCookie, adminCookie).build()
+        def cookie1 = new NettyCookie("session", token).path("/").maxAge(15 * 60).secure(true)
+        def cookie2 = new NettyCookie("user_name", loginRequest.username).path("/").maxAge(15 * 60).secure(true)
+        def cookie3 = new NettyCookie("admin", user.admin.toString()).path("/").maxAge(15 * 60).secure(true)
+
+        return HttpResponse.ok().cookies([cookie1, cookie2, cookie3] as Set<Cookie>)
     }
 
-    @ApiOperation(value = "Sends an email for forgotten passwords")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("forgot")
-    @ApiResponses(value = [@ApiResponse(code = 204, message = "Successfully sent forgot password request"),
-            @ApiResponse(code = 400, message = "Failed to send the forgot password request")])
-    void forgotPassword(ForgotPasswordRequest request) {
+    @Tag(name = "Login Operations")
+    @Operation(summary = "Sends an email for forgotten passwords")
+    @Post(value = "/forgot", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    void forgotPassword(@Body ForgotPasswordRequest request) {
         try {
             userSessionService.generateForgotPasswordLink(request)
         } catch (Exception e) {
-            throw new BadRequestException(e)
+            throw new HttpResponseException(400, e.message)
         }
     }
 
-    @ApiOperation(value = "Resets password")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("reset/{guid}")
-    @ApiResponses(value = [@ApiResponse(code = 204, message = "Successfully sent reset request"),
-            @ApiResponse(code = 400, message = "Failed to send the reset request")])
-    void resetPassword(@PathParam("guid") String resetId) {
+    @Tag(name = "Login Operations")
+    @Operation(summary = "Resets password")
+    @Get(value = "/reset/{resetId}", produces = MediaType.APPLICATION_JSON)
+    void resetPassword(String resetId) {
         try {
             userSessionService.resetPassword(resetId)
         } catch (Exception e) {
-            throw new BadRequestException(e)
+            throw new HttpResponseException(400, e.message)
         }
     }
 }

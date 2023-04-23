@@ -4,16 +4,17 @@ import com.trevorism.gcloud.webapi.model.ForgotPasswordRequest
 import com.trevorism.gcloud.webapi.model.LoginRequest
 import com.trevorism.gcloud.webapi.model.User
 import com.trevorism.gcloud.webapi.service.UserSessionService
-import org.junit.Before
-import org.junit.Test
+import org.apache.hc.client5.http.HttpResponseException
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-import javax.ws.rs.BadRequestException
+import static org.junit.jupiter.api.Assertions.assertThrows
 
 class LoginControllerTest {
 
     private LoginController loginController
 
-    @Before
+    @BeforeEach
     void setup() {
         loginController = new LoginController()
         loginController.userSessionService = [getToken: { lr -> lr.username },
@@ -27,14 +28,12 @@ class LoginControllerTest {
     void testLogin() {
         def response = loginController.login(new LoginRequest(username: "test", password: "test123"))
         assert response
-        assert response.status == 200
+        assert response.status().getCode() == 200
     }
 
     @Test
     void testLoginInvalid() {
-        def response = loginController.login(new LoginRequest(username: null, password: "test123"))
-        assert response
-        assert response.status == 400
+        assertThrows(HttpResponseException, () -> loginController.login(new LoginRequest(username: null, password: "test123")))
     }
 
     @Test
@@ -43,10 +42,10 @@ class LoginControllerTest {
         assert true
     }
 
-    @Test(expected = BadRequestException)
+    @Test
     void testForgotPasswordInvalid() {
-        loginController.forgotPassword(null)
-        assert true
+        assertThrows(HttpResponseException, () -> loginController.forgotPassword(null))
+
     }
 
     @Test
@@ -55,9 +54,9 @@ class LoginControllerTest {
         assert true
     }
 
-    @Test(expected = BadRequestException)
+    @Test
     void testResetPasswordInvalid() {
-        loginController.resetPassword(null)
-        assert true
+        assertThrows(HttpResponseException, () -> loginController.resetPassword(null))
+
     }
 }

@@ -1,64 +1,55 @@
 <template>
   <div id="splash">
-    <HeaderBar></HeaderBar>
-    <section class="glassBackground">
-      <div class="container" style="height: 320px">
-        <div class="pb-4">&nbsp;</div>
-        <div class="card has-background-warning-light" style="width:600px">
-          <div class="card-header">
-            <div class="is-size-4 mx-6 has-text-weight-semibold">
-              Trevorism is a platform for building software ecosystems.
-            </div>
-          </div>
-          <div class="card-content">
+    <HeaderBar :local="true"></HeaderBar>
+    <div class="bg-scroll glassBackground">
+      <div class="container" style="height: 280px">
+        <va-card color="warning" style="width:600px" stripe>
+          <va-card-title>
+            Trevorism is a platform for building software ecosystems.
+          </va-card-title>
+          <va-card-content>
             <ul class="ml-6" style="list-style-type: circle">
               <li class="">Blazing fast speed to market</li>
               <li class="mt-2">Scale On Demand</li>
               <li class="mt-2">Built in Security</li>
               <li class="mt-2">Open Source</li>
             </ul>
-          </div>
-        </div>
+          </va-card-content>
+        </va-card>
       </div>
-    </section>
-    <section class="puzzleBackground">
-      <div class="pb-4">&nbsp;</div>
-      <div class="container" style="height: 160px">
-        <div class="card has-background-info-light is-pulled-right" style="width:600px">
-          <div class="card-header">
-            <div class="is-size-4 mx-6 has-text-weight-semibold">
-              Balance complexity with elegance.
-            </div>
-          </div>
-          <div class="card-content">
+    </div>
+    <div class="bg-scroll puzzleBackground">
+      <div class="container" style="height: 280px">
+        <va-card color="info" style="width:600px; float:right" stripe>
+          <va-card-title>
+            Balance complexity with elegance.
+          </va-card-title>
+          <va-card-content>
             <ul class="ml-6" style="list-style-type: circle">
               <li class="">Pluggable microservices architecture enables easy extensibility</li>
               <li class="mt-2">Functionality exposed by RESTful APIs to ensure interoperability</li>
               <li class="mt-2">User Interfaces, CLIs, and Client Libraries make using and administering the platform a breeze</li>
             </ul>
-          </div>
-        </div>
+          </va-card-content>
+        </va-card>
       </div>
-      <div class="pb-6">&nbsp;</div>
-    </section>
-    <footer>
-      <div class="container">
-        <div class="hero-body has-text-centered is-size-3">
-          Learn More
-          <div class="has-text-centered">
-            <span class="is-size-6 mr-6"><router-link to="/docs">Documentation</router-link></span>
-            <span class="is-size-6 ml-6 mr-6"><router-link to="/apps">Apps</router-link></span>
-            <span class="is-size-6 ml-6"><router-link to="/contact">Contact Us</router-link></span>
-            <span class="is-size-6 ml-6"><a href="https://twitter.com/TrevorismLLC?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @TrevorismLLC</a></span>
-          </div>
-        </div>
-      </div>
-    </footer>
+    </div>
+    <div class="text-xl grid justify-items-center">
+      Learn More
+    </div>
+    <hr/>
+    <div class="flex flex-row ">
+      <va-chip flat class="grid justify-items-center basis-1/4" to="/docs">Documentation</va-chip>
+      <va-chip flat class="grid justify-items-center basis-1/4" to="/apps">Apps</va-chip>
+      <va-chip flat class="grid justify-items-center basis-1/4" to="/contact">Contact</va-chip>
+      <va-chip flat class="grid justify-items-center basis-1/4" href="https://twitter.com/TrevorismLLC?ref_src=twsrc%5Etfw">Follow @TrevorismLLC</va-chip>
+    </div>
+
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar  from "@trevorism/ui-header-bar";
 
 export default {
   name: 'Splash',
@@ -67,7 +58,17 @@ export default {
 }
 </script>
 
+<style>
+.va-dropdown__content{
+  z-index: 1500;
+}
+</style>
+
 <style scoped>
+  .container {
+    padding: 50px;
+  }
+
   .glassBackground {
     background-color: #A7DEFA;
     background-image: url("../assets/glassbuildingmed.jpg");

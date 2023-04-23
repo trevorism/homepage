@@ -1,19 +1,21 @@
 <template>
-  <div id="production">
-    <HeaderBar></HeaderBar>
-    <div class="container">
-      <div class="title mt-6">
+  <div class="grid justify-items-center" id="production">
+    <HeaderBar :local="true"></HeaderBar>
+    <div class="container px-4">
+      <h1 class="text-3xl font-bold -ml-4 mb-2">
         Productionalized Web Service
-      </div>
+      </h1>
 
-      <div class="content">
+      <p class="mb-2">
         February 2018
-      </div>
+      </p>
 
-      <div class="content">
-        <h3>What does a complete, productionalized web service look like?</h3>
+      <h2 class="text-xl font-bold -ml-4 mb-2">
+        What does a complete, productionalized web service look like?
+      </h2>
 
-        <ul>
+      <div class="mb-2 ml-2">
+        <ul class="list-disc ml-6">
           <li>Available over HTTPS</li>
           <li>Unit Tested; Integration Tested; Regression Tested: Code Coverage (>60%)</li>
           <li>Continuously integrated portable build</li>
@@ -29,14 +31,11 @@
       </div>
 
     </div>
-    <footer>
-      <hr/>
-    </footer>
   </div>
 </template>
 
 <script>
-import HeaderBar from '../HeaderBar'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'production',

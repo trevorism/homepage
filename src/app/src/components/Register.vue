@@ -1,60 +1,65 @@
 <template>
-  <div id="register">
-    <HeaderBar></HeaderBar>
-    <section class="container formWidth">
-      <div class="is-size-4 mt-6 mb-6">Register for Trevorism</div>
-      <form class="loginBorder">
-        <div class="mx-4 mt-4 mb-4">
-          <b-field label="Username">
-            <b-input type="text"
-                     required
-                     validation-message="Must be at least 3 characters"
-                     minlength="3"
-                     v-model="username"
-                     :autofocus="true">
-            </b-input>
-          </b-field>
-          <b-field label="Email">
-            <b-input type="email"
-                     required
-                     v-model="email">
-
-            </b-input>
-          </b-field>
-          <b-field label="Password">
-            <b-input type="password"
-                     required
-                     validation-message="Must be at least 6 characters"
-                     minlength="6"
-                     v-model="newPassword">
-            </b-input>
-          </b-field>
-          <b-field label="Repeat Password">
-            <b-input type="password"
-                     required
-                     validation-message="Must be at least 6 characters and match the new password"
-                     minlength="6"
-                     v-model="repeatPassword">
-            </b-input>
-          </b-field>
-          <div class="is-centered has-text-centered">
-            <button class="button is-primary" :disabled="disabled" @click="invokeButton">
-              Submit
-            </button>
-            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-          </div>
+  <div class="grid justify-items-center" id="register">
+    <HeaderBar :local="true"></HeaderBar>
+    <div class="container">
+      <div class="grid justify-items-center">
+        <h2 class=" text-xl font-bold py-6 my-6">Register for Trevorism</h2>
+        <va-form class="border-2 rounded-md w-80">
+          <div class="mx-4 mt-4 mb-4">
+            <va-input v-model="username"
+                      type="text"
+                      class="mb-6 w-full"
+                      :rules="[(v) => v.length >= 3]"
+                      required
+                      error-messages="Must be at least 3 characters"
+                      autofocus="true"
+                      label="Username"
+                      minlength="3">
+            </va-input>
+            <va-input type="email"
+                      class="mb-6 w-full"
+                      required
+                      label="Email"
+                      error-messages="Must be a valid email address"
+                      v-model="email">
+            </va-input>
+            <va-input type="password"
+                      class="mb-6 w-full"
+                      required
+                      :rules="[(v) => v.length >= 6]"
+                      error-messages="Must be at least 6 characters"
+                      label="Password"
+                      minlength="6"
+                      v-model="newPassword">
+            </va-input>
+            <va-input type="password"
+                      class="mb-6 w-full"
+                      required
+                      :rules="[(v) => v.length >= 6, (v) => (v === this.newPassword)]"
+                      error-messages="Must be at least 6 characters and match the new password"
+                      label="Repeat Password"
+                      minlength="6"
+                      v-model="repeatPassword">
+            </va-input>
+            <div class="grid justify-items-center">
+              <va-button color="success" :disabled="disabled" @click="invokeButton">
+                Submit
+              </va-button>
+            </div>
         </div>
-      </form>
-      <div v-if="successMessage !== ''" class="has-text-centered">{{successMessage}}
-        <router-link class="is-info ml-4" to="/">Home</router-link>
+        </va-form>
+      <div v-if="successMessage !== ''" class="w-80 text-center">
+        {{successMessage}}
+        <va-chip flat class="grid justify-items-center basis-1/4" to="/">Home</va-chip>
       </div>
-      <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
-    </section>
+      <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
@@ -103,11 +108,5 @@ export default {
 </script>
 
 <style scoped>
-  .loginBorder{
-    border: #dddddd 1px solid;
-    background: #efefef;
-  }
-  .formWidth {
-    width: 400px
-  }
+
 </style>

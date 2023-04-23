@@ -1,6 +1,6 @@
 package com.trevorism.gcloud.webapi.model
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 class ForgotPasswordLinkTest {
 

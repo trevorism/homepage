@@ -1,42 +1,43 @@
 <template>
-  <section id="forgot" class="container formWidth">
-    <div class="has-text-centered is-centered mt-6 mb-6">
-      <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
+  <div id="forgot" class="grid justify-items-center">
+    <header-bar :local=true></header-bar>
+    <div class="grid justify-items-center">
+      <h2 class=" text-xl font-bold py-6 my-6">Forgot Password on Trevorism</h2>
+      <div class="mb-2 ml-2">We will send you a link to reset your password.</div>
     </div>
-    <div class="is-size-4 mt-6 mb-6">Forgot Password on Trevorism</div>
-    <div class="is-size-6  mt-6 mb-6">We will send you a link to reset your password.</div>
-    <form class="loginBorder">
+    <va-form class="border-2 rounded-md w-80" autofocus>
       <div class="mx-4 mt-4 mb-4">
-        <b-field label="Email Address">
-          <b-input
-            type="email"
-            required
-            v-model="email"
-            :autofocus="true">
-          </b-input>
-        </b-field>
-
-        <div class="is-centered has-text-centered">
-          <button class="button is-info" :disabled="disabled" @click="invokeButton">
+        <va-input type="email"
+                  class="mb-6 w-full"
+                  required
+                  label="Email"
+                  autofocus="true"
+                  error-messages="Must be a valid email address"
+                  v-model="email">
+        </va-input>
+        <div class="grid justify-items-center">
+          <va-button color="success" :disabled="disabled" @click="invokeButton">
             Submit
-            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-          </button>
+          </va-button>
         </div>
       </div>
-    </form>
-    <div v-if="successMessage !== ''" class="has-text-centered">{{successMessage}}
-      <router-link class="is-info ml-4" to="/login">Login</router-link>
+    </va-form>
+    <div v-if="successMessage !== ''" class="w-80 text-center">
+      {{ successMessage }}
+      <va-chip flat class="grid justify-items-center basis-1/4" to="/login">Login</va-chip>
     </div>
-    <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
-  </section>
+    <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{ errorMessage }}</va-alert>
+  </div>
 </template>
 
 <script>
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
   name: 'ForgotPassword',
-  data () {
+  components: {HeaderBar},
+  data() {
     return {
       email: '',
       disabled: false,
@@ -51,27 +52,28 @@ export default {
       }
       this.disabled = true
       axios.post('api/login/forgot', request)
-        .then(() => {
-          this.disabled = false
-          this.errorMessage = ''
-          this.successMessage = 'Email sent successfully!'
-        })
-        .catch(() => {
-          this.errorMessage = 'Unable to find the email address'
-          this.successMessage = ''
-          this.disabled = false
-        })
+          .then(() => {
+            this.disabled = false
+            this.errorMessage = ''
+            this.successMessage = 'Email sent successfully!'
+          })
+          .catch(() => {
+            this.errorMessage = 'Unable to find the email address'
+            this.successMessage = ''
+            this.disabled = false
+          })
     }
   }
 }
 </script>
 
 <style scoped>
-  .loginBorder{
-    border: #dddddd 1px solid;
-    background: #efefef;
-  }
-  .formWidth {
-    width: 400px
-  }
+.loginBorder {
+  border: #dddddd 1px solid;
+  background: #efefef;
+}
+
+.formWidth {
+  width: 400px
+}
 </style>

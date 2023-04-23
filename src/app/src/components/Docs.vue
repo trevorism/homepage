@@ -1,50 +1,50 @@
 <template>
-  <div id="docs">
-    <HeaderBar></HeaderBar>
-    <div class="container mt-6 mb-6">
-      <div class="title mb-6">
+  <div class="grid justify-items-center" id="docs">
+    <HeaderBar :local="true"></HeaderBar>
+    <div class="container px-4">
+      <h1 class="text-3xl font-bold -ml-4 mb-2">
         Documentation
-      </div>
-      <div class="subtitle">
+      </h1>
+      <h2 class="text-xl font-bold -ml-4 mb-2">
         Why Trevorism?
-      </div>
-      <div class="content">
+      </h2>
+      <p class="mb-2">
         Building software systems from scratch is difficult and expensive.
         Trevorism allows developers to bake best practices into applications
         and allows them to evolve over time with pluggable functionality.
-      </div>
-      <div class="subtitle">
+      </p>
+      <h2 class="text-xl font-bold -ml-4 mb-2">
         How does Trevorism do this?
-      </div>
-      <div class="content">
+      </h2>
+      <p class="mb-2">
         Software systems share common patterns: User Interfaces, Business Logic, Databases, Security, Logging, Testing, Deployment, etc.
         We bring our extensive experience in building and maintaining applications to enable fast construction of software systems.
         We achieve this by defining a hierarchy of interfaces for each common software system pattern and exposing them as a RESTful API.
         The highest level in the hierarchy is the simplest interface, and each level down unlocks additional functionality.
         Trevorism includes reference implementations of each interface which chooses sensible defaults.
         This allows consumers of Trevorism to rapidly establish common software patterns in their own systems.
-      </div>
-      <div class="subtitle">
+      </p>
+      <h2 class="text-xl font-bold -ml-4 mb-2">
         What is Trevorism?
-      </div>
-      <div class="content">
+      </h2>
+      <p class="mb-4">
         Trevorism is a set of distributed web services organized in a lightweight software platform.
         Together, they form a live reference implementation for an enterprise-grade software system.
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div class="subtitle" style="text-align: center">Trevorism APIs</div>
+      </p>
+      <div class="flex flex-row mb-4">
+        <div class="basis-1/2 justify-items-center mx-2">
+          <div class="grid justify-items-center">Trevorism APIs</div>
           <img src="../assets/Trevorism_APIs.png">
         </div>
-        <div class="column">
-          <div class="subtitle" style="text-align: center">API Interactions</div>
+        <div class="basis-1/2 justify-items-center mx-2">
+        <div class="grid justify-items-center">API Interactions</div>
           <img src="../assets/API_Interactions.png">
         </div>
 
       </div>
-      <div class="content">
+      <div class="mb-2 ml-2">
         Users of Trevorism have several options for leveraging these services:
-        <ul>
+        <ul class="list-disc ml-6">
           <li>Make direct use of the reference implementation</li>
           <li>Pull the code and host it in their environment; all code is open source</li>
           <li>Use one or more interfaces but write a custom implementation</li>
@@ -52,11 +52,11 @@
         </ul>
       </div>
 
-      <div class="subtitle">
+      <h2 class="text-xl font-bold -ml-4 mb-2">
         Trevorism Achievements
-      </div>
-      <div class="content">
-        <ul>
+      </h2>
+      <div>
+        <ul class="list-disc ml-6">
           <li>Open source</li>
           <li>Minimal technology maintenance cost</li>
           <li>One button press for a new production service</li>
@@ -70,14 +70,12 @@
       </div>
 
     </div>
-    <footer>
-      <hr/>
-    </footer>
+
   </div>
 </template>
 
 <script>
-import HeaderBar from './HeaderBar'
+import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
   name: 'Docs',

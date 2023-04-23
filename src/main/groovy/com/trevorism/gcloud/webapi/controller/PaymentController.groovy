@@ -4,27 +4,23 @@ import com.stripe.Stripe
 import com.stripe.model.checkout.Session
 import com.stripe.param.checkout.SessionCreateParams
 import com.trevorism.gcloud.webapi.model.PaymentRequest
-import com.trevorism.secure.ClasspathBasedPropertiesProvider
-import com.trevorism.secure.PropertiesProvider
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiOperation
+import com.trevorism.ClasspathBasedPropertiesProvider
+import com.trevorism.PropertiesProvider
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Body
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Post
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 
-import javax.ws.rs.Consumes
-import javax.ws.rs.POST
-import javax.ws.rs.Path
-import javax.ws.rs.Produces
-import javax.ws.rs.core.MediaType
 
-@Api("Payment Operations")
-@Path("/payment")
+@Controller("/api/payment")
 class PaymentController {
 
-    @ApiOperation(value = "Create a new Stripe Payment Session")
-    @POST
-    @Path("session")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    Map createSession(PaymentRequest paymentRequest) {
+    @Tag(name = "Payment Operations")
+    @Operation(summary = "Create a new Stripe Payment Session")
+    @Post(value = "/session", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    Map createSession(@Body PaymentRequest paymentRequest) {
         if(paymentRequest.dollars < 0.99){
             throw new RuntimeException("Unable to process; insufficient funds for payment")
         }

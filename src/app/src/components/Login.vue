@@ -1,52 +1,58 @@
 <template>
-  <section id="login" class="container formWidth">
-    <div class="has-text-centered is-centered mt-6 mb-6">
-      <router-link to="/"><img alt="logo" src="../assets/TrevorismLogoWhite.png"></router-link>
-    </div>
-    <div class="is-size-4 mt-6 mb-6">Login to Trevorism</div>
-    <div class="loginLink is-pulled-right mr-4">
-      <router-link class="has-text-info" tabindex="-1" to="/forgot">Forgot Password?</router-link>
-    </div>
-    <form class="loginBorder">
+  <div class="grid justify-items-center" id="prototype">
+  <header-bar :local=true></header-bar>
+  <div id="login" class="container">
+    <div class="grid justify-items-center">
+      <h2 class=" text-xl font-bold py-6 my-6">Login to Trevorism</h2>
+      <div class="grid justify-items-right">
+        <va-chip flat class="" to="/forgot">Forgot Password?</va-chip>
+      </div>
+
+
+    <va-form class="border-2 rounded-md w-80">
       <div class="mx-4 mt-4 mb-4">
-        <b-field label="Username">
-          <b-input
-            type="text"
-            required
-            validation-message="Must be at least 3 characters"
-            minlength="3"
+        <va-input
             v-model="username"
-            :autofocus="true">
-          </b-input>
-        </b-field>
-        <b-field label="Password">
-          <b-input type="password"
-                   required
-                   validation-message="Must be at least 6 characters"
-                   minlength="6"
-                   v-model="password">
-          </b-input>
-        </b-field>
-        <div class="is-centered has-text-centered">
-          <button class="button is-primary" :disabled="disabled" @click="invokeButton">
+            class="mb-6 w-full"
+            :rules="[(v) => v.length >= 3]"
+            label="Username"
+            minlength="3"
+            type="text"
+            autofocus="true"
+            required
+            error-messages="Must be at least 3 characters"
+        />
+        <va-input
+            v-model="password"
+            class="mb-6 w-full"
+            :rules="[(v) => v.length >= 6]"
+            label="Password"
+            minlength="6"
+            type="password"
+            required
+            error-messages="Must be at least 6 characters"
+        />
+
+        <div class="grid justify-items-center">
+          <va-button color="success" :disabled="disabled" @click="invokeButton">
             Submit
-            <b-loading :is-full-page="false" :active.sync="disabled" :can-cancel="false"></b-loading>
-          </button>
+          </va-button>
         </div>
       </div>
-    </form>
-    <div class="has-text-centered has-text-danger">{{errorMessage}}</div>
-
-  </section>
+    </va-form>
+    <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script>
-import Header from './HeaderBar'
+import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
 
 export default {
   name: 'Login',
-  components: {Header},
+  components: {HeaderBar},
   data () {
     return {
       username: '',
@@ -92,12 +98,5 @@ export default {
 </script>
 
 <style scoped>
-  .loginBorder{
-    border: #dddddd 1px solid;
-    background: #efefef;
-  }
-  .formWidth {
-    width: 400px
-  }
 
 </style>
