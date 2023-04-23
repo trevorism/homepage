@@ -16,9 +16,9 @@ class LogoutController {
     @Operation(summary = "Logout of Trevorism")
     @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     HttpResponse logout() {
-        def cookie1 = new NettyCookie("session", "").path("/").domain("trevorism.com").maxAge(0).secure(true)
-        def cookie2 = new NettyCookie("user_name", "").path("/").domain("trevorism.com").maxAge(0).secure(true)
-        def cookie3 = new NettyCookie("admin", "").path("/").domain("trevorism.com").maxAge(0).secure(true)
+        def cookie1 = new NettyCookie("session", "").path("/").maxAge(0).secure(true)
+        def cookie2 = new NettyCookie("user_name", "").path("/").maxAge(0).secure(true)
+        def cookie3 = new NettyCookie("admin", "").path("/").maxAge(0).secure(true)
 
         return HttpResponse.noContent().cookies([cookie1, cookie2, cookie3] as Set<Cookie>)
     }

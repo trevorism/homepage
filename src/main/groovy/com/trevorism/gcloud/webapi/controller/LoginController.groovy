@@ -38,9 +38,9 @@ class LoginController {
 
         userSessionService.sendLoginEvent(user)
 
-        def cookie1 = new NettyCookie("session", token).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
-        def cookie2 = new NettyCookie("user_name", loginRequest.username).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
-        def cookie3 = new NettyCookie("admin", user.admin.toString()).path("/").domain("trevorism.com").maxAge(15 * 60).secure(true)
+        def cookie1 = new NettyCookie("session", token).path("/").maxAge(15 * 60).secure(true)
+        def cookie2 = new NettyCookie("user_name", loginRequest.username).path("/").maxAge(15 * 60).secure(true)
+        def cookie3 = new NettyCookie("admin", user.admin.toString()).path("/").maxAge(15 * 60).secure(true)
 
         return HttpResponse.ok().cookies([cookie1, cookie2, cookie3] as Set<Cookie>)
     }

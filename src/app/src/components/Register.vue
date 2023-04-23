@@ -4,7 +4,7 @@
     <div class="container">
       <div class="grid justify-items-center">
         <h2 class=" text-xl font-bold py-6 my-6">Register for Trevorism</h2>
-        <form class="border-2 rounded-md w-80">
+        <va-form class="border-2 rounded-md w-80">
           <div class="mx-4 mt-4 mb-4">
             <va-input v-model="username"
                       type="text"
@@ -12,14 +12,15 @@
                       :rules="[(v) => v.length >= 3]"
                       required
                       error-messages="Must be at least 3 characters"
+                      autofocus="true"
                       label="Username"
-                      minlength="3"
-                      autofocus="true">
+                      minlength="3">
             </va-input>
             <va-input type="email"
                       class="mb-6 w-full"
                       required
                       label="Email"
+                      error-messages="Must be a valid email address"
                       v-model="email">
             </va-input>
             <va-input type="password"
@@ -46,9 +47,10 @@
               </va-button>
             </div>
         </div>
-        </form>
-      <div v-if="successMessage !== ''" class="w-80 text-center">{{successMessage}}
-        <router-link class="is-info ml-4" to="/">Home</router-link>
+        </va-form>
+      <div v-if="successMessage !== ''" class="w-80 text-center">
+        {{successMessage}}
+        <va-chip flat class="grid justify-items-center basis-1/4" to="/">Home</va-chip>
       </div>
       <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
       </div>
@@ -106,11 +108,5 @@ export default {
 </script>
 
 <style scoped>
-  .loginBorder{
-    border: #dddddd 1px solid;
-    background: #efefef;
-  }
-  .formWidth {
-    width: 400px
-  }
+
 </style>

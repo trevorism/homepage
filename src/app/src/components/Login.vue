@@ -9,7 +9,7 @@
       </div>
 
 
-    <form class="border-2 rounded-md w-80">
+    <va-form class="border-2 rounded-md w-80">
       <div class="mx-4 mt-4 mb-4">
         <va-input
             v-model="username"
@@ -17,8 +17,8 @@
             :rules="[(v) => v.length >= 3]"
             label="Username"
             minlength="3"
-            autoFocus="true"
             type="text"
+            autofocus="true"
             required
             error-messages="Must be at least 3 characters"
         />
@@ -39,7 +39,7 @@
           </va-button>
         </div>
       </div>
-    </form>
+    </va-form>
     <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
     </div>
   </div>
