@@ -1,5 +1,7 @@
 package com.trevorism.gcloud.webapi.controller
 
+import com.trevorism.http.async.AsyncHttpClient
+import com.trevorism.http.async.AsyncJsonHttpClient
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
@@ -9,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.apache.hc.core5.concurrent.FutureCallback
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -64,8 +67,8 @@ class RootController {
     @Operation(summary = "Warms up the authorization service")
     @Get(value = "/authWarmup")
     void warmupAuthService(){
-        //AsyncHttpClient client = new AsyncJsonHttpClient()
-        //client.get("https://datastore.trevorism.com/ping")
-        //client.get("https://auth.trevorism.com/ping").get()
+        AsyncHttpClient client = new AsyncJsonHttpClient()
+        client.get("https://datastore.trevorism.com/ping", {} as FutureCallback)
+        client.get("https://auth.trevorism.com/ping", {} as FutureCallback)
     }
 }
