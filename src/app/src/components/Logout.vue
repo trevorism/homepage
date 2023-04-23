@@ -1,15 +1,14 @@
 <template>
-  <div id="logout">
-    <HeaderBar ref="headerBarIsm"></HeaderBar>
-    <div class="container mt-6 mb-6">
-      <div class="title mb-6">
+  <div class="grid justify-items-center" id="logout">
+    <HeaderBar :local="true"></HeaderBar>
+    <div class="container px-4">
+      <h2 class="text-xl font-bold -ml-4 mb-2">
         Log out of Trevorism
-      </div>
-      <div class="subtitle">
+      </h2>
+      <div class="mb-2 ml-2">
         {{ message }}
       </div>
     </div>
-    <b-loading :is-full-page="false" v-model:active="disabled" :can-cancel="false"></b-loading>
   </div>
 </template>
 

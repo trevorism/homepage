@@ -1,5 +1,5 @@
 <template>
-  <div id="admin">
+  <div class="grid justify-items-center" id="admin">
     <HeaderBar :local="true"></HeaderBar>
     <div id="adminText">Only accessible to logged-in Admin users</div>
   </div>
