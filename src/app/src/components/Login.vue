@@ -9,7 +9,7 @@
       </div>
 
 
-    <va-form class="border-2 rounded-md w-80">
+    <va-form ref="loginForm" class="border-2 rounded-md w-80">
       <div class="mx-4 mt-4 mb-4">
         <va-input
             v-model="username"
@@ -49,6 +49,7 @@
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
+import { useForm } from 'vuestic-ui'
 
 export default {
   name: 'Login',
@@ -92,6 +93,7 @@ export default {
     clear: function () {
       this.username = ''
       this.password = ''
+      this.$refs.loginForm.reset();
     }
   }
 }

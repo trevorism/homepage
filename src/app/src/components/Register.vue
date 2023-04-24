@@ -4,7 +4,7 @@
     <div class="container">
       <div class="grid justify-items-center">
         <h2 class=" text-xl font-bold py-6 my-6">Register for Trevorism</h2>
-        <va-form class="border-2 rounded-md w-80">
+        <va-form ref="registerForm" class="border-2 rounded-md w-80">
           <div class="mx-4 mt-4 mb-4">
             <va-input v-model="username"
                       type="text"
@@ -95,6 +95,7 @@ export default {
           this.errorMessage = 'Unable to complete your registration'
           this.successMessage = ''
           this.disabled = false
+          this.clearFields()
         })
     },
     clearFields: function () {
@@ -102,6 +103,7 @@ export default {
       this.email = ''
       this.newPassword = ''
       this.repeatPassword = ''
+      this.$refs.registerForm.reset();
     }
   }
 }
