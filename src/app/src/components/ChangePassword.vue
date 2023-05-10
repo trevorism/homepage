@@ -4,7 +4,7 @@
     <div class="container grid justify-items-center">
       <h2 class=" text-xl font-bold py-6 my-6">Change Password on Trevorism</h2>
 
-      <va-form class="border-2 rounded-md w-80">
+      <va-form ref="changeForm" class="border-2 rounded-md w-80">
         <div class="mx-4 mt-4 mb-4">
           <va-input v-model="username"
                     type="text"
@@ -50,7 +50,7 @@
           </div>
         </div>
       </va-form>
-      <va-alert v-if="errorMessage.length > 0" class="w-80 text-center" color="danger">{{errorMessage}}</va-alert>
+      <va-alert v-if="errorMsg.length > 0" class="w-80 text-center" color="danger">{{errorMsg}}</va-alert>
 
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
       currentPassword: '',
       newPassword: '',
       repeatPassword: '',
-      errorMessage: '',
+      errorMsg: '',
       disabled: false
     }
   },
@@ -78,7 +78,7 @@ export default {
       let self = this
 
       if (this.newPassword !== this.repeatPassword) {
-        this.errorMessage = 'The new and repeat passwords do not match'
+        this.errorMsg = 'The new and repeat passwords do not match'
         return
       }
 
@@ -95,8 +95,9 @@ export default {
           self.$router.push('/profile')
         })
         .catch(() => {
-          this.errorMessage = 'Unable to change password'
+          this.errorMsg = 'Unable to change password'
           this.disabled = false
+          this.clearFields()
         })
     },
     clearFields: function () {
@@ -104,6 +105,7 @@ export default {
       this.currentPassword = ''
       this.desiredPassword = ''
       this.repeatPassword = ''
+      this.$refs.changeForm.reset();
     }
   }
 }
