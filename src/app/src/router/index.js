@@ -15,6 +15,7 @@ import Trends from "../components/articles/Trends.vue";
 import Production from "../components/articles/Production.vue";
 import Improvement from "../components/articles/Improvement.vue";
 import Admin from "../components/Admin.vue";
+import NotFound from "../components/NotFound.vue";
 
 const { cookies } = useCookies();
 
@@ -115,6 +116,10 @@ const router = createRouter({
         path: '/articles/improvement',
         name: 'improvement',
         component: Improvement
+    },
+    {
+        path: "/:notFound",
+        component: NotFound,
     },
     {
         path: '/admin',

@@ -1,11 +1,11 @@
 <template>
-  <div id="apps">
+  <div id="notfound">
     <HeaderBar :local="true"></HeaderBar>
     <h1 class="text-3xl font-bold ml-4 mb-2">
-        Apps
+      Not Found
     </h1>
     <p class="ml-4 mb-2">
-        This page shows various applications made by Trevorism
+      404 -- Page not found
     </p>
   </div>
 </template>
@@ -14,7 +14,7 @@
 import HeaderBar from '@trevorism/ui-header-bar'
 
 export default {
-  name: 'Apps',
+  name: 'NotFound',
   components: {HeaderBar}
 }
 </script>
