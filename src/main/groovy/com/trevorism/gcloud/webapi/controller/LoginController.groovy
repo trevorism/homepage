@@ -15,12 +15,14 @@ import io.micronaut.http.cookie.Cookie
 import io.micronaut.http.netty.cookies.NettyCookie
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.inject.Inject
 import org.apache.hc.client5.http.HttpResponseException
 
 @Controller("/api/login")
 class LoginController {
 
-    private UserSessionService userSessionService = new DefaultUserSessionService()
+    @Inject
+    private UserSessionService userSessionService
 
     @Tag(name = "Login Operations")
     @Operation(summary = "Login to Trevorism")

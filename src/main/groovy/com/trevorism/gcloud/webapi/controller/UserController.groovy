@@ -15,13 +15,15 @@ import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.inject.Inject
 import org.apache.hc.client5.http.HttpResponseException
 
 
 @Controller("/api/user")
 class UserController {
 
-    private UserSessionService userSessionService = new DefaultUserSessionService()
+    @Inject
+    private UserSessionService userSessionService
 
     @Tag(name = "User Operations")
     @Operation(summary = "Register a new user")

@@ -13,23 +13,31 @@ import com.trevorism.ClaimProperties
 import com.trevorism.ClaimsProvider
 import com.trevorism.ClasspathBasedPropertiesProvider
 import com.trevorism.PropertiesProvider
+import jakarta.inject.Inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import java.time.LocalDateTime
 
-
+@jakarta.inject.Singleton
 class DefaultUserSessionService implements UserSessionService {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultUserSessionService.class.getName())
 
-    private HttpClient httpClient = new JsonHttpClient()
-    private SecureHttpClient secureHttpClient = SecureHttpClientSingleton.getInstance().getSecureHttpClient()
-    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository = new FastDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
-    private Repository<User> repository = new FastDatastoreRepository<>(User, secureHttpClient)
+    @Inject
+    private SecureHttpClient secureHttpClient
+    private Repository<ForgotPasswordLink> forgotPasswordLinkRepository
+    private Repository<User> repository
     private PropertiesProvider propertiesProvider = new ClasspathBasedPropertiesProvider()
 
     private final Gson gson = new Gson()
+
+    DefaultUserSessionService(SecureHttpClient secureHttpClient){
+        this.secureHttpClient = secureHttpClient
+        forgotPasswordLinkRepository = new FastDatastoreRepository<>(ForgotPasswordLink.class, secureHttpClient)
+        repository = new FastDatastoreRepository<>(User, secureHttpClient)
+
+    }
 
     @Override
     String getToken(LoginRequest loginRequest) {
@@ -46,7 +54,7 @@ class DefaultUserSessionService implements UserSessionService {
     User getUserFromToken(String token) {
         try {
             ClaimProperties claimProperties = ClaimsProvider.getClaims(token, propertiesProvider.getProperty("signingKey"))
-            def response = httpClient.get("https://auth.trevorism.com/user/${claimProperties.id}", ["Authorization": "bearer ${token}".toString()])
+            def response = secureHttpClient.get("https://auth.trevorism.com/user/${claimProperties.id}", ["Authorization": "bearer ${token}".toString()])
             User user = gson.fromJson(response.value, User)
             return user
         } catch (Exception e) {
@@ -61,7 +69,7 @@ class DefaultUserSessionService implements UserSessionService {
             return false
         }
         String json = gson.toJson(registrationRequest)
-        def response = httpClient.post("https://auth.trevorism.com/user", json, [:])
+        def response = secureHttpClient.post("https://auth.trevorism.com/user", json, [:])
         User user = gson.fromJson(response.value, User)
         return !User.isNullUser(user)
     }
@@ -113,7 +121,7 @@ class DefaultUserSessionService implements UserSessionService {
     @Override
     boolean changePassword(ChangePasswordRequest changePasswordRequest, String token) {
         String json = gson.toJson(changePasswordRequest)
-        def response = httpClient.post("https://auth.trevorism.com/user/change", json, ["Authorization": "bearer ${token}".toString()])
+        def response = secureHttpClient.post("https://auth.trevorism.com/user/change", json, ["Authorization": "bearer ${token}".toString()])
         String value = response.value
         return value == "true"
     }
@@ -144,7 +152,7 @@ class DefaultUserSessionService implements UserSessionService {
     }
 
     private String invokeTokenRequest(String json) {
-        String result = httpClient.post("https://auth.trevorism.com/token", json, [:]).value
+        String result = secureHttpClient.post("https://auth.trevorism.com/token", json, [:]).value
         if (result.startsWith("<html>"))
             throw new RuntimeException("Bad Request to get token")
         log.trace("Successful login, token: ${result}")

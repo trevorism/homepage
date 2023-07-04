@@ -48,7 +48,7 @@
           <li>Make direct use of the reference implementation</li>
           <li>Pull the code and host it in their environment; all code is open source</li>
           <li>Use one or more interfaces but write a custom implementation</li>
-          <li>(Coming Soon) Create a tenant within Trevorism and get a dedicated instance of the services</li>
+          <li>Create a tenant within Trevorism and get a dedicated instance of the services</li>
         </ul>
       </div>
 

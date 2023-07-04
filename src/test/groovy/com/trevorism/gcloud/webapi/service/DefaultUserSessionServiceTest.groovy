@@ -67,24 +67,24 @@ class DefaultUserSessionServiceTest {
     @Test
     void testGenerateForgotPasswordLink() {
         userSessionService.forgotPasswordLinkRepository = [get: { x -> new ForgotPasswordLink() }, delete: { x -> new ForgotPasswordLink() }] as Repository
-        userSessionService.httpClient = [get : { url, map -> return new HeadersHttpResponse("[]]") },
-                                         post: { url, content, map -> return new HeadersHttpResponse("token") }] as HttpClient
+        userSessionService.secureHttpClient = [get : { url, map -> return new HeadersHttpResponse("[]]") },
+                                         post: { url, content, map -> return new HeadersHttpResponse("token") }] as SecureHttpClient
         assertThrows(RuntimeException, () -> userSessionService.generateForgotPasswordLink(new ForgotPasswordRequest(email: "test@trevorism.com")))
     }
 
     @Test
     void testChangePassword() {
-        userSessionService.httpClient = [post: { url, content, map ->
+        userSessionService.secureHttpClient = [post: { url, content, map ->
             return new HeadersHttpResponse("true")
-        }] as HttpClient
+        }] as SecureHttpClient
         assert userSessionService.changePassword(new ChangePasswordRequest(), "token")
     }
 
     @Test
     void testChangePasswordNotWorking() {
-        userSessionService.httpClient = [post: { url, content, map ->
+        userSessionService.secureHttpClient = [post: { url, content, map ->
             return new HeadersHttpResponse("blah")
-        }] as HttpClient
+        }] as SecureHttpClient
         assert !userSessionService.changePassword(new ChangePasswordRequest(), "token")
     }
 
