@@ -6,4 +6,4 @@
  
 Code for [Trevorism.com](https://trevorism.com)
 
-Current Version: 0.9.0
+Current Version: 1.0.0

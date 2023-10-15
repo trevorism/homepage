@@ -1,3 +1,7 @@
+# 1.0.0
+
+Upgrade to micronaut 4, node LTS.
+
 # 0.9.0
 
 Upgrade to java 17, micronaut 
