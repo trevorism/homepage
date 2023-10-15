@@ -37,7 +37,7 @@ class UserController {
     }
 
     @Tag(name = "User Operations")
-    @Operation(summary = "Get the current user **Secure(User)")
+    @Operation(summary = "Get the current user **Secure")
     @Get(value = "/", produces = MediaType.APPLICATION_JSON)
     @Secure(Roles.USER)
     User getUser(HttpRequest<?> requestContext) {
@@ -46,7 +46,7 @@ class UserController {
     }
 
     @Tag(name = "User Operations")
-    @Operation(summary = "Change a user's password **Secure(User)")
+    @Operation(summary = "Change a user's password **Secure")
     @Post(value = "/change", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @Secure(Roles.USER)
     boolean changePassword(@Body ChangePasswordRequest request, HttpRequest<?> requestContext) {
