@@ -9,7 +9,7 @@
       </div>
 
 
-    <va-form ref="loginForm" class="border-2 rounded-md w-80">
+    <va-form ref="loginForm" class="border-2 rounded-md w-80" tag="form" @submit.prevent="invokeButton">
       <div class="mx-4 mt-4 mb-4">
         <va-input
             v-model="username"
@@ -18,7 +18,7 @@
             label="Username"
             minlength="3"
             type="text"
-            autofocus="true"
+            autofocus
             required
             error-messages="Must be at least 3 characters"
         />
@@ -34,7 +34,7 @@
         />
 
         <div class="grid justify-items-center">
-          <va-button color="success" :disabled="disabled" @click="invokeButton">
+          <va-button color="success" :disabled="disabled" type="submit">
             Submit
           </va-button>
         </div>
