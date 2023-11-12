@@ -8,7 +8,8 @@
         Motivation
       </h2>
       <div class="mb-2 ml-2">
-        <p class="mb-2">The Action API allows users to store REST based endpoint invocations and invoke them by name. This provides a convenient way to perform operations on the platform.</p>
+        <p class="mb-2">The Action API allows users to store REST based endpoint invocations and invoke them by name.
+          This provides a convenient way to perform operations on the ecosystem.</p>
 
       </div>
       <h2 class="text-xl font-bold -ml-4 mb-2">

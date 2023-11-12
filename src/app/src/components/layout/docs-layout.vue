@@ -23,6 +23,7 @@
           <div :style="getDisplay(4)"> <docs-auth></docs-auth></div>
           <div :style="getDisplay(5)"> <docs-data></docs-data></div>
           <div :style="getDisplay(6)"> <docs-action></docs-action></div>
+          <div :style="getDisplay(7)"> <docs-testing></docs-testing></div>
         </main>
       </template>
     </VaLayout>
@@ -36,10 +37,11 @@ import DocsInfo from "../docs/docs-info.vue";
 import DocsAuth from "../docs/docs-auth.vue";
 import DocsData from "../docs/docs-data.vue";
 import DocsAction from "../docs/docs-action.vue";
+import DocsTesting from "../docs/docs.testing.vue";
 
 export default {
   name: "DocsLayout",
-  components: {DocsIntro, DocsAchievements, DocsInfo, DocsAuth, DocsData, DocsAction},
+  components: {DocsIntro, DocsAchievements, DocsInfo, DocsAuth, DocsData, DocsAction, DocsTesting},
   props: {
     headers: {
       type: Array,

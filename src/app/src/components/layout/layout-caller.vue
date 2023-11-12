@@ -28,6 +28,10 @@ const values = [
     title: "Action",
     icon: "arrow_forward"
   },
+  {
+    title: "Testing",
+    icon: "quiz"
+  },
 ];
 </script>
 
