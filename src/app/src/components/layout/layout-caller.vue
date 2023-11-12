@@ -24,7 +24,10 @@ const values = [
     title: "Data",
     icon: "storage",
   },
-
+  {
+    title: "Action",
+    icon: "arrow_forward"
+  },
 ];
 </script>
 
