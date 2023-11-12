@@ -7,7 +7,7 @@ import ForgotPassword from "../components/ForgotPassword.vue";
 import Account from "../components/Account.vue";
 import ChangePassword from "../components/ChangePassword.vue";
 import Register from "../components/Register.vue";
-import Docs from "../components/Docs.vue";
+import Docs from "../components/docs/docs-intro.vue";
 import Apps from "../components/Apps.vue";
 import Contact from "../components/Contact.vue";
 import Prototype from "../components/articles/Prototype.vue";
@@ -16,6 +16,7 @@ import Production from "../components/articles/Production.vue";
 import Improvement from "../components/articles/Improvement.vue";
 import Admin from "../components/Admin.vue";
 import NotFound from "../components/NotFound.vue";
+import LayoutCaller from "../components/layout/layout-caller.vue";
 
 const { cookies } = useCookies();
 
@@ -84,8 +85,8 @@ const router = createRouter({
     },
     {
         path: '/docs',
-        name: 'Docs',
-        component: Docs
+        name: 'docs',
+        component: LayoutCaller
     },
     {
         path: '/apps',
