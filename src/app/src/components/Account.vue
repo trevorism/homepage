@@ -1,25 +1,29 @@
 <template>
-  <div id="account">
+  <div class="grid justify-items-center" id="account">
     <HeaderBar :local="true"></HeaderBar>
-    <section class="container">
-      <h1 class="title is-4 mt-6">Trevorism Profile</h1>
+    <div class="container px-4">
+      <h1 class="text-2xl font-bold -ml-4 mb-2">Trevorism Profile</h1>
 
-      <div class="card">
-        <div class="card-content">
-          <p class="title">
-            <span>{{ user.username }}</span>
-            <span v-if="user.admin" class="is-size-7 is-pulled-right has-text-info">Administrator</span>
-          </p>
-          <p class="subtitle">
+      <va-list>
+        <va-list-item>
+        <va-list-item-section>
+          <va-list-item-label class="text-2xl">
+            {{ user.username }}
+          </va-list-item-label>
+
+          <va-list-item-label caption class="text-1xl">
             {{ user.email }}
-          </p>
-        </div>
-        <footer class="card-footer">
-          <p class="card-footer-item"><router-link to="/change">Change Password</router-link></p>
-        </footer>
-      </div>
-    </section>
-
+          </va-list-item-label>
+        </va-list-item-section>
+        <va-list-item-section icon v-if="user.admin">
+          <va-popover message="Administrator">
+            <va-icon class="material-icons" name="admin_panel_settings" />
+          </va-popover>
+        </va-list-item-section>
+        </va-list-item>
+      </va-list>
+      <va-chip flat class="grid justify-items-center basis-1/4" to="/change">Change Password</va-chip>
+    </div>
   </div>
 </template>
 
