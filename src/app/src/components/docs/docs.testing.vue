@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center" id="docs">
     <div class="container px-4">
-      <h1 class="text-3xl font-bold -ml-4 mb-2">
+      <h1 class="text-3xl font-bold text-center">
         Testing
       </h1>
       <h2 class="text-xl font-bold -ml-4 mb-2">

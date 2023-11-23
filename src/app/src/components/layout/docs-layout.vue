@@ -3,7 +3,7 @@
     <VaLayout :style="getMenuHeight()">
       <template #left>
         <VaSidebar width="11rem">
-          <VaSidebarItem v-for="(header, index) in headers" :key="header.title" @click="show(index+1)">
+          <VaSidebarItem v-for="(header, index) in headers" :key="header.title" @click="show(index+1)" :style="showSelectedStyle(index)">
             <VaSidebarItemContent>
               <VaIcon v-if="header.icon" :name=header.icon />
               <VaSidebarItemTitle>
@@ -74,6 +74,13 @@ export default {
         return 'display: none'
       }
     },
+    showSelectedStyle: function (num) {
+      if(this.cardVisible === num+1){
+        return 'border: 1px solid #154ec1'
+      } else {
+        return ''
+      }
+    },
     getMenuHeight: function () {
       return 'height: ' + (this.height) + 'px'
     },
@@ -85,5 +92,7 @@ export default {
 </script>
 
 <style scoped>
-
+.menu-border {
+  border: 1px solid #e0e0e0;
+}
 </style>
