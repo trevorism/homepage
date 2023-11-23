@@ -2,6 +2,7 @@ package com.trevorism.gcloud.webapi.controller
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.cookie.Cookie
@@ -14,7 +15,7 @@ class LogoutController {
 
     @Tag(name = "Logout Operations")
     @Operation(summary = "Logout of Trevorism")
-    @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    @Post(value = "/")
     HttpResponse logout() {
         def cookie1 = new NettyCookie("session", "").path("/").maxAge(0).secure(true)
         def cookie2 = new NettyCookie("user_name", "").path("/").maxAge(0).secure(true)

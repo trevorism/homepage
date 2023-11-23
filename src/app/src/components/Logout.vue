@@ -28,10 +28,9 @@ export default {
   mounted () {
     let self = this
     this.disabled = true
-    axios.post('api/logout')
+    axios.post('api/logout', {})
       .then(() => {
         self.disabled = false
-        self.$refs.headerBarIsm.checkAuthenticated()
         self.message = 'Bye!'
       })
       .catch(() => {
