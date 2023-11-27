@@ -7,7 +7,6 @@ import ForgotPassword from "../components/ForgotPassword.vue";
 import Account from "../components/Account.vue";
 import ChangePassword from "../components/ChangePassword.vue";
 import Register from "../components/Register.vue";
-import Docs from "../components/docs/docs-intro.vue";
 import Apps from "../components/Apps.vue";
 import Contact from "../components/Contact.vue";
 import Prototype from "../components/articles/Prototype.vue";
