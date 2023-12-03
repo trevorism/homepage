@@ -5,8 +5,15 @@
         Apps
     </h1>
     <p class="ml-4 mb-2">
-        This page shows various applications made by Trevorism
+        This following applications were built using Trevorism.
     </p>
+    <ul class="list-disc ml-10">
+      <li><va-chip flat href="https://timeline.draw.trevorism.com">Timeline Generator</va-chip> -- Create a downloadable color coded timeline with pixel perfect scale</li>
+      <li class="mt-2"><va-chip flat href="https://active.project.trevorism.com">Service Registry</va-chip> -- View a list of all Trevorism integrated services and libraries</li>
+      <li class="mt-2"><va-chip flat href="https://prompt.action.trevorism.com/">Ask a Question</va-chip> -- Ask questions of other Trevorism users and get answers</li>
+
+    </ul>
+
   </div>
 </template>
 

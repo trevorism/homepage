@@ -2,33 +2,32 @@
   <div id="splash">
     <HeaderBar :local="true"></HeaderBar>
     <div class="bg-scroll glassBackground">
-      <div class="container" style="height: 280px">
-        <va-card color="warning" style="width:600px" stripe>
+      <div class="container flex items-center justify-center" style="height: 280px">
+        <va-card color="warning" class="w-3/5 max-h-48" stripe>
           <va-card-title>
-            Trevorism is a platform for building software ecosystems.
+            Develop your software ecosystem with Trevorism
           </va-card-title>
           <va-card-content>
             <ul class="ml-6" style="list-style-type: circle">
               <li class="">Blazing fast speed to market</li>
-              <li class="mt-2">Scale On Demand</li>
-              <li class="mt-2">Built in Security</li>
-              <li class="mt-2">Open Source</li>
+              <li class="mt-1">Scale On Demand</li>
+              <li class="mt-1">Built in Security</li>
+              <li class="mt-1">Open Source</li>
             </ul>
           </va-card-content>
         </va-card>
       </div>
     </div>
     <div class="bg-scroll puzzleBackground">
-      <div class="container" style="height: 280px">
-        <va-card color="info" style="width:600px; float:right" stripe>
+      <div class="container flex items-center justify-center" style="height: 280px">
+        <va-card color="info" class="w-3/5" stripe>
           <va-card-title>
-            Balance complexity with elegance.
+            Balance complexity with elegance
           </va-card-title>
           <va-card-content>
             <ul class="ml-6" style="list-style-type: circle">
               <li class="">Pluggable microservices architecture enables easy extensibility</li>
-              <li class="mt-2">Functionality exposed by RESTful APIs to ensure interoperability</li>
-              <li class="mt-2">User Interfaces, CLIs, and Client Libraries make using and administering the platform a breeze</li>
+              <li class="mt-1">All functionality exposed by RESTful APIs to ensure interoperability</li>
             </ul>
           </va-card-content>
         </va-card>
@@ -65,23 +64,18 @@ export default {
 </style>
 
 <style scoped>
-  .container {
-    padding: 50px;
-  }
-
   .glassBackground {
-    background-color: #A7DEFA;
+    background-color: #D9E7F2;
     background-image: url("../assets/glassbuildingmed.jpg");
     background-repeat: no-repeat;
     background-position: right;
     background-size: 1280px 720px;
   }
   .puzzleBackground {
-    background-color: #391802;
+    background-color: #222A2B;
     background-image: url("../assets/puzzlemed.jpg");
     background-repeat: no-repeat;
     background-position: left;
     background-size: 1280px 720px;
   }
-
 </style>
