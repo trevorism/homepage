@@ -5,6 +5,7 @@ import com.trevorism.gcloud.webapi.model.RegistrationRequest
 import com.trevorism.gcloud.webapi.model.User
 import com.trevorism.gcloud.webapi.service.DefaultUserSessionService
 import com.trevorism.gcloud.webapi.service.UserSessionService
+import com.trevorism.https.AppClientSecureHttpClient
 import com.trevorism.secure.Roles
 import com.trevorism.secure.Secure
 import io.micronaut.http.HttpRequest
@@ -29,7 +30,7 @@ class UserController {
     @Operation(summary = "Register a new user")
     @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     boolean register(@Body RegistrationRequest registrationRequest) {
-        def result = userSessionService.registerUser(registrationRequest)
+        def result = new DefaultUserSessionService(new AppClientSecureHttpClient()).registerUser(registrationRequest)
         if (!result) {
             throw new HttpResponseException(400, "Unable to change password successfully")
         }
