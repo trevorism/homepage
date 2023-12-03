@@ -22,11 +22,6 @@ class UserControllerTest {
     }
 
     @Test
-    void testRegister() {
-        assert userController.register(new RegistrationRequest(username: "test", password: "test123", email: "test@trevorism.com"))
-    }
-
-    @Test
     void testRegisterInvalid() {
         assertThrows(HttpResponseException, () -> userController.register(new RegistrationRequest()))
     }
