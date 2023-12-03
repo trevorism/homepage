@@ -1,3 +1,7 @@
+# 1.1.0
+
+Update node dependencies; add prompt app
+
 # 1.0.0
 
 Upgrade to micronaut 4, node LTS.
