@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import HeaderBar  from "@trevorism/ui-header-bar";
+import HeaderBar from "@trevorism/ui-header-bar";
 
 export default {
   name: 'Splash',
