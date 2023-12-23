@@ -88,11 +88,12 @@ export default {
         desiredPassword: this.repeatPassword
       }
       this.disabled = true
+      this.errorMsg = ''
       axios.post('api/user/change', request)
         .then(() => {
           this.disabled = false
           this.clearFields()
-          self.$router.push('/profile')
+          self.$router.push('/account')
         })
         .catch(() => {
           this.errorMsg = 'Unable to change password'
