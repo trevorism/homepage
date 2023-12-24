@@ -24,7 +24,7 @@ class DefaultUserSessionService implements UserSessionService {
     User getUserFromToken() {
         try {
             def response = secureHttpClient.get("https://auth.trevorism.com/user/me")
-            return gson.fromJson(response.value, User)
+            return gson.fromJson(response, User)
         } catch (Exception e) {
             log.warn("Unable to find user", e)
             return User.NULL_USER
