@@ -6,12 +6,10 @@ import com.trevorism.gcloud.webapi.model.User
 
 interface UserSessionService {
 
-    User getUserFromToken(String bearerToken)
+    User getUserFromToken()
 
     boolean registerUser(RegistrationRequest registrationRequest)
 
-    boolean doesUsernameExist(String username)
-
-    boolean changePassword(ChangePasswordRequest changePasswordRequest, String bearerToken)
+    boolean changePassword(ChangePasswordRequest changePasswordRequest)
 
 }

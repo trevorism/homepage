@@ -14,6 +14,7 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
+import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.inject.Inject
@@ -30,7 +31,7 @@ class UserController {
     @Operation(summary = "Register a new user")
     @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     boolean register(@Body RegistrationRequest registrationRequest) {
-        def result = new DefaultUserSessionService(new AppClientSecureHttpClient()).registerUser(registrationRequest)
+        def result = userSessionService.registerUser(registrationRequest)
         if (!result) {
             throw new HttpResponseException(400, "Unable to register user successfully")
         }
@@ -41,18 +42,16 @@ class UserController {
     @Operation(summary = "Get the current user **Secure")
     @Get(value = "/", produces = MediaType.APPLICATION_JSON)
     @Secure(Roles.USER)
-    User getUser(HttpRequest<?> requestContext) {
-        String value = requestContext.getCookies().get("session").value
-        return userSessionService.getUserFromToken(value)
+    User getUser() {
+        return userSessionService.getUserFromToken()
     }
 
     @Tag(name = "User Operations")
     @Operation(summary = "Change a user's password **Secure")
     @Post(value = "/change", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     @Secure(Roles.USER)
-    boolean changePassword(@Body ChangePasswordRequest request, HttpRequest<?> requestContext) {
-        String value = requestContext.getCookies().get("session").value
-        def result = userSessionService.changePassword(request, value)
+    boolean changePassword(@Body ChangePasswordRequest request) {
+        def result = userSessionService.changePassword(request)
         if (!result) {
             throw new HttpResponseException(400, "Unable to change password successfully")
         }

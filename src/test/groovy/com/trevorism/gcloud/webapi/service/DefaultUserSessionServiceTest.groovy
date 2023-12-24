@@ -20,28 +20,13 @@ class DefaultUserSessionServiceTest {
 
     @Test
     void testRegisterUser() {
-        userSessionService.secureHttpClient = [get: { url -> "[{\"username\":\"another\"}]" }] as SecureHttpClient
-        userSessionService.repository = [filter: { f -> [new User()] }] as Repository<User>
-
+        userSessionService.secureHttpClient = [get: { url -> "[{\"username\":\"another\"}]" }, post: {url, json, headers -> new HeadersHttpResponse("{}")}] as SecureHttpClient
         assert !userSessionService.registerUser(new RegistrationRequest(username: "another", password: "123456", email: "another@trevorism.com"))
-    }
-
-    @Test
-    void testDoesUsernameExist() {
-        userSessionService.secureHttpClient = [get: { url -> "[{\"username\":\"another\"}]" }] as SecureHttpClient
-        userSessionService.repository = [filter: { f ->
-            if (f.simpleFilters[0].value == "another")
-                return [new User(username: "another")]
-            return null
-        }] as Repository<User>
-        assert userSessionService.doesUsernameExist("another")
-        assert !userSessionService.doesUsernameExist("ab")
     }
 
     @Test
     void testValidate() {
         userSessionService.secureHttpClient = [get: { url -> "[]" }] as SecureHttpClient
-        userSessionService.repository = [filter: { f -> null }] as Repository<User>
 
         assert !userSessionService.validate(null)
         assert !userSessionService.validate(new RegistrationRequest())
