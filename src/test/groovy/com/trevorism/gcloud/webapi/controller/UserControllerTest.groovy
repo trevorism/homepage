@@ -18,7 +18,7 @@ class UserControllerTest {
     @BeforeEach
     void setup() {
         userController = new UserController()
-        userController.userSessionService = [registerUser: { rr -> rr.username != null }, getUserFromToken: { val -> User.NULL_USER }, changePassword: { r, c -> r.username != null }] as UserSessionService
+        userController.userSessionService = [registerUser: { rr -> rr.username != null }, getUserFromToken: { -> User.NULL_USER }, changePassword: { r -> r.username != null }] as UserSessionService
     }
 
     @Test
@@ -28,25 +28,17 @@ class UserControllerTest {
 
     @Test
     void testGetUser() {
-        def request = HttpRequestFactory.INSTANCE.get("/")
-        request.cookie(new NettyCookie("session", "value"))
-        assert userController.getUser(request)
+        assert userController.getUser() == User.NULL_USER
     }
 
     @Test
     void testChangePassword() {
-        def request = HttpRequestFactory.INSTANCE.post("/change", new ChangePasswordRequest(username: "test", desiredPassword: "test321", currentPassword: "test123"))
-        request.cookie(new NettyCookie("session", "value"))
-
-        assert userController.changePassword(new ChangePasswordRequest(username: "test", desiredPassword: "test321", currentPassword: "test123"), request)
+        assert userController.changePassword(new ChangePasswordRequest(username: "test", desiredPassword: "test321", currentPassword: "test123"))
     }
 
     @Test
     void testChangePasswordInvalid() {
-        def request = HttpRequestFactory.INSTANCE.post("/change", new ChangePasswordRequest())
-        request.cookie(new NettyCookie("session", "value"))
-
         assertThrows(HttpResponseException, () ->
-                userController.changePassword(new ChangePasswordRequest(), request))
+                userController.changePassword(new ChangePasswordRequest()))
     }
 }

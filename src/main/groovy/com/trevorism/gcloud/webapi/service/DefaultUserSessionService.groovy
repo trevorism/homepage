@@ -46,8 +46,7 @@ class DefaultUserSessionService implements UserSessionService {
     boolean changePassword(ChangePasswordRequest changePasswordRequest) {
         String json = gson.toJson(changePasswordRequest)
         def response = secureHttpClient.post("https://auth.trevorism.com/user/change", json)
-        String value = response.value
-        return value == "true"
+        return response == "true"
     }
 
     private static boolean validate(RegistrationRequest registrationRequest) {

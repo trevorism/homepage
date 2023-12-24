@@ -15,7 +15,7 @@ class DefaultUserSessionServiceTest {
 
     @Test
     void testGetUserFromToken() {
-        assert User.isNullUser(userSessionService.getUserFromToken("555"))
+        assert User.isNullUser(userSessionService.getUserFromToken())
     }
 
     @Test
@@ -38,18 +38,18 @@ class DefaultUserSessionServiceTest {
 
     @Test
     void testChangePassword() {
-        userSessionService.secureHttpClient = [post: { url, content, map ->
-            return new HeadersHttpResponse("true")
+        userSessionService.secureHttpClient = [post: { url, content ->
+            return "true"
         }] as SecureHttpClient
-        assert userSessionService.changePassword(new ChangePasswordRequest(), "token")
+        assert userSessionService.changePassword(new ChangePasswordRequest())
     }
 
     @Test
     void testChangePasswordNotWorking() {
-        userSessionService.secureHttpClient = [post: { url, content, map ->
-            return new HeadersHttpResponse("blah")
+        userSessionService.secureHttpClient = [post: { url, content ->
+            return "blah"
         }] as SecureHttpClient
-        assert !userSessionService.changePassword(new ChangePasswordRequest(), "token")
+        assert !userSessionService.changePassword(new ChangePasswordRequest())
     }
 
 }
