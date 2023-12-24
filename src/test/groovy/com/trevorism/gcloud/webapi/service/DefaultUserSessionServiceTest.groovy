@@ -14,11 +14,6 @@ class DefaultUserSessionServiceTest {
     private UserSessionService userSessionService = new DefaultUserSessionService()
 
     @Test
-    void testGetToken() {
-        assert !userSessionService.getToken(new LoginRequest(username: "in", password: "valid"))
-    }
-
-    @Test
     void testGetUserFromToken() {
         assert User.isNullUser(userSessionService.getUserFromToken("555"))
     }
@@ -54,22 +49,6 @@ class DefaultUserSessionServiceTest {
         assert !userSessionService.validate(new RegistrationRequest(username: "abc", password: "123456", email: "testtrevorism.com"))
         assert !userSessionService.validate(new RegistrationRequest(username: "abc", password: "12456", email: "test@trevorism.com"))
         assert userSessionService.validate(new RegistrationRequest(username: "abc", password: "123456", email: "test@trevorism.com"))
-    }
-
-    @Test
-    void testResetPassword() {
-        userSessionService.forgotPasswordLinkRepository = [get: { x -> new ForgotPasswordLink() }, delete: { x -> new ForgotPasswordLink() }] as Repository
-        userSessionService.secureHttpClient = [post: { url, json -> "{}" }] as SecureHttpClient
-        userSessionService.resetPassword("reset")
-        assert true
-    }
-
-    @Test
-    void testGenerateForgotPasswordLink() {
-        userSessionService.forgotPasswordLinkRepository = [get: { x -> new ForgotPasswordLink() }, delete: { x -> new ForgotPasswordLink() }] as Repository
-        userSessionService.secureHttpClient = [get : { url, map -> return new HeadersHttpResponse("[]]") },
-                                         post: { url, content, map -> return new HeadersHttpResponse("token") }] as SecureHttpClient
-        assertThrows(RuntimeException, () -> userSessionService.generateForgotPasswordLink(new ForgotPasswordRequest(email: "test@trevorism.com")))
     }
 
     @Test

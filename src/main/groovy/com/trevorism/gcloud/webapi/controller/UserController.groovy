@@ -32,7 +32,7 @@ class UserController {
     boolean register(@Body RegistrationRequest registrationRequest) {
         def result = new DefaultUserSessionService(new AppClientSecureHttpClient()).registerUser(registrationRequest)
         if (!result) {
-            throw new HttpResponseException(400, "Unable to change password successfully")
+            throw new HttpResponseException(400, "Unable to register user successfully")
         }
         return result
     }

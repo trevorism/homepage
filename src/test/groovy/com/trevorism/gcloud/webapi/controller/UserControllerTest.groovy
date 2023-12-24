@@ -30,7 +30,6 @@ class UserControllerTest {
     void testGetUser() {
         def request = HttpRequestFactory.INSTANCE.get("/")
         request.cookie(new NettyCookie("session", "value"))
-
         assert userController.getUser(request)
     }
 

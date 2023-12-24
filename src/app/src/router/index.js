@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useCookies } from "vue3-cookies";
 import Splash from '../components/Splash.vue'
-import Login from "../components/Login.vue";
 import Logout from "../components/Logout.vue";
-import ForgotPassword from "../components/ForgotPassword.vue";
 import Account from "../components/Account.vue";
 import ChangePassword from "../components/ChangePassword.vue";
 import Register from "../components/Register.vue";
@@ -47,19 +45,9 @@ const router = createRouter({
         component: Splash
     },
     {
-        path: '/login',
-        name: 'Login',
-        component: Login
-    },
-    {
         path: '/logout',
         name: 'Logout',
         component: Logout
-    },
-    {
-        path: '/forgot',
-        name: 'Forgot',
-        component: ForgotPassword
     },
     {
         path: '/account',

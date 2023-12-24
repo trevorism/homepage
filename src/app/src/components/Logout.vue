@@ -32,6 +32,7 @@ export default {
       .then(() => {
         self.disabled = false
         self.message = 'Bye!'
+        location.reload();
       })
       .catch(() => {
         self.disabled = false

@@ -12,7 +12,7 @@
                       :rules="[(v) => v.length >= 3]"
                       required
                       error-messages="Must be at least 3 characters"
-                      autofocus="true"
+                      autofocus
                       label="Username"
                       minlength="3">
             </va-input>
@@ -43,7 +43,7 @@
             </va-input>
             <div class="grid justify-items-center">
               <va-button color="success" :disabled="disabled" @click="invokeButton">
-                Submit
+                <VaInnerLoading :loading="disabled"> Submit </VaInnerLoading>
               </va-button>
             </div>
         </div>
@@ -84,6 +84,7 @@ export default {
         password: this.repeatPassword
       }
       this.disabled = true
+      this.errorMessage = ''
       axios.post('api/user', request)
         .then(() => {
           this.disabled = false

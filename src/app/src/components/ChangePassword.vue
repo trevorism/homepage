@@ -45,7 +45,7 @@
           </va-input>
           <div class="grid justify-items-center">
             <va-button color="success" :disabled="disabled" @click="invokeButton">
-              Submit
+              <VaInnerLoading :loading="disabled"> Submit </VaInnerLoading>
             </va-button>
           </div>
         </div>

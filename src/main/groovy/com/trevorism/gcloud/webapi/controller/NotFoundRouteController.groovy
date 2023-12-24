@@ -13,7 +13,6 @@ import io.micronaut.http.annotation.Error
 @Controller("/notfound")
 class NotFoundRouteController {
 
-
     @Inject
     ResourceResolver resourceResolver
 
