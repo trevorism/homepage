@@ -15,9 +15,9 @@
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
-import mixpanel from 'mixpanel-browser';
 
 export default {
+  inject: ['mixpanel'],
   name: 'Logout',
   components: {HeaderBar},
   data () {
@@ -33,7 +33,7 @@ export default {
       .then(() => {
         self.disabled = false
         self.message = 'Bye!'
-        mixpanel.reset()
+        self.mixpanel.reset()
       })
       .catch(() => {
         self.disabled = false
