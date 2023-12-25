@@ -53,7 +53,6 @@ import HeaderBar from "@trevorism/ui-header-bar";
 export default {
   name: 'Splash',
   components: {HeaderBar}
-
 }
 </script>
 

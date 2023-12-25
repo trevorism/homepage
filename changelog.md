@@ -1,3 +1,11 @@
+# 1.4.0
+
+Add mixpanel tracking
+
+# 1.3.0
+
+Remove login from this app. It has been moved to https://login.auth.trevorism.com
+
 # 1.1.0
 
 Update node dependencies; add prompt app
