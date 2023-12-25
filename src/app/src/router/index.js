@@ -14,6 +14,7 @@ import Improvement from "../components/articles/Improvement.vue";
 import Admin from "../components/Admin.vue";
 import NotFound from "../components/NotFound.vue";
 import LayoutCaller from "../components/layout/layout-caller.vue";
+import mixpanel from 'mixpanel-browser';
 
 const { cookies } = useCookies();
 
@@ -120,6 +121,10 @@ const router = createRouter({
         }
     }
 ]
+})
+
+router.afterEach((to) => {
+    mixpanel.track(to.fullPath)
 })
 
 export default router
