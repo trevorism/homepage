@@ -40,6 +40,7 @@ import DocsAction from "../docs/docs-action.vue";
 import DocsTesting from "../docs/docs.testing.vue";
 
 export default {
+  inject: ['mixpanel'],
   name: "DocsLayout",
   components: {DocsIntro, DocsAchievements, DocsInfo, DocsAuth, DocsData, DocsAction, DocsTesting},
   props: {
@@ -66,6 +67,7 @@ export default {
   methods: {
     show: function (num) {
       this.cardVisible = num
+      this.mixpanel.track('docs', { 'page': num })
     },
     getDisplay: function (num) {
       if(this.cardVisible === num){
