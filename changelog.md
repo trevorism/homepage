@@ -1,3 +1,7 @@
+# 1.5.0
+
+Update dependencies and add test/deploy events
+
 # 1.4.0
 
 Add mixpanel tracking

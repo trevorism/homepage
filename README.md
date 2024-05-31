@@ -6,4 +6,7 @@
  
 Code for [Trevorism.com](https://trevorism.com)
 
-Current Version: 1.4.0
+Current Version: 1.5.0
+
+## How to Build
+`gradle clean build`

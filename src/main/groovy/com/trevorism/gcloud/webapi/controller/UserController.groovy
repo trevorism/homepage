@@ -3,23 +3,18 @@ package com.trevorism.gcloud.webapi.controller
 import com.trevorism.gcloud.webapi.model.ChangePasswordRequest
 import com.trevorism.gcloud.webapi.model.RegistrationRequest
 import com.trevorism.gcloud.webapi.model.User
-import com.trevorism.gcloud.webapi.service.DefaultUserSessionService
 import com.trevorism.gcloud.webapi.service.UserSessionService
-import com.trevorism.https.AppClientSecureHttpClient
 import com.trevorism.secure.Roles
 import com.trevorism.secure.Secure
-import io.micronaut.http.HttpRequest
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
-import io.micronaut.security.authentication.Authentication
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.inject.Inject
 import org.apache.hc.client5.http.HttpResponseException
-
 
 @Controller("/api/user")
 class UserController {
