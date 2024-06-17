@@ -1,3 +1,7 @@
+# 1.6.0
+
+Add a funding form to the contact page.
+
 # 1.5.0
 
 Update dependencies and add test/deploy events

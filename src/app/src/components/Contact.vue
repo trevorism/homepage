@@ -29,16 +29,24 @@
       <p class="mb-2">
         Please contact us at feedback@trevorism.com for pricing, feature requests, or general inquiries.
       </p>
+      <h1 class="text-3xl font-bold -ml-4 mb-2">
+        Funding
+      </h1>
+      <p class="mb-2">
+        Help fund Trevorism by making a payment below. We certainly would appreciate it!
+        <div class="mt-6"><stripe></stripe></div>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
+import Stripe from "./Stripe.vue";
 
 export default {
   name: 'Contact',
-  components: {HeaderBar}
+  components: {Stripe, HeaderBar}
 }
 </script>
 
