@@ -45,7 +45,7 @@ const checkout = async () => {
       </va-button>
       <div v-if="errorMessage.length > 0" class="text-left text-red-600">{{ errorMessage }}</div>
       <div v-if="successMessage.length > 0" class="text-left">{{ successMessage }}</div>
-      </span>
+    </span>
   </va-form>
 
 </template>

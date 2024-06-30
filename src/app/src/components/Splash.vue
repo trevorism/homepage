@@ -47,13 +47,11 @@
   </div>
 </template>
 
-<script>
-import HeaderBar from "@trevorism/ui-header-bar";
+<script setup>
+import HeaderBar from '@trevorism/ui-header-bar';
+import axios from "axios";
+axios.get("/api/authWarmup");
 
-export default {
-  name: 'Splash',
-  components: {HeaderBar}
-}
 </script>
 
 <style>

@@ -1,3 +1,7 @@
+# 1.7.0
+
+Update dependencies. Add auth warmup call to splash page.
+
 # 1.6.0
 
 Add a funding form to the contact page.
