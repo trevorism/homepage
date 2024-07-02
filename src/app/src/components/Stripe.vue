@@ -16,11 +16,10 @@ const checkout = async () => {
   successMessage.value = 'Rerouting to payment provider...'
 
   const request = {
-    name: "Trevorism Funding",
     dollars: amount.value
   }
 
-  await axios.post('https://stripe.trade.trevorism.com/api/payment/session', request).then((response) => {
+  await axios.post('api/payment/session', request).then((response) => {
     disabled.value = false
     errorMessage.value = ''
     successMessage.value = ''

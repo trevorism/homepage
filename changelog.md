@@ -1,3 +1,7 @@
+# 1.8.0
+
+Add a payment controller. This allows for server side handling of payments prior to invoking the stripe API.
+
 # 1.7.0
 
 Update dependencies. Add auth warmup call to splash page.
