@@ -9,18 +9,16 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.inject.Inject
 
 @Controller("/api/payment")
 class PaymentController {
 
     public static final String BASE_URL = "https://stripe.trade.trevorism.com"
 
+    @Inject
     private SecureHttpClient secureHttpClient
     private Gson gson = new Gson()
-
-    PaymentController(SecureHttpClient secureHttpClient) {
-        this.secureHttpClient = secureHttpClient
-    }
 
     @Tag(name = "Payment Operations")
     @Operation(summary = "Create a new Stripe payment session")

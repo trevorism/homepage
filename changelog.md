@@ -1,3 +1,7 @@
+# 1.9.0
+
+Update js dependencies. Local vite setup has a proxy which obtains a token for faster development.
+
 # 1.8.0
 
 Add a payment controller. This allows for server side handling of payments prior to invoking the stripe API.

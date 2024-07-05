@@ -11,19 +11,16 @@ import org.slf4j.LoggerFactory
 class DefaultUserSessionService implements UserSessionService {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultUserSessionService.class.getName())
+    public static final String BASE_AUTH_URL = "https://auth.trevorism.com"
 
     @Inject
     private SecureHttpClient secureHttpClient
     private final Gson gson = new Gson()
 
-    DefaultUserSessionService(SecureHttpClient secureHttpClient){
-        this.secureHttpClient = secureHttpClient
-    }
-
     @Override
     User getUserFromToken() {
         try {
-            def response = secureHttpClient.get("https://auth.trevorism.com/user/me")
+            def response = secureHttpClient.get("$BASE_AUTH_URL/user/me")
             return gson.fromJson(response, User)
         } catch (Exception e) {
             log.warn("Unable to find user", e)
@@ -37,7 +34,7 @@ class DefaultUserSessionService implements UserSessionService {
             return false
         }
         String json = gson.toJson(registrationRequest)
-        def response = secureHttpClient.post("https://auth.trevorism.com/user", json, [:])
+        def response = secureHttpClient.post("$BASE_AUTH_URL/user", json, [:])
         User user = gson.fromJson(response.value, User)
         return !User.isNullUser(user)
     }
@@ -45,7 +42,7 @@ class DefaultUserSessionService implements UserSessionService {
     @Override
     boolean changePassword(ChangePasswordRequest changePasswordRequest) {
         String json = gson.toJson(changePasswordRequest)
-        def response = secureHttpClient.post("https://auth.trevorism.com/user/change", json)
+        def response = secureHttpClient.post("$BASE_AUTH_URL/user/change", json)
         return response == "true"
     }
 
