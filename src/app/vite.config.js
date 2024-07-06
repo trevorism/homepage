@@ -3,13 +3,20 @@ import vue from '@vitejs/plugin-vue'
 import PropertiesReader from 'properties-reader';
 import axios from 'axios';
 
-const properties = PropertiesReader('../main/resources/secrets.properties');
-const clientId = properties.get('localUser');
-const clientSecret = properties.get('localPassword');
 let token = '';
-axios.post('https://auth.trevorism.com/token', { id: clientId, password: clientSecret, type: "user"}).then((response) => {
-    token = response.data;
-});
+try {
+    const properties = PropertiesReader('../main/resources/secrets.properties');
+    const clientId = properties.get('localUser');
+    const clientSecret = properties.get('localPassword');
+    axios.post('https://auth.trevorism.com/token', {
+        id: clientId,
+        password: clientSecret,
+        type: "user"
+    }).then((response) => {
+        token = response.data;
+    });
+} catch (e) {
+}
 
 export default defineConfig({
     plugins: [vue()],
