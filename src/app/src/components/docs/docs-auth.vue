@@ -30,7 +30,7 @@
         </p>
         <p class="mb-2">
           With valid credentials, a JWT token may be requested. Tokens are short-lived and encrypted such that only Trevorism services may read the tokens.
-          Tokens are sent in the Authorization header of each request to a Trevorism service. For example: <span class="font-mono bg-slate-100">{"Authorization": "bearer &lt;token&gt;"}</span>
+          Tokens are sent in the Authorization header of each request to a Trevorism service. For example: <span class="font-mono bg-slate-100">{"Authorization": "Bearer &lt;token&gt;"}</span>
         </p>
         <p class="mb-2">
           A service securing endpoints may do so by simply annotating the API method with a <span class="text-amber-400"> @Secure</span> annotation.
