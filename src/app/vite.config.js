@@ -8,13 +8,15 @@ try {
     const properties = PropertiesReader('../main/resources/secrets.properties');
     const clientId = properties.get('localUser');
     const clientSecret = properties.get('localPassword');
-    axios.post('https://auth.trevorism.com/token', {
-        id: clientId,
-        password: clientSecret,
-        type: "user"
-    }).then((response) => {
-        token = response.data;
-    });
+    if(clientId && clientSecret) {
+        axios.post('https://auth.trevorism.com/token', {
+            id: clientId,
+            password: clientSecret,
+            type: "user"
+        }).then((response) => {
+            token = response.data;
+        });
+    }
 } catch (e) {
 }
 
