@@ -1,3 +1,7 @@
+# 2.0.0
+
+Evaluating the cost/benefit of always on. Update dependencies.
+
 # 1.9.0
 
 Update js dependencies. Local vite setup has a proxy which obtains a token for faster development.
