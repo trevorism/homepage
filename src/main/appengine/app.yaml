@@ -3,6 +3,12 @@ entrypoint: java -jar homepage-all.jar
 automatic_scaling:
   min_idle_instances: 1
 handlers:
+  - url: /
+    secure: always
+    redirect_http_response_code: 301
+    http_headers:
+      Cache-Control: "no-cache, no-store, must-revalidate"
+    script: auto
   - url: /.*
     secure: always
     redirect_http_response_code: 301
