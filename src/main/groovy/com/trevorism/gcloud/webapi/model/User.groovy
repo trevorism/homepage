@@ -8,7 +8,6 @@ class User {
     String id
     String username
     String email
-    String image
     boolean admin
     boolean active
 

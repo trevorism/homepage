@@ -1,3 +1,7 @@
+# 2.1.0
+
+Add image profiles to homepage account.
+
 # 2.0.0
 
 Evaluating the cost/benefit of always on. Update dependencies.

@@ -5,15 +5,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import HeaderBar from '@trevorism/ui-header-bar'
-
-export default {
-  name: 'Admin',
-  components: {
-    HeaderBar
-  }
-}
 </script>
 
 <style scoped>
