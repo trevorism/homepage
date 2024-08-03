@@ -60,7 +60,7 @@ class RootController {
     )
     @Get(value = "/version", produces = MediaType.TEXT_PLAIN)
     String version() {
-        return "1.9.0"
+        return "2.1.0"
     }
 
     @Tag(name = "Root Operations")
