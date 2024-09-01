@@ -11,6 +11,7 @@
       <li><va-chip class="w-1/6" flat href="https://timeline.draw.trevorism.com">Timeline Generator</va-chip> Create a downloadable color coded timeline with pixel perfect scale</li>
       <li class="mt-2"><va-chip class="w-1/6" flat href="https://active.project.trevorism.com">Service Registry</va-chip> View a list of all Trevorism integrated services and libraries</li>
       <li class="mt-2"><va-chip class="w-1/6" flat href="https://prompt.action.trevorism.com/">Ask a Question</va-chip> Ask questions of other Trevorism users and get answers</li>
+      <li class="mt-2"><va-chip class="w-1/6" flat href="https://candlebot.trade.trevorism.com/">Candlebot</va-chip> View cryptocurrency financial charts</li>
 
     </ul>
 

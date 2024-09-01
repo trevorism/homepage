@@ -1,3 +1,7 @@
+# 2.2.0
+
+Update dependencies of micronaut and the header bar. Adding the candlebot app.
+
 # 2.1.0
 
 Add image profiles to homepage account.
