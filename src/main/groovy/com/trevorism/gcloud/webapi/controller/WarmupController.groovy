@@ -25,11 +25,4 @@ class WarmupController {
         return HttpResponse.ok()
     }
 
-    @Tag(name = "Warmup Operations")
-    @Operation(summary = "Warms up the application")
-    @ApiResponse(responseCode = "200")
-    @Get(value = "/test")
-    HttpResponse<String> test(){
-        return HttpResponse.ok("test")
-    }
 }
