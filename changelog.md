@@ -1,3 +1,7 @@
+# 2.3.0
+
+Getting instances minimum to one to work properly.
+
 # 2.2.0
 
 Update dependencies of micronaut and the header bar. Adding the candlebot app.
