@@ -49,9 +49,6 @@
 
 <script setup>
 import HeaderBar from '@trevorism/ui-header-bar';
-import axios from "axios";
-axios.get("/api/authWarmup");
-
 </script>
 
 <style>
