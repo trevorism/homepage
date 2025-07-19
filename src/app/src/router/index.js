@@ -59,12 +59,7 @@ const router = createRouter({
     {
         path: '/change',
         name: 'ChangePassword',
-        component: ChangePassword,
-        beforeEnter: (to, from, next) => {
-            let returnUrl = window.location.origin + '/change'
-            let reRoute = '/login?return_url=' + returnUrl
-            return userOnly(to, from, next, reRoute)
-        }
+        component: ChangePassword
     },
     {
         path: '/register',
