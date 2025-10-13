@@ -57,7 +57,7 @@ class RootController {
     )
     @Get(value = "/version", produces = MediaType.TEXT_PLAIN)
     String version() {
-        return "2.3.0"
+        return "2.4.0"
     }
 
 }

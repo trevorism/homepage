@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center" id="production">
     <HeaderBar :local="true"></HeaderBar>
-    <div class="container px-4">
+    <div class="container px-10">
       <h1 class="text-3xl font-bold -ml-4 mb-2">
         Productionalized Web Service
       </h1>

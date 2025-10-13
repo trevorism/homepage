@@ -1,3 +1,7 @@
+# 2.4.0
+
+Update all dependencies; gradle, micronaut, java, node.
+
 # 2.3.0
 
 Getting instances minimum to one to work properly.

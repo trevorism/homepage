@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center" id="contact">
     <HeaderBar :local="true"></HeaderBar>
-    <div class="container px-4">
+    <div class="container px-10">
       <h1 class="text-3xl font-bold -ml-4 mb-2">
         Consultant Services
       </h1>
@@ -32,10 +32,10 @@
       <h1 class="text-3xl font-bold -ml-4 mb-2">
         Funding
       </h1>
-      <p class="mb-2">
+      <div class="mb-2">
         Help fund Trevorism by making a payment below. We certainly would appreciate it!
         <div class="mt-6"><stripe></stripe></div>
-      </p>
+      </div>
     </div>
   </div>
 </template>

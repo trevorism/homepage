@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center" id="improvement">
     <HeaderBar :local="true"></HeaderBar>
-    <div class="container px-4">
+    <div class="container px-10">
       <h1 class="text-3xl font-bold -ml-4 mb-2">
         Scientific Improvement
       </h1>
