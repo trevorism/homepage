@@ -10,7 +10,7 @@
                       file-types="jpg,png,jpeg,gif"
                       @fileAdded="handleFileAdded">
           <va-inner-loading :loading="uploading">
-            <img :src="profileImage" class="rounded-full w-24 h-24" alt="Profile Image"/>
+            <img :src="profileImage" class="rounded-full w-24 h-24" alt="Profile Image" @error="handleImageError"/>
           </va-inner-loading>
         </VaFileUpload>
         <va-list class="ml-4">
@@ -66,13 +66,14 @@ export default {
           this.user = response.data
           this.loading = false
         })
-    axios.get('api/image/' + username + '/profile')
+    axios.get('api/image/' + username + '/profile', {responseType: 'arraybuffer'})
         .then(response => {
-          const bytes = response.data
-          const imageSrc = 'data:image/png;base64,' + btoa(bytes)
-          this.profileImage = imageSrc
+          const base64 = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+          this.profileImage = 'data:image/png;base64,' + base64
         }).catch(error => {
-    });
+          console.error('Failed to load profile image:', error)
+          this.profileImage = 'https://via.placeholder.com/150'
+        });
   },
   methods: {
     handleFileAdded(file) {
@@ -84,16 +85,20 @@ export default {
           'Content-Type': 'multipart/form-data'
         }
       }).then(response => {
-        axios.get('api/image/' + response.data)
+        axios.get('api/image/' + response.data, {responseType: 'arraybuffer'})
             .then(response => {
-              const bytes = response.data
-              const imageSrc = 'data:image/png;base64,' + btoa(bytes)
-              this.profileImage = imageSrc
+              const base64 = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+              this.profileImage = 'data:image/png;base64,' + base64
               this.uploading = false
             }).catch(error => {
+          console.error('Failed to reload profile image after upload:', error)
           this.uploading = false
         });
       })
+    },
+    handleImageError(event) {
+      console.error('Profile image failed to load:', event.target.src)
+      this.profileImage = 'https://via.placeholder.com/150'
     }
   }
 }
