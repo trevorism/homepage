@@ -18,13 +18,12 @@ import io.micronaut.http.multipart.CompletedFileUpload
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.inject.Inject
+import org.apache.hc.client5.http.classic.methods.HttpGet
 import org.apache.hc.client5.http.classic.methods.HttpPost
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse
 import org.apache.hc.client5.http.impl.classic.HttpClients
-import org.apache.hc.core5.http.ContentType
-import org.apache.hc.core5.http.HttpEntity
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse
+import org.apache.hc.core5.http.io.entity.EntityUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -39,6 +38,8 @@ class ImageController {
     @Inject
     private UserSessionService userSessionService
 
+    private CloseableHttpClient httpClient = HttpClients.createDefault()
+
     @Tag(name = "Image Operations")
     @Operation(summary = "Lookup Image")
     @Get(value = "{username}/profile", produces = MediaType.APPLICATION_OCTET_STREAM)
@@ -49,16 +50,14 @@ class ImageController {
         if(!restOfPath) {
             throw new HttpStatusException(HttpStatus.NOT_FOUND, "Image not found")
         }
-        String url = "https://bucket.data.trevorism.com/object/${restOfPath}"
-        return secureHttpClient.get(url).bytes
+        return fetchBinaryImage("https://bucket.data.trevorism.com/object/${restOfPath}")
     }
 
     @Tag(name = "Image Operations")
     @Operation(summary = "Lookup Image")
     @Get(value = "{username}/profile/{imageFileName}", produces = MediaType.APPLICATION_OCTET_STREAM)
     byte[] get(String username, String imageFileName) {
-        String url = "https://bucket.data.trevorism.com/object/${username}/profile/${imageFileName}"
-        return secureHttpClient.get(url).bytes
+        return fetchBinaryImage("https://bucket.data.trevorism.com/object/${username}/profile/${imageFileName}")
     }
 
     @Tag(name = "Image Operations")
@@ -77,6 +76,29 @@ class ImageController {
         } catch (Exception e) {
             log.error("Unable to create image", e)
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Unable to create image")
+        }
+    }
+
+    private byte[] fetchBinaryImage(String url) {
+        try {
+            String token = secureHttpClient.obtainTokenStrategy.getToken()
+            HttpGet request = new HttpGet(url)
+            request.setHeader("Authorization", "Bearer " + token)
+
+            CloseableHttpResponse response = httpClient.execute(request)
+            try {
+                if (response.getCode() != 200) {
+                    throw new HttpStatusException(HttpStatus.NOT_FOUND, "Image not found")
+                }
+                return EntityUtils.toByteArray(response.getEntity())
+            } finally {
+                response.close()
+            }
+        } catch (HttpStatusException e) {
+            throw e
+        } catch (Exception e) {
+            log.error("Unable to fetch image from {}", url, e)
+            throw new HttpStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch image")
         }
     }
 
