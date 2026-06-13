@@ -14,34 +14,34 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.14",
-    "vue": "^3.5.22",
+    "@tailwindcss/vite": "^4.3.1",
+    "vue": "^3.5.38",
     "vue-mixpanel": "^2.0.0",
-    "vue-router": "^4.5.1",
+    "vue-router": "^5.1.0",
     "vue3-click-away": "^1.2.4",
     "vuestic-ui": "^1.10.3"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.13.0",
-    "@stripe/stripe-js": "^8.0.0",
+    "@rushstack/eslint-patch": "^1.16.1",
+    "@stripe/stripe-js": "^9.8.0",
     "@trevorism/ui-header-bar": "^5.0.0",
-    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vue/eslint-config-prettier": "^10.2.0",
-    "@vue/test-utils": "^2.4.6",
-    "autoprefixer": "^10.4.21",
-    "axios": "^1.12.2",
-    "eslint": "^9.37.0",
-    "eslint-plugin-vue": "^10.5.0",
-    "jsdom": "^27.0.0",
-    "prettier": "^3.6.2",
-    "properties-reader": "^2.3.0",
-    "tailwindcss": "^4.1.14",
-    "vite": "^7.1.9",
-    "vitest": "^3.2.4",
+    "@vue/test-utils": "^2.4.11",
+    "autoprefixer": "^10.5.0",
+    "axios": "^1.17.0",
+    "eslint": "^10.5.0",
+    "eslint-plugin-vue": "^10.9.2",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.4",
+    "properties-reader": "^3.0.1",
+    "tailwindcss": "^4.3.1",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8",
     "vue-cli-plugin-vuestic-ui": "~1.0.11",
     "vue3-cookies": "^1.0.6"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.52.4"
+    "@rollup/rollup-linux-x64-gnu": "^4.62.0"
   }
 }

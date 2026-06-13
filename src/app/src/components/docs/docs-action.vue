@@ -9,8 +9,8 @@
       </h2>
       <div class="mb-2 ml-2">
         <p class="mb-2">The Action API allows users to store REST based endpoint invocations and invoke them by name.
-          This provides a convenient way to perform operations on the ecosystem.</p>
-
+          This provides a convenient way to perform operations on the ecosystem.
+        </p>
       </div>
       <h2 class="text-xl font-bold -ml-4 mb-2">
         API
@@ -40,7 +40,7 @@
         Result
       </h2>
       <div class="mb-2 ml-2">
-        The Action APIs wraps other web services, converting them into using Trevorism security so users and apps can leverage them.
+        The Action APIs may wrap external web services, applying Trevorism security model so users and apps can leverage them.
       </div>
     </div>
 
