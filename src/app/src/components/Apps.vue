@@ -20,9 +20,6 @@
         <va-chip class="w-1/6" flat href="https://candlebot.trade.trevorism.com/">Candlebot</va-chip> View
         cryptocurrency financial charts
       </li>
-      <li class="mt-2">
-        <va-chip class="w-1/6" flat href="https://memowand.com/">Memowand</va-chip> A private group image share
-      </li>
     </ul>
   </div>
 </template>
