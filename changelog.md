@@ -1,3 +1,7 @@
+# 2.5.0
+
+Upgrade to Micronaut 5, Java 25. Update Gradle wrapper, shadow plugin, reactor-core, gson, and micronaut-utility-beans dependencies.
+
 # 2.4.0
 
 Update all dependencies; gradle, micronaut, java, node.
@@ -69,4 +73,3 @@ Attempting several optimizations to improve performance with logins.
 # 0.6.0
 
 Allows for login/change password/logout in addition to content
-
