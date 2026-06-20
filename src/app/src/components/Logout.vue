@@ -33,7 +33,11 @@ export default {
       .then(() => {
         self.disabled = false
         self.message = 'Bye!'
-        self.mixpanel.reset()
+        try {
+          self.mixpanel.reset()
+        } catch (e) {
+          // mixpanel reset is best-effort; never let it report a failed logout
+        }
       })
       .catch(() => {
         self.disabled = false
