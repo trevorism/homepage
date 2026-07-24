@@ -23,7 +23,7 @@ Given(~/^the application is alive$/) { ->
 }
 
 When(~/^I navigate to "([^"]*)"$/) { String url ->
-    contextRootContent = new URL(baseUrl).text
+    contextRootContent = new URL("${baseUrl}/api").text
 }
 
 Then(~/^then a link to the help page is displayed$/) { ->
@@ -32,7 +32,7 @@ Then(~/^then a link to the help page is displayed$/) { ->
 }
 
 When(~/^I ping the application deployed to "([^"]*)"$/) { String url ->
-    pingContent = new URL("${baseUrl}/ping").text
+    pingContent = new URL("${baseUrl}/api/ping").text
 }
 
 Then(~/^pong is returned, to indicate the service is alive$/) { ->
