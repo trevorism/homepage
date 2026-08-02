@@ -1,3 +1,7 @@
+# 2.6.0
+
+Move to versioning plugin and fix an issue with stripe
+
 # 2.5.0
 
 Upgrade to Micronaut 5, Java 25. Update Gradle wrapper, shadow plugin, reactor-core, gson, and micronaut-utility-beans dependencies.

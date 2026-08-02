@@ -1,9 +1,6 @@
 <script setup>
 import {ref} from 'vue'
-import {loadStripe} from '@stripe/stripe-js'
 import axios from 'axios'
-
-const stripePromise = loadStripe('pk_live_51HbczGKUPlXay6LPD19T6KKerdVzh6pDRX1rSlDLQALdep9aQVoZ2gv9T17YptAw3Ac1mxBzfsqWoooQdPQtqYno00InsjrrOe')
 
 const amount = ref(4.99)
 const disabled = ref(false)
@@ -11,26 +8,28 @@ const errorMessage = ref('')
 const successMessage = ref('')
 
 const checkout = async () => {
-  const stripe = await stripePromise
   disabled.value = true
+  errorMessage.value = ''
   successMessage.value = 'Rerouting to payment provider...'
 
   const request = {
     dollars: amount.value
   }
 
-  await axios.post('api/payment/session', request).then((response) => {
-    disabled.value = false
-    errorMessage.value = ''
+  try {
+    const response = await axios.post('api/payment/session', request)
+    if (!response.data?.url) {
+      throw new Error('No checkout url returned')
+    }
+    window.location.href = response.data.url
+  } catch (error) {
+    const status = error.response?.status
+    errorMessage.value = status === 400 || status === 500
+      ? 'Submission Error. Please enter an amount over $0.99'
+      : 'Unable to reach the payment provider. Please try again.'
     successMessage.value = ''
-    stripe.redirectToCheckout({
-      sessionId: response.data.id
-    })
-  }).catch(() => {
-    errorMessage.value = 'Submission Error. Please enter an amount over $0.99'
-    successMessage.value = ''
     disabled.value = false
-  });
+  }
 }
 </script>
 

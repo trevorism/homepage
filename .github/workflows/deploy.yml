@@ -21,6 +21,5 @@ jobs:
     with:
       gcp_project: 'trevorism'
       gcp_project_id: '148460565986'
-      version: '2-5-0'
       service: 'default'
     secrets: inherit
