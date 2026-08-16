@@ -11,19 +11,10 @@ import Prototype from "../components/articles/Prototype.vue";
 import Trends from "../components/articles/Trends.vue";
 import Production from "../components/articles/Production.vue";
 import Improvement from "../components/articles/Improvement.vue";
-import Admin from "../components/Admin.vue";
 import NotFound from "../components/NotFound.vue";
 import LayoutCaller from "../components/layout/layout-caller.vue";
 
 const { cookies } = useCookies();
-
-function adminOnly (to, from, next, reRouteLocation) {
-    let admin = cookies.get('admin')
-    if (admin) {
-        return next()
-    }
-    return next(reRouteLocation)
-}
 
 function userOnly (to, from, next, reRouteLocation) {
     let username = cookies.get('user_name')
@@ -103,16 +94,6 @@ const router = createRouter({
     {
         path: "/:notFound",
         component: NotFound,
-    },
-    {
-        path: '/admin',
-        name: 'Admin',
-        component: Admin,
-        beforeEnter: (to, from, next) => {
-            let returnUrl = window.location.origin + '/admin'
-            let reRoute = '/login?return_url=' + returnUrl
-            return adminOnly(to, from, next, reRoute)
-        }
     }
 ]
 })
