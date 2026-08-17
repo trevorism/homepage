@@ -1,0 +1,131 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { mount, flushPromises } from '@vue/test-utils'
+import axios from 'axios'
+import Tenant from '../src/components/Tenant.vue'
+
+const stubs = {
+  HeaderBar: true,
+  'va-inner-loading': { template: '<div><slot /></div>' },
+  VaInnerLoading: { template: '<div><slot /></div>' },
+  'va-form': { template: '<form><slot /></form>' },
+  'va-input': { template: '<input />' },
+  'va-button': { template: '<button @click="$emit(\'click\')"><slot /></button>' },
+  'va-icon': true
+}
+
+const mountTenant = () => mount(Tenant, { global: { stubs } })
+
+const setLocation = (search) => {
+  Object.defineProperty(window, 'location', {
+    value: { search, href: '' },
+    writable: true,
+    configurable: true
+  })
+}
+
+describe('Tenant.vue', () => {
+  beforeEach(() => {
+    setLocation('')
+    vi.spyOn(axios, 'get').mockResolvedValue({ data: {} })
+    vi.spyOn(axios, 'post').mockResolvedValue({ data: {} })
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('offers the ten dollar plan when the caller has no tenant', async () => {
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('$10.00 / month')
+    expect(wrapper.text()).toContain('Create tenant')
+  })
+
+  it('shows the active tenant when one is already provisioned', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Acme')
+    expect(wrapper.text()).toContain('acme.com')
+    expect(wrapper.text()).toContain('tenant administrator')
+  })
+
+  it('prompts to finish payment when the request is still pending', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('waiting for payment')
+    expect(wrapper.text()).toContain('Continue to payment')
+  })
+
+  it('reports a suspended tenant', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('suspended')
+    expect(wrapper.text()).toContain('Restart subscription')
+  })
+
+  it('provisions the tenant when returning from a successful checkout', async () => {
+    setLocation('?request=req-1&status=success')
+    axios.get.mockResolvedValue({ data: {} })
+    axios.post.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(axios.post).toHaveBeenCalledWith('api/tenant/request/req-1/provision')
+    expect(wrapper.text()).toContain('temporary administrator password')
+  })
+
+  it('does not provision when returning from a cancelled checkout', async () => {
+    setLocation('?request=req-1&status=cancelled')
+
+    mountTenant()
+    await flushPromises()
+
+    expect(axios.post).not.toHaveBeenCalled()
+  })
+
+  it('surfaces the server message when provisioning is rejected', async () => {
+    setLocation('?request=req-1&status=success')
+    axios.post.mockRejectedValue({ response: { data: { message: 'An active subscription is required' } } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('An active subscription is required')
+  })
+
+  it('redirects to the payment provider when checkout starts', async () => {
+    axios.get.mockImplementation((url) => {
+      if (url === 'api/tenant/request') {
+        return Promise.resolve({ data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' } })
+      }
+      return Promise.resolve({ data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' } })
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    await wrapper.find('button').trigger('click')
+    await flushPromises()
+
+    expect(window.location.href).toBe('https://checkout.stripe.com/c/pay/cs_test_1')
+  })
+})
