@@ -2,7 +2,10 @@ package com.trevorism.gcloud.webapi.controller
 
 import com.google.gson.Gson
 import com.trevorism.gcloud.webapi.model.TenantRequestInput
+import com.trevorism.http.util.InvalidRequestException
 import com.trevorism.https.SecureHttpClient
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.exceptions.HttpStatusException
 import org.junit.jupiter.api.Test
 
 class SubscribedTenantControllerTest {
@@ -58,6 +61,81 @@ class SubscribedTenantControllerTest {
 
         assert result.tenantGuid == "guid-1"
         assert posts[0].url == "https://tenant.auth.trevorism.com/subscribedtenant/req-1/tenant"
+    }
+
+    @Test
+    void testARefusalFromTheTenantServiceIsNotReportedAsAServerError() {
+        SubscribedTenantController controller = controllerThatFailsWith(
+                new InvalidRequestException(new RuntimeException("Domain acme.com is already in use"), 400))
+
+        try {
+            controller.requestTenant(new TenantRequestInput(name: "Acme", domain: "acme.com"))
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_REQUEST
+            assert e.message == "Unable to create the tenant request"
+        }
+    }
+
+    @Test
+    void testAnUnauthorizedUpstreamCallKeepsItsStatus() {
+        SubscribedTenantController controller = controllerThatFailsWith(
+                new InvalidRequestException(new RuntimeException("nope"), 401))
+
+        try {
+            controller.provision("req-1")
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.UNAUTHORIZED
+        }
+    }
+
+    @Test
+    void testAnUnreachableTenantServiceIsReportedAsABadGateway() {
+        SubscribedTenantController controller = controllerThatFailsWith(
+                new InvalidRequestException(new RuntimeException("connection refused")))
+
+        try {
+            controller.createCheckoutSession("req-1")
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_GATEWAY
+        }
+    }
+
+    @Test
+    void testAFailingTenantServiceIsNotBlamedOnTheHomepage() {
+        SubscribedTenantController controller = controllerThatFailsWith(
+                new InvalidRequestException(new RuntimeException("boom"), 500))
+
+        try {
+            controller.provision("req-1")
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_GATEWAY
+        }
+    }
+
+    @Test
+    void testAFailedLookupDoesNotBecomeAServerError() {
+        SubscribedTenantController controller = controllerThatFailsWith(
+                new InvalidRequestException(new RuntimeException("nope"), 404))
+
+        try {
+            controller.getCurrentRequest()
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.NOT_FOUND
+        }
+    }
+
+    private SubscribedTenantController controllerThatFailsWith(InvalidRequestException failure) {
+        SubscribedTenantController controller = new SubscribedTenantController()
+        controller.secureHttpClient = [
+                get : { String url -> throw failure },
+                post: { String url, String body -> throw failure }
+        ] as SecureHttpClient
+        return controller
     }
 
     private SubscribedTenantController controllerWith(String response) {

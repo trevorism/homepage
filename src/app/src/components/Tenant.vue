@@ -118,11 +118,12 @@ export default {
         return
       }
 
-      try {
-        const response = await axios.post(`api/subscribedtenant/${this.request.id}/tenant`)
-        this.request = response.data
-      } catch {
-        this.successMessage = ''
+      const claimed = await axios
+        .post(`api/subscribedtenant/${this.request.id}/tenant`)
+        .catch(() => null)
+
+      if (claimed) {
+        this.request = claimed.data
       }
     },
     async createRequest() {

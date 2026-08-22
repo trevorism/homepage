@@ -109,23 +109,38 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('temporary administrator password')
   })
 
-  it('does not provision when returning from a cancelled checkout', async () => {
+  it('does not charge again when returning from a cancelled checkout', async () => {
     setLocation('?request=req-1&status=cancelled')
-
-    mountTenant()
-    await flushPromises()
-
-    expect(axios.post).not.toHaveBeenCalled()
-  })
-
-  it('surfaces the server message when provisioning is rejected', async () => {
-    setLocation('?request=req-1&status=success')
-    axios.post.mockRejectedValue({ response: { data: { message: 'An active subscription is required' } } })
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
+    })
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
 
     const wrapper = mountTenant()
     await flushPromises()
 
-    expect(wrapper.text()).toContain('An active subscription is required')
+    expect(axios.post).not.toHaveBeenCalledWith('api/subscribedtenant/req-1/session')
+    expect(wrapper.text()).toContain('Continue to payment')
+  })
+
+  it('surfaces the server message when provisioning is rejected', async () => {
+    setLocation('?request=req-1&status=success')
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Unable to provision the tenant')
+  })
+
+  it('falls back to its own wording when the failure carries no message', async () => {
+    setLocation('?request=req-1&status=success')
+    axios.post.mockRejectedValue(new Error('Network Error'))
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('We could not confirm your subscription yet')
   })
 
   it('redirects to the payment provider when checkout starts', async () => {
