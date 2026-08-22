@@ -55,6 +55,19 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('tenant administrator')
   })
 
+  it('points the administrator at the tenant login rather than their own domain', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    const hrefs = wrapper.findAll('a').map((link) => link.attributes('href'))
+    expect(hrefs).toContain('https://login.auth.trevorism.com')
+    expect(hrefs).not.toContain('https://acme.com')
+  })
+
   it('prompts to finish payment when the request is still pending', async () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
@@ -83,16 +96,33 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('is active at acme.com')
   })
 
-  it('reports a suspended tenant', async () => {
+  it('reports a suspended tenant while the subscription is still inactive', async () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
     })
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
 
     const wrapper = mountTenant()
     await flushPromises()
 
     expect(wrapper.text()).toContain('suspended')
     expect(wrapper.text()).toContain('Restart subscription')
+  })
+
+  it('restores a suspended tenant as soon as the subscription is live again', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
+    })
+    axios.post.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/tenant')
+    expect(wrapper.text()).toContain('is active at acme.com')
+    expect(wrapper.text()).not.toContain('Restart subscription')
   })
 
   it('provisions the tenant when returning from a successful checkout', async () => {

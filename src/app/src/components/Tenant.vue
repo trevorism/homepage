@@ -11,8 +11,9 @@
             <strong>{{ request.name }}</strong> is active at {{ request.domain }}.
           </p>
           <p class="mb-2">
-            You are the tenant administrator. Sign in at
-            <a :href="'https://' + request.domain">{{ request.domain }}</a> with your Trevorism username.
+            You are the tenant administrator. Sign in with your Trevorism username at
+            <a href="https://login.auth.trevorism.com">login.auth.trevorism.com</a>, with your tenant id
+            appended to the end of that address.
           </p>
           <p class="text-sm">{{ cancellationNotice }}</p>
         </div>
@@ -97,7 +98,7 @@ export default {
       return
     }
 
-    await this.finishUnclaimedCheckout()
+    await this.claimTenantIfSubscribed()
   },
   methods: {
     describeError(error, fallback) {
@@ -113,8 +114,8 @@ export default {
         this.loading = false
       }
     },
-    async finishUnclaimedCheckout() {
-      if (this.request?.status !== 'PENDING_PAYMENT') {
+    async claimTenantIfSubscribed() {
+      if (!this.isAwaitingPayment && !this.isSuspended) {
         return
       }
 
