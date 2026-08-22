@@ -89,7 +89,7 @@ describe('Tenant.vue', () => {
     const wrapper = mountTenant()
     await flushPromises()
 
-    expect(axios.post).toHaveBeenCalledWith('api/tenant/request/req-1/provision')
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/provision')
     expect(wrapper.text()).toContain('temporary administrator password')
   })
 
@@ -114,7 +114,7 @@ describe('Tenant.vue', () => {
 
   it('redirects to the payment provider when checkout starts', async () => {
     axios.get.mockImplementation((url) => {
-      if (url === 'api/tenant/request') {
+      if (url === 'api/subscribedtenant') {
         return Promise.resolve({ data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' } })
       }
       return Promise.resolve({ data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' } })

@@ -102,7 +102,7 @@ export default {
     },
     async loadRequest() {
       try {
-        const response = await axios.get('api/tenant/request')
+        const response = await axios.get('api/subscribedtenant')
         this.request = response.data && response.data.id ? response.data : null
       } catch {
         this.request = null
@@ -116,7 +116,7 @@ export default {
       this.successMessage = ''
 
       try {
-        const response = await axios.post('api/tenant/request', { name: this.name, domain: this.domain })
+        const response = await axios.post('api/subscribedtenant', { name: this.name, domain: this.domain })
         this.request = response.data
         await this.startCheckout()
       } catch (error) {
@@ -130,7 +130,7 @@ export default {
       this.successMessage = 'Rerouting to payment provider...'
 
       try {
-        const response = await axios.get(`api/tenant/request/${this.request.id}/session`)
+        const response = await axios.get(`api/subscribedtenant/${this.request.id}/session`)
         if (!response.data?.url) {
           throw new Error('No checkout url returned')
         }
@@ -147,7 +147,7 @@ export default {
       this.successMessage = 'Setting up your tenant...'
 
       try {
-        const response = await axios.post(`api/tenant/request/${requestId}/provision`)
+        const response = await axios.post(`api/subscribedtenant/${requestId}/provision`)
         this.request = response.data
         this.successMessage = 'Your tenant is ready. Check your email for a temporary administrator password.'
       } catch (error) {

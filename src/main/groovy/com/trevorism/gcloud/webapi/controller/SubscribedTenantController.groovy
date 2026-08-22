@@ -14,8 +14,8 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.inject.Inject
 
-@Controller("/api/tenant/request")
-class TenantRequestController {
+@Controller("/api/subscribedtenant")
+class SubscribedTenantController {
 
     public static final String BASE_URL = "https://tenant.auth.trevorism.com"
 
@@ -28,7 +28,7 @@ class TenantRequestController {
     @Secure(Roles.USER)
     @Post(value = "/", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     Map requestTenant(@Body TenantRequestInput input) {
-        String json = secureHttpClient.post("$BASE_URL/tenant/request/", gson.toJson(input))
+        String json = secureHttpClient.post("$BASE_URL/subscribedtenant/", gson.toJson(input))
         return gson.fromJson(json, Map)
     }
 
@@ -37,7 +37,7 @@ class TenantRequestController {
     @Secure(Roles.USER)
     @Get(value = "/", produces = MediaType.APPLICATION_JSON)
     Map getCurrentRequest() {
-        String json = secureHttpClient.get("$BASE_URL/tenant/request/me")
+        String json = secureHttpClient.get("$BASE_URL/subscribedtenant/me")
         return json ? gson.fromJson(json, Map) : [:]
     }
 
@@ -46,7 +46,7 @@ class TenantRequestController {
     @Secure(Roles.USER)
     @Get(value = "/{requestId}/session", produces = MediaType.APPLICATION_JSON)
     Map createCheckoutSession(String requestId) {
-        String json = secureHttpClient.get("$BASE_URL/tenant/request/${requestId}/session")
+        String json = secureHttpClient.get("$BASE_URL/subscribedtenant/${requestId}/session")
         return gson.fromJson(json, Map)
     }
 
@@ -55,7 +55,7 @@ class TenantRequestController {
     @Secure(Roles.USER)
     @Post(value = "/{requestId}/provision", produces = MediaType.APPLICATION_JSON)
     Map provision(String requestId) {
-        String json = secureHttpClient.post("$BASE_URL/tenant/request/${requestId}/provision", "{}")
+        String json = secureHttpClient.post("$BASE_URL/subscribedtenant/${requestId}/provision", "{}")
         return gson.fromJson(json, Map)
     }
 }
