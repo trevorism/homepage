@@ -1,3 +1,7 @@
+## 2.8.0
+
+Allow for self service tenant registration.
+
 ## 2.7.0
 
 Bump ui header bar, routing to the latest admin page.

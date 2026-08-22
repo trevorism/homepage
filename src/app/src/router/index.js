@@ -11,6 +11,7 @@ import Prototype from "../components/articles/Prototype.vue";
 import Trends from "../components/articles/Trends.vue";
 import Production from "../components/articles/Production.vue";
 import Improvement from "../components/articles/Improvement.vue";
+import Tenant from "../components/Tenant.vue";
 import NotFound from "../components/NotFound.vue";
 import LayoutCaller from "../components/layout/layout-caller.vue";
 
@@ -50,6 +51,12 @@ const router = createRouter({
         path: '/change',
         name: 'ChangePassword',
         component: ChangePassword
+    },
+    {
+        path: '/tenant',
+        name: 'Tenant',
+        component: Tenant,
+        beforeEnter: userOnly
     },
     {
         path: '/register',
