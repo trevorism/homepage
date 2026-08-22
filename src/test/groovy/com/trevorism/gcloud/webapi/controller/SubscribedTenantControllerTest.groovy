@@ -2,6 +2,7 @@ package com.trevorism.gcloud.webapi.controller
 
 import com.google.gson.Gson
 import com.trevorism.gcloud.webapi.model.TenantRequestInput
+import com.trevorism.http.util.HttpResponseBodyException
 import com.trevorism.http.util.InvalidRequestException
 import com.trevorism.https.SecureHttpClient
 import io.micronaut.http.HttpStatus
@@ -78,6 +79,59 @@ class SubscribedTenantControllerTest {
     }
 
     @Test
+    void testTheTenantServiceExplanationReachesTheCaller() {
+        SubscribedTenantController controller = controllerThatFailsWith(bodyFailure(400,
+                '{"message":"Domain acme.com is already in use","_links":{"self":{"href":"/subscribedtenant/"}}}'))
+
+        try {
+            controller.requestTenant(new TenantRequestInput(name: "Acme", domain: "acme.com"))
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_REQUEST
+            assert e.message == "Domain acme.com is already in use"
+        }
+    }
+
+    @Test
+    void testAnEmbeddedErrorIsUsedWhenThereIsNoTopLevelMessage() {
+        SubscribedTenantController controller = controllerThatFailsWith(bodyFailure(400,
+                '{"_embedded":{"errors":[{"message":"A valid tenant domain is required"}]}}'))
+
+        try {
+            controller.requestTenant(new TenantRequestInput(name: "Acme", domain: "nope"))
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.message == "A valid tenant domain is required"
+        }
+    }
+
+    @Test
+    void testAnUnparseableBodyFallsBackToOurOwnWording() {
+        SubscribedTenantController controller = controllerThatFailsWith(bodyFailure(400, "<html>nginx</html>"))
+
+        try {
+            controller.provision("req-1")
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.message == "Unable to provision the tenant"
+        }
+    }
+
+    @Test
+    void testAFailingTenantServiceIsNeverQuotedBackToTheCaller() {
+        SubscribedTenantController controller = controllerThatFailsWith(bodyFailure(500,
+                '{"message":"Internal Server Error"}'))
+
+        try {
+            controller.provision("req-1")
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_GATEWAY
+            assert e.message == "Unable to provision the tenant"
+        }
+    }
+
+    @Test
     void testAnUnauthorizedUpstreamCallKeepsItsStatus() {
         SubscribedTenantController controller = controllerThatFailsWith(
                 new InvalidRequestException(new RuntimeException("nope"), 401))
@@ -127,6 +181,11 @@ class SubscribedTenantControllerTest {
         } catch (HttpStatusException e) {
             assert e.status == HttpStatus.NOT_FOUND
         }
+    }
+
+    private static InvalidRequestException bodyFailure(int statusCode, String body) {
+        return new InvalidRequestException(
+                new HttpResponseBodyException(statusCode, "Bad Request", body), statusCode)
     }
 
     private SubscribedTenantController controllerThatFailsWith(InvalidRequestException failure) {

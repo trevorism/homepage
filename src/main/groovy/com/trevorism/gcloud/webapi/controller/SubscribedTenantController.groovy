@@ -67,11 +67,25 @@ class SubscribedTenantController {
         }
     }
 
-    private static Map proxy(String failureMessage, Closure<Map> closure) {
+    private Map proxy(String failureMessage, Closure<Map> closure) {
         try {
             return closure.call()
         } catch (InvalidRequestException e) {
-            throw new HttpStatusException(statusFor(e.statusCode), failureMessage)
+            HttpStatus status = statusFor(e.statusCode)
+            String message = status.code < 500 ? explanationFrom(e) : null
+            throw new HttpStatusException(status, message ?: failureMessage)
+        }
+    }
+
+    private String explanationFrom(InvalidRequestException e) {
+        if (!e.responseBody) {
+            return null
+        }
+        try {
+            Map body = gson.fromJson(e.responseBody, Map)
+            return body?.message ?: body?._embedded?.errors?.getAt(0)?.message
+        } catch (Exception ignored) {
+            return null
         }
     }
 
