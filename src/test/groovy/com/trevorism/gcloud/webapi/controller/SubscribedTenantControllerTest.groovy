@@ -57,7 +57,7 @@ class SubscribedTenantControllerTest {
         Map result = controller.provision("req-1")
 
         assert result.tenantGuid == "guid-1"
-        assert posts[0].url == "https://tenant.auth.trevorism.com/subscribedtenant/req-1/provision"
+        assert posts[0].url == "https://tenant.auth.trevorism.com/subscribedtenant/req-1/tenant"
     }
 
     private SubscribedTenantController controllerWith(String response) {

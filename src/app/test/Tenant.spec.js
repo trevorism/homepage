@@ -79,7 +79,7 @@ describe('Tenant.vue', () => {
     const wrapper = mountTenant()
     await flushPromises()
 
-    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/provision')
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/tenant')
     expect(wrapper.text()).toContain('is active at acme.com')
   })
 
@@ -105,7 +105,7 @@ describe('Tenant.vue', () => {
     const wrapper = mountTenant()
     await flushPromises()
 
-    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/provision')
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/tenant')
     expect(wrapper.text()).toContain('temporary administrator password')
   })
 
@@ -133,7 +133,7 @@ describe('Tenant.vue', () => {
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockImplementation((url) => {
-      if (url.endsWith('/provision')) {
+      if (url.endsWith('/tenant')) {
         return Promise.reject({ response: { data: { message: 'An active subscription is required' } } })
       }
       return Promise.resolve({ data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' } })

@@ -53,9 +53,9 @@ class SubscribedTenantController {
     @Tag(name = "Tenant Request Operations")
     @Operation(summary = "Provision the tenant once the subscription is active **Secure")
     @Secure(Roles.USER)
-    @Post(value = "/{requestId}/provision", produces = MediaType.APPLICATION_JSON)
+    @Post(value = "/{requestId}/tenant", produces = MediaType.APPLICATION_JSON)
     Map provision(String requestId) {
-        String json = secureHttpClient.post("$BASE_URL/subscribedtenant/${requestId}/provision", "{}")
+        String json = secureHttpClient.post("$BASE_URL/subscribedtenant/${requestId}/tenant", "{}")
         return gson.fromJson(json, Map)
     }
 }

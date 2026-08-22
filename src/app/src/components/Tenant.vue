@@ -119,7 +119,7 @@ export default {
       }
 
       try {
-        const response = await axios.post(`api/subscribedtenant/${this.request.id}/provision`)
+        const response = await axios.post(`api/subscribedtenant/${this.request.id}/tenant`)
         this.request = response.data
       } catch {
         this.successMessage = ''
@@ -162,7 +162,7 @@ export default {
       this.successMessage = 'Setting up your tenant...'
 
       try {
-        const response = await axios.post(`api/subscribedtenant/${requestId}/provision`)
+        const response = await axios.post(`api/subscribedtenant/${requestId}/tenant`)
         this.request = response.data
         this.successMessage = 'Your tenant is ready. Check your email for a temporary administrator password.'
       } catch (error) {
