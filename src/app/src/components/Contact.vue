@@ -36,6 +36,16 @@
         Help fund Trevorism by making a payment below. We certainly would appreciate it!
         <div class="mt-6"><stripe></stripe></div>
       </div>
+      <h1 class="text-3xl font-bold -ml-4 mb-2">
+        Your Own Tenant
+      </h1>
+      <div class="mb-2">
+        Run your own Trevorism tenant for $10.00 / month. You become its administrator and can invite your own
+        users. Sign in first, then set one up below.
+        <div class="mt-6">
+          <va-chip flat to="/tenant">Set up a tenant</va-chip>
+        </div>
+      </div>
     </div>
   </div>
 </template>

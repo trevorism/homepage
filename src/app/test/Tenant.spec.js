@@ -55,6 +55,19 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('tenant administrator')
   })
 
+  it('points the administrator at the tenant login rather than their own domain', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    const hrefs = wrapper.findAll('a').map((link) => link.attributes('href'))
+    expect(hrefs).toContain('https://login.auth.trevorism.com')
+    expect(hrefs).not.toContain('https://acme.com')
+  })
+
   it('prompts to finish payment when the request is still pending', async () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
