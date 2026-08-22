@@ -96,6 +96,47 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('is active at acme.com')
   })
 
+  it('tells a recovered signup to look for the password email', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
+    })
+    axios.post.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Check your email to set your administrator password')
+  })
+
+  it('shows the renewal date when the subscription reports one', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED',
+        paidThrough: '2026-09-22T00:00:00Z'
+      }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Your subscription is active and renews on')
+    expect(wrapper.text()).toContain('2026')
+  })
+
+  it('omits the renewal line when no renewal date is known', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('is active at acme.com')
+    expect(wrapper.text()).not.toContain('renews on')
+  })
+
   it('reports a suspended tenant while the subscription is still inactive', async () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
@@ -136,7 +177,7 @@ describe('Tenant.vue', () => {
     await flushPromises()
 
     expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/tenant')
-    expect(wrapper.text()).toContain('temporary administrator password')
+    expect(wrapper.text()).toContain('Check your email to set your administrator password')
   })
 
   it('does not charge again when returning from a cancelled checkout', async () => {

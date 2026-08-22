@@ -15,6 +15,9 @@
             <a href="https://login.auth.trevorism.com">login.auth.trevorism.com</a>, with your tenant id
             appended to the end of that address.
           </p>
+          <p class="mb-2" v-if="renewalDate">
+            Your subscription is active and renews on {{ renewalDate }}.
+          </p>
           <p class="text-sm">{{ cancellationNotice }}</p>
         </div>
 
@@ -68,6 +71,7 @@ export default {
     return {
       monthlyPrice: '$10.00 / month',
       cancellationNotice: 'Cancel anytime from your billing provider. Cancelling suspends tenant administrator access.',
+      readyMessage: 'Your tenant is ready. Check your email to set your administrator password.',
       name: '',
       domain: '',
       request: null,
@@ -86,6 +90,16 @@ export default {
     },
     isAwaitingPayment() {
       return this.request?.status === 'PENDING_PAYMENT'
+    },
+    renewalDate() {
+      if (!this.request?.paidThrough) {
+        return ''
+      }
+      const renewal = new Date(this.request.paidThrough)
+      if (isNaN(renewal)) {
+        return ''
+      }
+      return renewal.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     }
   },
   async mounted() {
@@ -123,8 +137,13 @@ export default {
         .post(`api/subscribedtenant/${this.request.id}/tenant`)
         .catch(() => null)
 
-      if (claimed) {
-        this.request = claimed.data
+      if (!claimed) {
+        return
+      }
+
+      this.request = claimed.data
+      if (this.isProvisioned) {
+        this.successMessage = this.readyMessage
       }
     },
     async createRequest() {
@@ -166,7 +185,7 @@ export default {
       try {
         const response = await axios.post(`api/subscribedtenant/${requestId}/tenant`)
         this.request = response.data
-        this.successMessage = 'Your tenant is ready. Check your email for a temporary administrator password.'
+        this.successMessage = this.readyMessage
       } catch (error) {
         this.errorMessage = this.describeError(error, 'We could not confirm your subscription yet. Please try again shortly.')
         this.successMessage = ''
