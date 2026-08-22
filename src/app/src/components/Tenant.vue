@@ -94,7 +94,10 @@ export default {
     const returnedRequestId = params.get('request')
     if (params.get('status') === 'success' && returnedRequestId) {
       await this.provision(returnedRequestId)
+      return
     }
+
+    await this.finishUnclaimedCheckout()
   },
   methods: {
     describeError(error, fallback) {
@@ -108,6 +111,18 @@ export default {
         this.request = null
       } finally {
         this.loading = false
+      }
+    },
+    async finishUnclaimedCheckout() {
+      if (this.request?.status !== 'PENDING_PAYMENT') {
+        return
+      }
+
+      try {
+        const response = await axios.post(`api/subscribedtenant/${this.request.id}/provision`)
+        this.request = response.data
+      } catch {
+        this.successMessage = ''
       }
     },
     async createRequest() {

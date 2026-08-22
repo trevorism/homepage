@@ -59,12 +59,28 @@ describe('Tenant.vue', () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
+    axios.post.mockRejectedValue({ response: { data: { message: 'An active subscription is required' } } })
 
     const wrapper = mountTenant()
     await flushPromises()
 
     expect(wrapper.text()).toContain('waiting for payment')
     expect(wrapper.text()).toContain('Continue to payment')
+  })
+
+  it('claims the tenant when a paid checkout was never completed in the browser', async () => {
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
+    })
+    axios.post.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
+    })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/provision')
+    expect(wrapper.text()).toContain('is active at acme.com')
   })
 
   it('reports a suspended tenant', async () => {
@@ -116,8 +132,11 @@ describe('Tenant.vue', () => {
     axios.get.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
-    axios.post.mockResolvedValue({
-      data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' }
+    axios.post.mockImplementation((url) => {
+      if (url.endsWith('/provision')) {
+        return Promise.reject({ response: { data: { message: 'An active subscription is required' } } })
+      }
+      return Promise.resolve({ data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' } })
     })
 
     const wrapper = mountTenant()
