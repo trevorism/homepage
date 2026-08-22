@@ -44,9 +44,9 @@ class SubscribedTenantController {
     @Tag(name = "Tenant Request Operations")
     @Operation(summary = "Create a subscription checkout session for a tenant request **Secure")
     @Secure(Roles.USER)
-    @Get(value = "/{requestId}/session", produces = MediaType.APPLICATION_JSON)
+    @Post(value = "/{requestId}/session", produces = MediaType.APPLICATION_JSON)
     Map createCheckoutSession(String requestId) {
-        String json = secureHttpClient.get("$BASE_URL/subscribedtenant/${requestId}/session")
+        String json = secureHttpClient.post("$BASE_URL/subscribedtenant/${requestId}/session", "{}")
         return gson.fromJson(json, Map)
     }
 

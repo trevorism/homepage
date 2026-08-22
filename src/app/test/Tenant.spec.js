@@ -113,11 +113,11 @@ describe('Tenant.vue', () => {
   })
 
   it('redirects to the payment provider when checkout starts', async () => {
-    axios.get.mockImplementation((url) => {
-      if (url === 'api/subscribedtenant') {
-        return Promise.resolve({ data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' } })
-      }
-      return Promise.resolve({ data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' } })
+    axios.get.mockResolvedValue({
+      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
+    })
+    axios.post.mockResolvedValue({
+      data: { id: 'cs_test_1', url: 'https://checkout.stripe.com/c/pay/cs_test_1' }
     })
 
     const wrapper = mountTenant()
@@ -126,6 +126,7 @@ describe('Tenant.vue', () => {
     await wrapper.find('button').trigger('click')
     await flushPromises()
 
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/req-1/session')
     expect(window.location.href).toBe('https://checkout.stripe.com/c/pay/cs_test_1')
   })
 })

@@ -46,7 +46,8 @@ class SubscribedTenantControllerTest {
         Map session = controller.createCheckoutSession("req-1")
 
         assert session.url == "https://checkout.stripe.com/c/pay/cs_1"
-        assert gets[0] == "https://tenant.auth.trevorism.com/subscribedtenant/req-1/session"
+        assert posts[0].url == "https://tenant.auth.trevorism.com/subscribedtenant/req-1/session"
+        assert gets.isEmpty()
     }
 
     @Test

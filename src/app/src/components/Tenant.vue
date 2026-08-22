@@ -130,7 +130,7 @@ export default {
       this.successMessage = 'Rerouting to payment provider...'
 
       try {
-        const response = await axios.get(`api/subscribedtenant/${this.request.id}/session`)
+        const response = await axios.post(`api/subscribedtenant/${this.request.id}/session`)
         if (!response.data?.url) {
           throw new Error('No checkout url returned')
         }
