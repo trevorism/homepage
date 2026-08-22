@@ -97,7 +97,7 @@ export default {
       return
     }
 
-    await this.finishUnclaimedCheckout()
+    await this.claimTenantIfSubscribed()
   },
   methods: {
     describeError(error, fallback) {
@@ -113,8 +113,8 @@ export default {
         this.loading = false
       }
     },
-    async finishUnclaimedCheckout() {
-      if (this.request?.status !== 'PENDING_PAYMENT') {
+    async claimTenantIfSubscribed() {
+      if (!this.isAwaitingPayment && !this.isSuspended) {
         return
       }
 
