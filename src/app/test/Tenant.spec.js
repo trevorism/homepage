@@ -155,12 +155,14 @@ describe('Tenant.vue', () => {
 
   it('surfaces the server message when provisioning is rejected', async () => {
     setLocation('?request=req-1&status=success')
-    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
+    axios.post.mockRejectedValue({
+      response: { status: 400, data: { message: 'An active subscription is required before a tenant can be provisioned' } }
+    })
 
     const wrapper = mountTenant()
     await flushPromises()
 
-    expect(wrapper.text()).toContain('Unable to provision the tenant')
+    expect(wrapper.text()).toContain('An active subscription is required before a tenant can be provisioned')
   })
 
   it('falls back to its own wording when the failure carries no message', async () => {
