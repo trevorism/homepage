@@ -37,6 +37,16 @@ class SubscribedTenantController {
     }
 
     @Tag(name = "Tenant Request Operations")
+    @Operation(summary = "Check whether a tenant name and domain are still free **Secure")
+    @Secure(Roles.USER)
+    @Post(value = "/availability", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    Map checkAvailability(@Body TenantRequestInput input) {
+        return proxy("Unable to check availability") {
+            gson.fromJson(secureHttpClient.post("$BASE_URL/subscribedtenant/availability", gson.toJson(input)), Map)
+        }
+    }
+
+    @Tag(name = "Tenant Request Operations")
     @Operation(summary = "Get the current caller's tenant request **Secure")
     @Secure(Roles.USER)
     @Get(value = "/", produces = MediaType.APPLICATION_JSON)
@@ -65,6 +75,16 @@ class SubscribedTenantController {
     Map createCheckoutSession(String requestId) {
         return proxy("Unable to start a checkout session") {
             gson.fromJson(secureHttpClient.post("$BASE_URL/subscribedtenant/${requestId}/session", "{}"), Map)
+        }
+    }
+
+    @Tag(name = "Tenant Request Operations")
+    @Operation(summary = "Create a billing portal session for the current caller **Secure")
+    @Secure(Roles.USER)
+    @Post(value = "/portal", produces = MediaType.APPLICATION_JSON)
+    Map createBillingPortalSession() {
+        return proxy("Unable to reach the billing provider") {
+            gson.fromJson(secureHttpClient.post("$BASE_URL/subscribedtenant/portal", "{}"), Map)
         }
     }
 

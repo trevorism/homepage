@@ -44,7 +44,7 @@ describe('ChangePassword.vue', () => {
     expect(url).toBe('/api/user/change')
     expect(body.tenantGuid).toBe('20213392-c6bf-49c8-9cab-90b991b4a01f')
     expect(body.username).toBe('alice')
-    expect(push).toHaveBeenCalledWith('/account')
+    expect(push).toHaveBeenCalledWith('/tenant')
   })
 
   it('names no tenant when the route carries none', async () => {
@@ -52,6 +52,13 @@ describe('ChangePassword.vue', () => {
     await fillAndSubmit(wrapper)
 
     expect(axios.post.mock.calls[0][1].tenantGuid).toBeUndefined()
+  })
+
+  it('returns a trevorism.com password change to the profile page', async () => {
+    const wrapper = mountChange(undefined)
+    await fillAndSubmit(wrapper)
+
+    expect(push).toHaveBeenCalledWith('/account')
   })
 
   it('reports a refusal from the tenant rather than routing away', async () => {

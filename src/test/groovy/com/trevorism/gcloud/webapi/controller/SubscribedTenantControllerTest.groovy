@@ -82,6 +82,31 @@ class SubscribedTenantControllerTest {
     }
 
     @Test
+    void testCreateBillingPortalSessionReturnsTheProvidersUrl() {
+        SubscribedTenantController controller = controllerWith('{"url":"https://billing.stripe.com/session/abc"}')
+
+        Map session = controller.createBillingPortalSession()
+
+        assert session.url == "https://billing.stripe.com/session/abc"
+        assert posts[0].url == "https://tenant.auth.trevorism.com/subscribedtenant/portal"
+        assert gets.isEmpty()
+    }
+
+    @Test
+    void testAnUnreachableBillingProviderIsReportedWithoutBlamingTheHomepage() {
+        SubscribedTenantController controller = controllerThatFailsWith(bodyFailure(500,
+                '{"message":"Internal Server Error"}'))
+
+        try {
+            controller.createBillingPortalSession()
+            assert false
+        } catch (HttpStatusException e) {
+            assert e.status == HttpStatus.BAD_GATEWAY
+            assert e.message == "Unable to reach the billing provider"
+        }
+    }
+
+    @Test
     void testARefusalFromTheTenantServiceIsNotReportedAsAServerError() {
         SubscribedTenantController controller = controllerThatFailsWith(
                 new InvalidRequestException(new RuntimeException("Domain acme.com is already in use"), 400))

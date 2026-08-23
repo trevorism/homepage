@@ -5,58 +5,78 @@
       <h1 class="text-2xl font-bold mb-2">Your Trevorism Tenant</h1>
 
       <va-inner-loading :loading="loading">
-        <div v-if="isProvisioned">
-          <p class="mb-2">
-            <va-icon name="check_circle" size="24px" color="success"></va-icon>
-            <strong>{{ request.name }}</strong> is active at {{ request.domain }}.
-          </p>
-          <p class="mb-2">
-            You are the tenant administrator. Sign in with your Trevorism username at
-            <a href="https://login.auth.trevorism.com">login.auth.trevorism.com</a>, with your tenant id
-            appended to the end of that address.
-          </p>
-          <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
-          <p class="text-sm">{{ cancellationNotice }}</p>
-        </div>
+        <va-stepper v-if="showSteps" :model-value="stepIndex" :steps="steps" disabled class="mb-4"></va-stepper>
 
-        <div v-else-if="isSuspended">
-          <p class="mb-2">
-            <va-icon name="pause_circle" size="24px" color="warning"></va-icon>
-            <strong>{{ request.name }}</strong> is suspended because the subscription is no longer active.
-          </p>
-          <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
-          <va-button v-if="subscriptionActive" color="primary" @click="claimNow" :disabled="busy">
-            <VaInnerLoading :loading="busy"> Restore my tenant </VaInnerLoading>
-          </va-button>
-          <va-button v-else color="primary" @click="startCheckout" :disabled="busy">
-            <VaInnerLoading :loading="busy"> Restart subscription </VaInnerLoading>
-          </va-button>
-        </div>
+        <TenantGraceBanner
+          v-if="isInGracePeriod"
+          :tenant-name="request.name"
+          :access-ends-on="request.accessEndsOn"
+          :busy="busy"
+          @manage-billing="openBillingPortal"
+        ></TenantGraceBanner>
 
-        <div v-else-if="isAwaitingPayment">
+        <p v-if="stage === 'cancelled'" class="mb-3">
+          Payment cancelled &mdash; you have not been charged. <strong>{{ request.name }}</strong> and
+          {{ request.domain }} are still reserved for you, so you can pick up where you left off whenever you are ready.
+        </p>
+
+        <TenantReady
+          v-if="stage === 'ready'"
+          :request="request"
+          :username="username"
+          :subscription-summary="subscriptionSummary"
+          :busy="busy"
+          @manage-billing="openBillingPortal"
+        ></TenantReady>
+
+        <TenantSuspended
+          v-else-if="stage === 'suspended'"
+          :request="request"
+          :subscription-summary="subscriptionSummary"
+          :subscription-active="subscriptionActive"
+          :monthly-price="monthlyPrice"
+          :busy="busy"
+          @claim="claimNow"
+          @checkout="startCheckout"
+        ></TenantSuspended>
+
+        <TenantProvisioning
+          v-else-if="stage === 'finalizing'"
+          :timed-out="provisioningTimedOut"
+          :request-id="request?.id || ''"
+          @retry="resumeProvisioning"
+        ></TenantProvisioning>
+
+        <TenantCreateForm
+          v-else-if="stage === 'details'"
+          :name="draft.name"
+          :domain="draft.domain"
+          :check-availability="checkAvailability"
+          @continue="reviewDraft"
+        ></TenantCreateForm>
+
+        <TenantReview
+          v-else-if="stage === 'review'"
+          :name="draft.name"
+          :domain="draft.domain"
+          :username="username"
+          :monthly-price="monthlyPrice"
+          :busy="busy"
+          @pay="createRequestAndPay"
+          @back="stage = 'details'"
+        ></TenantReview>
+
+        <div v-else-if="stage === 'pending' || stage === 'cancelled'">
           <p class="mb-2">
             <strong>{{ request.name }}</strong> ({{ request.domain }}) is reserved and waiting for payment.
           </p>
           <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
-          <va-button v-if="subscriptionActive" color="primary" @click="claimNow" :disabled="busy">
+          <va-button v-if="subscriptionActive" color="primary" :disabled="busy" @click="claimNow">
             <VaInnerLoading :loading="busy"> Finish setting up my tenant </VaInnerLoading>
           </va-button>
-          <va-button v-else color="primary" @click="startCheckout" :disabled="busy">
+          <va-button v-else color="primary" :disabled="busy" @click="startCheckout">
             <VaInnerLoading :loading="busy"> Continue to payment &mdash; {{ monthlyPrice }} </VaInnerLoading>
           </va-button>
-        </div>
-
-        <div v-else>
-          <p class="mb-2">
-            Create your own tenant for {{ monthlyPrice }}. You become its administrator and can invite your own users.
-          </p>
-          <va-form>
-            <va-input v-model="name" label="Tenant Name" class="mb-2"></va-input>
-            <va-input v-model="domain" label="Tenant Domain" placeholder="example.com" class="mb-2"></va-input>
-            <va-button style="margin-top: 18px" type="submit" color="primary" @click="createRequest" :disabled="busy">
-              <VaInnerLoading :loading="busy"> Create tenant &mdash; {{ monthlyPrice }} </VaInnerLoading>
-            </va-button>
-          </va-form>
         </div>
 
         <div v-if="errorMessage.length > 0" class="text-left text-red-600 mt-2">{{ errorMessage }}</div>
@@ -69,34 +89,55 @@
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
+import { useCookies } from 'vue3-cookies'
+import TenantCreateForm from './tenant/TenantCreateForm.vue'
+import TenantReview from './tenant/TenantReview.vue'
+import TenantProvisioning from './tenant/TenantProvisioning.vue'
+import TenantReady from './tenant/TenantReady.vue'
+import TenantSuspended from './tenant/TenantSuspended.vue'
+import TenantGraceBanner from './tenant/TenantGraceBanner.vue'
+
+const DEFAULT_POLL_DELAYS = [3000, 3000, 5000, 5000, 10000, 10000, 15000, 15000, 20000]
 
 export default {
   name: 'Tenant',
-  components: { HeaderBar },
+  components: {
+    HeaderBar,
+    TenantCreateForm,
+    TenantReview,
+    TenantProvisioning,
+    TenantReady,
+    TenantSuspended,
+    TenantGraceBanner
+  },
+  props: {
+    pollDelays: { type: Array, default: () => DEFAULT_POLL_DELAYS }
+  },
   data() {
     return {
       monthlyPrice: '$10.00 / month',
-      cancellationNotice: 'Cancel anytime from your billing provider. Cancelling suspends tenant administrator access.',
-      readyMessage: 'Your tenant is ready. Check your email to set your administrator password.',
-      name: '',
-      domain: '',
+      steps: [{ label: 'Details' }, { label: 'Review' }, { label: 'Payment' }, { label: 'Ready' }],
+      stage: 'details',
+      draft: { name: '', domain: '' },
       request: null,
       subscription: null,
+      username: '',
       busy: false,
       loading: true,
+      provisioningTimedOut: false,
       errorMessage: '',
       successMessage: ''
     }
   },
   computed: {
-    isProvisioned() {
-      return this.request?.status === 'PROVISIONED'
+    showSteps() {
+      return ['details', 'review', 'finalizing', 'ready'].includes(this.stage)
     },
-    isSuspended() {
-      return this.request?.status === 'SUSPENDED'
+    stepIndex() {
+      return { details: 0, review: 1, finalizing: 2, ready: 3 }[this.stage] ?? 0
     },
-    isAwaitingPayment() {
-      return this.request?.status === 'PENDING_PAYMENT'
+    isInGracePeriod() {
+      return this.stage === 'ready' && Boolean(this.request?.accessEndsOn)
     },
     renewalDate() {
       const paidThrough = this.subscription?.paidThrough || this.request?.paidThrough
@@ -125,20 +166,42 @@ export default {
     }
   },
   async mounted() {
+    const { cookies } = useCookies()
+    this.username = cookies.get('user_name') || 'your username'
+
     await Promise.all([this.loadRequest(), this.loadSubscription()])
 
     const params = new URLSearchParams(window.location.search)
     const returnedRequestId = params.get('request')
-    if (params.get('status') === 'success' && returnedRequestId) {
-      await this.provision(returnedRequestId)
+    const returnedStatus = params.get('status')
+
+    if (returnedStatus === 'success' && returnedRequestId) {
+      await this.pollForProvisioning(returnedRequestId)
       return
     }
 
-    await this.claimTenantIfSubscribed()
+    if (returnedStatus === 'cancelled' && this.request) {
+      this.stage = 'cancelled'
+      return
+    }
+
+    await this.claimTenantIfAlreadyPaid()
   },
   methods: {
     describeError(error, fallback) {
       return error.response?.data?.message || error.response?.data?._embedded?.errors?.[0]?.message || fallback
+    },
+    stageForRequest() {
+      if (!this.request) {
+        return 'details'
+      }
+      if (this.request.status === 'PROVISIONED') {
+        return 'ready'
+      }
+      if (this.request.status === 'SUSPENDED') {
+        return 'suspended'
+      }
+      return 'pending'
     },
     async loadRequest() {
       try {
@@ -147,6 +210,7 @@ export default {
       } catch {
         this.request = null
       } finally {
+        this.stage = this.stageForRequest()
         this.loading = false
       }
     },
@@ -154,38 +218,47 @@ export default {
       const response = await axios.get('api/subscribedtenant/subscription').catch(() => null)
       this.subscription = response ? response.data : null
     },
+    async checkAvailability(candidate) {
+      const response = await axios.post('api/subscribedtenant/availability', candidate).catch(() => null)
+      return response ? response.data : { available: false, message: 'Unable to check availability right now.' }
+    },
+    reviewDraft(candidate) {
+      this.draft = candidate
+      this.errorMessage = ''
+      this.stage = 'review'
+    },
+    async claimTenantIfAlreadyPaid() {
+      if (this.stage !== 'pending' || !this.subscriptionActive) {
+        return
+      }
+      await this.claimNow()
+    },
     async claimNow() {
-      await this.provision(this.request.id)
-    },
-    async claimTenantIfSubscribed() {
-      if (!this.isAwaitingPayment && !this.isSuspended) {
-        return
-      }
+      this.busy = true
+      this.errorMessage = ''
 
-      const claimed = await axios
-        .post(`api/subscribedtenant/${this.request.id}/tenant`)
-        .catch(() => null)
-
-      if (!claimed) {
-        return
-      }
-
-      this.request = claimed.data
-      if (this.isProvisioned) {
-        this.successMessage = this.readyMessage
+      try {
+        const response = await axios.post(`api/subscribedtenant/${this.request.id}/tenant`)
+        this.request = response.data
+        this.stage = this.stageForRequest()
+      } catch (error) {
+        this.errorMessage = this.describeError(error, 'We could not set up your tenant yet. Please try again shortly.')
+      } finally {
+        this.busy = false
       }
     },
-    async createRequest() {
+    async createRequestAndPay() {
       this.busy = true
       this.errorMessage = ''
       this.successMessage = ''
 
       try {
-        const response = await axios.post('api/subscribedtenant', { name: this.name, domain: this.domain })
+        const response = await axios.post('api/subscribedtenant', this.draft)
         this.request = response.data
         await this.startCheckout()
       } catch (error) {
         this.errorMessage = this.describeError(error, 'Unable to create the tenant request.')
+        this.stage = 'details'
         this.busy = false
       }
     },
@@ -206,21 +279,55 @@ export default {
         this.busy = false
       }
     },
-    async provision(requestId) {
+    async openBillingPortal() {
       this.busy = true
       this.errorMessage = ''
-      this.successMessage = 'Setting up your tenant...'
 
       try {
-        const response = await axios.post(`api/subscribedtenant/${requestId}/tenant`)
-        this.request = response.data
-        this.successMessage = this.readyMessage
+        const response = await axios.post('api/subscribedtenant/portal')
+        if (!response.data?.url) {
+          throw new Error('No portal url returned')
+        }
+        window.location.href = response.data.url
       } catch (error) {
-        this.errorMessage = this.describeError(error, 'We could not confirm your subscription yet. Please try again shortly.')
-        this.successMessage = ''
-      } finally {
+        this.errorMessage = this.describeError(error, 'Unable to reach the billing provider. Please try again.')
         this.busy = false
       }
+    },
+    resumeProvisioning() {
+      const requestId = this.request?.id
+      if (requestId) {
+        this.pollForProvisioning(requestId)
+      }
+    },
+    wait(millis) {
+      if (millis <= 0) {
+        return Promise.resolve()
+      }
+      return new Promise((resolve) => setTimeout(resolve, millis))
+    },
+    async pollForProvisioning(requestId) {
+      this.stage = 'finalizing'
+      this.provisioningTimedOut = false
+      this.errorMessage = ''
+      this.successMessage = ''
+
+      for (let attempt = 0; attempt <= this.pollDelays.length; attempt++) {
+        if (attempt > 0) {
+          await this.wait(this.pollDelays[attempt - 1])
+        }
+
+        const response = await axios.post(`api/subscribedtenant/${requestId}/tenant`).catch(() => null)
+        if (response?.data?.id) {
+          this.request = response.data
+        }
+        if (response?.data?.status === 'PROVISIONED') {
+          this.stage = 'ready'
+          return
+        }
+      }
+
+      this.provisioningTimedOut = true
     }
   }
 }
