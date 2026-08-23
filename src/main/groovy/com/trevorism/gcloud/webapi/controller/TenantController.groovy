@@ -1,6 +1,7 @@
 package com.trevorism.gcloud.webapi.controller
 
 import com.google.gson.Gson
+import com.trevorism.gcloud.webapi.model.Tenant
 import com.trevorism.https.SecureHttpClient
 import com.trevorism.secure.Roles
 import com.trevorism.secure.Secure
@@ -24,12 +25,12 @@ class TenantController {
     @Operation(summary = "Get the tenant of the current caller **Secure")
     @Secure(Roles.USER)
     @Get(value = "/", produces = MediaType.APPLICATION_JSON)
-    Map getCurrentTenant() {
+    Tenant getCurrentTenant() {
         try {
             String json = secureHttpClient.get("$BASE_URL/tenant/me")
-            return json ? gson.fromJson(json, Map) : [:]
+            return json ? gson.fromJson(json, Tenant) : Tenant.NULL_TENANT
         } catch (Exception ignored) {
-            return [:]
+            return Tenant.NULL_TENANT
         }
     }
 }
