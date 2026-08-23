@@ -45,6 +45,20 @@ class DefaultUserSessionServiceTest {
     }
 
     @Test
+    void testChangePasswordSendsTheTenantToAuth() {
+        List<String> posted = []
+        userSessionService.secureHttpClient = [post: { url, content ->
+            posted << content
+            return "true"
+        }] as SecureHttpClient
+
+        assert userSessionService.changePassword(new ChangePasswordRequest(username: "alice",
+                currentPassword: "secret1", desiredPassword: "secret2", tenantGuid: "guid-1"))
+
+        assert posted[0].contains('"tenantGuid":"guid-1"')
+    }
+
+    @Test
     void testChangePasswordNotWorking() {
         userSessionService.secureHttpClient = [post: { url, content ->
             return "blah"

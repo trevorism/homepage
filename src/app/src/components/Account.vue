@@ -20,6 +20,10 @@
               <va-list-item-label caption class="text-1xl">
                 {{ user.email }}
               </va-list-item-label>
+
+              <va-list-item-label caption class="text-1xl" v-if="tenant.guid">
+                {{ tenantDescription }}
+              </va-list-item-label>
             </va-list-item-section>
             <va-list-item-section icon v-if="user.admin">
               <va-popover message="Administrator">
@@ -29,7 +33,7 @@
           </va-list-item>
         </va-list>
       </div>
-      <va-chip flat class="grid justify-items-center basis-1/4" to="/change">Change Password</va-chip>
+      <va-chip flat class="grid justify-items-center basis-1/4" :to="{ name: 'ChangePassword', params: { guid: user.tenantGuid } }">Change Password</va-chip>
     </div>
   </div>
 </template>
@@ -45,10 +49,16 @@ export default {
   data() {
     return {
       user: {},
+      tenant: {},
       basic: [],
       loading: true,
       uploading: false,
       profileImage: 'https://trevorism.com/favicon.ico'
+    }
+  },
+  computed: {
+    tenantDescription() {
+      return this.tenant.domain ? `${this.tenant.name} — ${this.tenant.domain}` : this.tenant.name
     }
   },
   mounted() {
@@ -59,6 +69,14 @@ export default {
       this.user = response.data
       this.loading = false
     })
+    axios
+      .get('api/tenant')
+      .then((response) => {
+        this.tenant = response.data || {}
+      })
+      .catch(() => {
+        this.tenant = {}
+      })
     axios
       .get('api/image/' + username + '/profile', { responseType: 'arraybuffer' })
       .then((response) => {

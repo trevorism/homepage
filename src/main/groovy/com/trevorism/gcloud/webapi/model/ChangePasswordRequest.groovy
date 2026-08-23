@@ -4,5 +4,6 @@ class ChangePasswordRequest {
     String username
     String currentPassword
     String desiredPassword
+    String tenantGuid
 }
 

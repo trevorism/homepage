@@ -10,6 +10,7 @@ class User {
     String email
     boolean admin
     boolean active
+    String tenantGuid
 
     static User NULL_USER = new User()
     static boolean isNullUser(User user) {
