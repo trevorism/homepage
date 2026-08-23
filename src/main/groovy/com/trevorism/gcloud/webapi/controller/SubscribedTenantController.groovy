@@ -48,6 +48,17 @@ class SubscribedTenantController {
     }
 
     @Tag(name = "Tenant Request Operations")
+    @Operation(summary = "Get the subscription backing the current caller **Secure")
+    @Secure(Roles.USER)
+    @Get(value = "/subscription", produces = MediaType.APPLICATION_JSON)
+    Map getSubscription() {
+        return proxy("Unable to read the subscription") {
+            String json = secureHttpClient.get("$BASE_URL/subscribedtenant/subscription")
+            return json ? gson.fromJson(json, Map) : [:]
+        }
+    }
+
+    @Tag(name = "Tenant Request Operations")
     @Operation(summary = "Create a subscription checkout session for a tenant request **Secure")
     @Secure(Roles.USER)
     @Post(value = "/{requestId}/session", produces = MediaType.APPLICATION_JSON)
