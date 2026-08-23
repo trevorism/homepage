@@ -62,6 +62,7 @@ import axios from 'axios'
 
 export default {
   name: 'ChangePassword',
+  props: ['guid'],
   components: {HeaderBar},
   data () {
     return {
@@ -85,11 +86,12 @@ export default {
       let request = {
         username: this.username,
         currentPassword: this.currentPassword,
-        desiredPassword: this.repeatPassword
+        desiredPassword: this.repeatPassword,
+        tenantGuid: this.guid
       }
       this.disabled = true
       this.errorMsg = ''
-      axios.post('api/user/change', request)
+      axios.post('/api/user/change', request)
         .then(() => {
           this.disabled = false
           this.clearFields()

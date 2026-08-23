@@ -1,3 +1,7 @@
+## 2.9.0
+
+Improve user profile and change password for tenant users.
+
 ## 2.8.0
 
 Allow for self service tenant registration.

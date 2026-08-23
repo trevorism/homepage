@@ -48,9 +48,10 @@ const router = createRouter({
         beforeEnter: userOnly
     },
     {
-        path: '/change',
+        path: '/change/:guid?',
         name: 'ChangePassword',
-        component: ChangePassword
+        component: ChangePassword,
+        props: true
     },
     {
         path: '/tenant',
