@@ -15,6 +15,12 @@ const stubs = {
 
 const mountTenant = () => mount(Tenant, { global: { stubs } })
 
+const mockGets = (requestResponse, subscriptionResponse = { data: {} }) => {
+  axios.get.mockImplementation((url) =>
+    Promise.resolve(url.endsWith('/subscription') ? subscriptionResponse : requestResponse)
+  )
+}
+
 const setLocation = (search) => {
   Object.defineProperty(window, 'location', {
     value: { search, href: '' },
@@ -43,7 +49,7 @@ describe('Tenant.vue', () => {
   })
 
   it('shows the active tenant when one is already provisioned', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
     })
 
@@ -56,7 +62,7 @@ describe('Tenant.vue', () => {
   })
 
   it('points the administrator at the tenant login rather than their own domain', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
     })
 
@@ -69,7 +75,7 @@ describe('Tenant.vue', () => {
   })
 
   it('prompts to finish payment when the request is still pending', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockRejectedValue({ response: { data: { message: 'An active subscription is required' } } })
@@ -82,7 +88,7 @@ describe('Tenant.vue', () => {
   })
 
   it('claims the tenant when a paid checkout was never completed in the browser', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockResolvedValue({
@@ -97,7 +103,7 @@ describe('Tenant.vue', () => {
   })
 
   it('tells a recovered signup to look for the password email', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockResolvedValue({
@@ -110,13 +116,11 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('Check your email to set your administrator password')
   })
 
-  it('shows the renewal date when the subscription reports one', async () => {
-    axios.get.mockResolvedValue({
-      data: {
-        id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED',
-        paidThrough: '2026-09-22T00:00:00Z'
-      }
-    })
+  it('shows the renewal date when the provider reports one', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' } },
+      { data: { provider: 'STRIPE', state: 'ACTIVE', paidThrough: '2026-09-22T00:00:00Z' } }
+    )
 
     const wrapper = mountTenant()
     await flushPromises()
@@ -125,20 +129,79 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('2026')
   })
 
-  it('omits the renewal line when no renewal date is known', async () => {
-    axios.get.mockResolvedValue({
-      data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
-    })
+  it('still reports an active subscription when no renewal date is known', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' } },
+      { data: { provider: 'STRIPE', state: 'ACTIVE' } }
+    )
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Your subscription is active.')
+    expect(wrapper.text()).not.toContain('renews on')
+  })
+
+  it('claims nothing about the subscription when the provider cannot be read', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' } },
+      { data: { state: 'UNKNOWN' } }
+    )
 
     const wrapper = mountTenant()
     await flushPromises()
 
     expect(wrapper.text()).toContain('is active at acme.com')
-    expect(wrapper.text()).not.toContain('renews on')
+    expect(wrapper.text()).not.toContain('Your subscription is active')
+    expect(wrapper.text()).not.toContain('could not find an active subscription')
+  })
+
+  it('offers to finish setup when a pending signup has already paid', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' } },
+      { data: { provider: 'STRIPE', state: 'ACTIVE', paidThrough: '2026-09-22T00:00:00Z' } }
+    )
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'nope' } } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Your subscription is active and renews on')
+    expect(wrapper.text()).toContain('Finish setting up my tenant')
+    expect(wrapper.text()).not.toContain('Continue to payment')
+  })
+
+  it('asks a pending signup with no subscription to pay', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' } },
+      { data: { provider: 'STRIPE', state: 'INACTIVE' } }
+    )
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'nope' } } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('could not find an active subscription')
+    expect(wrapper.text()).toContain('Continue to payment')
+    expect(wrapper.text()).not.toContain('Finish setting up my tenant')
+  })
+
+  it('offers to restore a suspended tenant whose subscription is live again', async () => {
+    mockGets(
+      { data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' } },
+      { data: { provider: 'STRIPE', state: 'ACTIVE' } }
+    )
+    axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'nope' } } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Restore my tenant')
+    expect(wrapper.text()).not.toContain('Restart subscription')
   })
 
   it('reports a suspended tenant while the subscription is still inactive', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
     })
     axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
@@ -151,7 +214,7 @@ describe('Tenant.vue', () => {
   })
 
   it('restores a suspended tenant as soon as the subscription is live again', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'SUSPENDED' }
     })
     axios.post.mockResolvedValue({
@@ -168,7 +231,7 @@ describe('Tenant.vue', () => {
 
   it('provisions the tenant when returning from a successful checkout', async () => {
     setLocation('?request=req-1&status=success')
-    axios.get.mockResolvedValue({ data: {} })
+    mockGets({ data: {} })
     axios.post.mockResolvedValue({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PROVISIONED' }
     })
@@ -182,7 +245,7 @@ describe('Tenant.vue', () => {
 
   it('does not charge again when returning from a cancelled checkout', async () => {
     setLocation('?request=req-1&status=cancelled')
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockRejectedValue({ response: { status: 400, data: { message: 'Unable to provision the tenant' } } })
@@ -217,7 +280,7 @@ describe('Tenant.vue', () => {
   })
 
   it('redirects to the payment provider when checkout starts', async () => {
-    axios.get.mockResolvedValue({
+    mockGets({
       data: { id: 'req-1', name: 'Acme', domain: 'acme.com', status: 'PENDING_PAYMENT' }
     })
     axios.post.mockImplementation((url) => {

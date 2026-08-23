@@ -44,6 +44,23 @@ class SubscribedTenantControllerTest {
     }
 
     @Test
+    void testGetSubscriptionReadsTheCallersEntitlement() {
+        SubscribedTenantController controller = controllerWith('{"provider":"STRIPE","state":"ACTIVE","paidThrough":"2026-09-22T00:00:00Z"}')
+
+        Map subscription = controller.getSubscription()
+
+        assert subscription.state == "ACTIVE"
+        assert gets[0] == "https://tenant.auth.trevorism.com/subscribedtenant/subscription"
+    }
+
+    @Test
+    void testGetSubscriptionReturnsAnEmptyMapWhenThereIsNoContent() {
+        SubscribedTenantController controller = controllerWith("")
+
+        assert controller.getSubscription() == [:]
+    }
+
+    @Test
     void testCreateCheckoutSessionReturnsTheStripeSession() {
         SubscribedTenantController controller = controllerWith('{"id":"cs_1","url":"https://checkout.stripe.com/c/pay/cs_1"}')
 

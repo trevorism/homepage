@@ -15,9 +15,7 @@
             <a href="https://login.auth.trevorism.com">login.auth.trevorism.com</a>, with your tenant id
             appended to the end of that address.
           </p>
-          <p class="mb-2" v-if="renewalDate">
-            Your subscription is active and renews on {{ renewalDate }}.
-          </p>
+          <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
           <p class="text-sm">{{ cancellationNotice }}</p>
         </div>
 
@@ -26,7 +24,11 @@
             <va-icon name="pause_circle" size="24px" color="warning"></va-icon>
             <strong>{{ request.name }}</strong> is suspended because the subscription is no longer active.
           </p>
-          <va-button color="primary" @click="startCheckout" :disabled="busy">
+          <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
+          <va-button v-if="subscriptionActive" color="primary" @click="claimNow" :disabled="busy">
+            <VaInnerLoading :loading="busy"> Restore my tenant </VaInnerLoading>
+          </va-button>
+          <va-button v-else color="primary" @click="startCheckout" :disabled="busy">
             <VaInnerLoading :loading="busy"> Restart subscription </VaInnerLoading>
           </va-button>
         </div>
@@ -35,7 +37,11 @@
           <p class="mb-2">
             <strong>{{ request.name }}</strong> ({{ request.domain }}) is reserved and waiting for payment.
           </p>
-          <va-button color="primary" @click="startCheckout" :disabled="busy">
+          <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
+          <va-button v-if="subscriptionActive" color="primary" @click="claimNow" :disabled="busy">
+            <VaInnerLoading :loading="busy"> Finish setting up my tenant </VaInnerLoading>
+          </va-button>
+          <va-button v-else color="primary" @click="startCheckout" :disabled="busy">
             <VaInnerLoading :loading="busy"> Continue to payment &mdash; {{ monthlyPrice }} </VaInnerLoading>
           </va-button>
         </div>
@@ -75,6 +81,7 @@ export default {
       name: '',
       domain: '',
       request: null,
+      subscription: null,
       busy: false,
       loading: true,
       errorMessage: '',
@@ -92,18 +99,33 @@ export default {
       return this.request?.status === 'PENDING_PAYMENT'
     },
     renewalDate() {
-      if (!this.request?.paidThrough) {
+      const paidThrough = this.subscription?.paidThrough || this.request?.paidThrough
+      if (!paidThrough) {
         return ''
       }
-      const renewal = new Date(this.request.paidThrough)
+      const renewal = new Date(paidThrough)
       if (isNaN(renewal)) {
         return ''
       }
       return renewal.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+    },
+    subscriptionActive() {
+      return this.subscription?.state === 'ACTIVE'
+    },
+    subscriptionSummary() {
+      if (this.subscriptionActive) {
+        return this.renewalDate
+          ? `Your subscription is active and renews on ${this.renewalDate}.`
+          : 'Your subscription is active.'
+      }
+      if (this.subscription?.state === 'INACTIVE') {
+        return 'We could not find an active subscription for your account.'
+      }
+      return ''
     }
   },
   async mounted() {
-    await this.loadRequest()
+    await Promise.all([this.loadRequest(), this.loadSubscription()])
 
     const params = new URLSearchParams(window.location.search)
     const returnedRequestId = params.get('request')
@@ -127,6 +149,13 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    async loadSubscription() {
+      const response = await axios.get('api/subscribedtenant/subscription').catch(() => null)
+      this.subscription = response ? response.data : null
+    },
+    async claimNow() {
+      await this.provision(this.request.id)
     },
     async claimTenantIfSubscribed() {
       if (!this.isAwaitingPayment && !this.isSuspended) {
