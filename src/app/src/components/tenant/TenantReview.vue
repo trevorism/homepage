@@ -9,7 +9,7 @@
           <va-list-item-label>{{ name }}</va-list-item-label>
         </va-list-item-section>
       </va-list-item>
-      <va-list-item>
+      <va-list-item v-if="domain">
         <va-list-item-section>
           <va-list-item-label caption>Tenant domain</va-list-item-label>
           <va-list-item-label>{{ domain }}</va-list-item-label>
@@ -46,7 +46,7 @@ export default {
   components: { AccountPair },
   props: {
     name: { type: String, required: true },
-    domain: { type: String, required: true },
+    domain: { type: String, default: '' },
     username: { type: String, default: 'your username' },
     monthlyPrice: { type: String, required: true },
     busy: { type: Boolean, default: false }

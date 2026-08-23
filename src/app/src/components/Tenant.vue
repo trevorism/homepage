@@ -16,8 +16,10 @@
         ></TenantGraceBanner>
 
         <p v-if="stage === 'cancelled'" class="mb-3">
-          Payment cancelled &mdash; you have not been charged. <strong>{{ request.name }}</strong> and
-          {{ request.domain }} are still reserved for you, so you can pick up where you left off whenever you are ready.
+          Payment cancelled &mdash; you have not been charged. <strong>{{ request.name }}</strong
+          ><span v-if="request.domain"> and {{ request.domain }}</span>
+          {{ request.domain ? 'are' : 'is' }} still reserved for you, so you can pick up where you left off whenever you
+          are ready.
         </p>
 
         <TenantReady
@@ -68,7 +70,8 @@
 
         <div v-else-if="stage === 'pending' || stage === 'cancelled'">
           <p class="mb-2">
-            <strong>{{ request.name }}</strong> ({{ request.domain }}) is reserved and waiting for payment.
+            <strong>{{ request.name }}</strong
+            ><span v-if="request.domain"> ({{ request.domain }})</span> is reserved and waiting for payment.
           </p>
           <p class="mb-2" v-if="subscriptionSummary">{{ subscriptionSummary }}</p>
           <va-button v-if="subscriptionActive" color="primary" :disabled="busy" @click="claimNow">

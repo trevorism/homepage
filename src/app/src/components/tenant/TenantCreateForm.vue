@@ -8,15 +8,15 @@
       <va-input v-model="draftName" label="Tenant Name" class="mb-1"></va-input>
       <p class="text-sm mb-3">Between 3 and 64 characters. Shown to your users.</p>
 
-      <va-input v-model="draftDomain" label="Tenant Domain" placeholder="example.com" class="mb-1"></va-input>
+      <va-input v-model="draftDomain" label="Tenant Domain (optional)" placeholder="example.com" class="mb-1"></va-input>
       <p class="text-sm">
-        This is your tenant's identifier, not a website. We do not host it or configure DNS for it, and it cannot be
-        changed later.
+        Optional. If you claim one, it is your tenant's identifier, not a website. We do not host it or configure DNS
+        for it, and it cannot be changed later.
       </p>
 
       <p v-if="checking" class="text-sm mt-2">Checking availability&hellip;</p>
       <p v-else-if="unavailableReason" class="text-sm mt-2 text-red-600">{{ unavailableReason }}</p>
-      <p v-else-if="available" class="text-sm mt-2 text-green-700">{{ draftName }} and {{ draftDomain }} are available.</p>
+      <p v-else-if="available" class="text-sm mt-2 text-green-700">{{ availabilityMessage }}</p>
 
       <va-button
         style="margin-top: 18px"
@@ -54,6 +54,11 @@ export default {
   computed: {
     canContinue() {
       return this.available && !this.checking
+    },
+    availabilityMessage() {
+      return this.draftDomain
+        ? `${this.draftName} and ${this.draftDomain} are available.`
+        : `${this.draftName} is available.`
     }
   },
   watch: {
@@ -73,7 +78,7 @@ export default {
       this.unavailableReason = ''
       clearTimeout(this.debounceHandle)
 
-      if (!this.draftName || !this.draftDomain) {
+      if (!this.draftName) {
         this.checking = false
         return
       }

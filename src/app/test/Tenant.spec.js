@@ -101,6 +101,33 @@ describe('Tenant.vue', () => {
     expect(wrapper.text()).toContain('are available')
   })
 
+  it('lets an owner claim a tenant without naming a domain', async () => {
+    axios.post.mockResolvedValue({ data: { available: true } })
+
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    const form = wrapper.findComponent({ name: 'TenantCreateForm' })
+    form.vm.draftName = 'Acme'
+    await form.vm.runCheck()
+    await flushPromises()
+
+    expect(axios.post).toHaveBeenCalledWith('api/subscribedtenant/availability', { name: 'Acme', domain: '' })
+    expect(wrapper.text()).toContain('Acme is available')
+    expect(form.vm.canContinue).toBe(true)
+  })
+
+  it('omits the domain from the review when none was given', async () => {
+    const wrapper = mountTenant()
+    await flushPromises()
+
+    wrapper.vm.reviewDraft({ name: 'Acme', domain: '' })
+    await flushPromises()
+
+    expect(wrapper.text()).toContain('Review before paying')
+    expect(wrapper.text()).not.toContain('Tenant domain')
+  })
+
   it('explains the two accounts and the price before taking any money', async () => {
     const wrapper = mountTenant()
     await flushPromises()
