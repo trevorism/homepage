@@ -95,7 +95,7 @@ export default {
         .then(() => {
           this.disabled = false
           this.clearFields()
-          self.$router.push('/account')
+          self.$router.push(this.guid ? '/tenant' : '/account')
         })
         .catch(() => {
           this.errorMsg = 'Unable to change password'

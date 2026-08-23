@@ -33,7 +33,10 @@
           </va-list-item>
         </va-list>
       </div>
-      <va-chip flat class="grid justify-items-center basis-1/4" :to="{ name: 'ChangePassword', params: { guid: user.tenantGuid } }">Change Password</va-chip>
+      <div class="flex gap-2">
+        <va-chip flat :to="{ name: 'ChangePassword', params: { guid: user.tenantGuid } }">Change Password</va-chip>
+        <va-chip flat :to="{ name: 'Tenant' }">{{ tenantChipLabel }}</va-chip>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +62,9 @@ export default {
   computed: {
     tenantDescription() {
       return this.tenant.domain ? `${this.tenant.name} — ${this.tenant.domain}` : this.tenant.name
+    },
+    tenantChipLabel() {
+      return this.tenant.guid ? 'Your Tenant' : 'Create a Tenant'
     }
   },
   mounted() {

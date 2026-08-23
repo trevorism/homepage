@@ -36,6 +36,12 @@
         <va-chip class="w-1/6" flat href="https://memowand.com">Memowand</va-chip> Private group image sharing
       </li>
     </ul>
+
+    <h2 class="text-2xl font-bold ml-4 mt-6 mb-2">Run your own tenant</h2>
+    <p class="ml-4 mb-2">
+      <va-chip class="w-1/6" flat :to="{ name: 'Tenant' }">Create a Tenant</va-chip> Get your own isolated slice of
+      Trevorism for $10.00 / month. You become its administrator and can invite your own users.
+    </p>
   </div>
 </template>
 
