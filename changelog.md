@@ -1,7 +1,6 @@
 ## 3.0.0
 
-- Move authentication onto micronaut-ui-auth and @trevorism/ui-auth. 
-- Remove mixpanel.
+Complete migration to new ui-auth and micronaut-ui-auth libraries. Remove all references to mixpanel.
 
 ## 2.10.0
 
