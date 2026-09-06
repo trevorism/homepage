@@ -1,3 +1,8 @@
+## 3.0.0
+
+- Move authentication onto micronaut-ui-auth and @trevorism/ui-auth. 
+- Remove mixpanel.
+
 ## 2.10.0
 
 Create a wizard for tenant subscriptions.

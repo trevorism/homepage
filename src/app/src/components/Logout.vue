@@ -13,11 +13,10 @@
 </template>
 
 <script>
-import HeaderBar from '@trevorism/ui-header-bar'
-import axios from 'axios'
+import { MenuBar as HeaderBar } from '@trevorism/ui-header-bar'
+import { logout } from '@trevorism/ui-auth'
 
 export default {
-  inject: ['mixpanel'],
   name: 'Logout',
   components: {HeaderBar},
   data () {
@@ -29,15 +28,10 @@ export default {
   mounted () {
     let self = this
     this.disabled = true
-    axios.post('api/logout', {})
+    logout()
       .then(() => {
         self.disabled = false
         self.message = 'Bye!'
-        try {
-          self.mixpanel.reset()
-        } catch (e) {
-          // mixpanel reset is best-effort; never let it report a failed logout
-        }
       })
       .catch(() => {
         self.disabled = false

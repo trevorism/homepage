@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useCookies } from "vue3-cookies";
 import Splash from '../components/Splash.vue'
 import Logout from "../components/Logout.vue";
 import Account from "../components/Account.vue";
@@ -14,19 +13,6 @@ import Improvement from "../components/articles/Improvement.vue";
 import Tenant from "../components/Tenant.vue";
 import NotFound from "../components/NotFound.vue";
 import LayoutCaller from "../components/layout/layout-caller.vue";
-
-const { cookies } = useCookies();
-
-function userOnly (to, from, next, reRouteLocation) {
-    let username = cookies.get('user_name')
-    if (username) {
-        return next()
-    }
-    if (reRouteLocation) {
-        return next(reRouteLocation)
-    }
-    return next('/')
-}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +31,7 @@ const router = createRouter({
         path: '/account',
         name: 'Account',
         component: Account,
-        beforeEnter: userOnly
+        meta: { requiresAuth: true }
     },
     {
         path: '/change/:guid?',
@@ -57,7 +43,7 @@ const router = createRouter({
         path: '/tenant',
         name: 'Tenant',
         component: Tenant,
-        beforeEnter: userOnly
+        meta: { requiresAuth: true }
     },
     {
         path: '/register',
