@@ -92,7 +92,7 @@
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
-import { useCookies } from 'vue3-cookies'
+import { user as currentUser } from '@trevorism/ui-auth'
 import TenantCreateForm from './tenant/TenantCreateForm.vue'
 import TenantReview from './tenant/TenantReview.vue'
 import TenantProvisioning from './tenant/TenantProvisioning.vue'
@@ -169,8 +169,7 @@ export default {
     }
   },
   async mounted() {
-    const { cookies } = useCookies()
-    this.username = cookies.get('user_name') || 'your username'
+    this.username = currentUser.value?.username || 'your username'
 
     await Promise.all([this.loadRequest(), this.loadSubscription()])
 

@@ -27,4 +27,16 @@ describe('router', () => {
 
     expect(route.path).toBe('/change')
   })
+
+  it('marks the pages that need a session so the auth guard picks them up', () => {
+    for (const path of ['/account', '/tenant']) {
+      expect(router.resolve(path).meta.requiresAuth, path).toBe(true)
+    }
+  })
+
+  it('leaves the public pages open', () => {
+    for (const path of ['/', '/register', '/contact', '/apps', '/logout']) {
+      expect(router.resolve(path).meta.requiresAuth, path).toBeUndefined()
+    }
+  })
 })

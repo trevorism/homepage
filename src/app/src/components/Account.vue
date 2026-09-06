@@ -44,7 +44,7 @@
 <script>
 import HeaderBar from '@trevorism/ui-header-bar'
 import axios from 'axios'
-import { useCookies } from 'vue3-cookies'
+import { user as currentUser } from '@trevorism/ui-auth'
 
 export default {
   name: 'Account',
@@ -68,8 +68,7 @@ export default {
     }
   },
   mounted() {
-    const { cookies } = useCookies()
-    const username = cookies.get('user_name')
+    const username = currentUser.value?.username
 
     axios.get('api/user').then((response) => {
       this.user = response.data
