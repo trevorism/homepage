@@ -72,6 +72,21 @@ describe('Account.vue', () => {
     expect(changePasswordTarget(wrapper)).toEqual({ name: 'ChangePassword', params: { guid: undefined } })
   })
 
+  it('asks for the profile image of the signed in user', async () => {
+    await mountAccount({ username: 'alice' }, {})
+
+    expect(axios.get).toHaveBeenCalledWith('api/image/alice/profile', { responseType: 'arraybuffer' })
+  })
+
+  it('skips the profile image request when no username is known', async () => {
+    await mountAccount({}, {})
+
+    expect(axios.get).not.toHaveBeenCalledWith(
+      expect.stringContaining('api/image/'),
+      expect.anything()
+    )
+  })
+
   it('still offers the change form when the tenant service cannot be read', async () => {
     axios.get.mockImplementation((url) => {
       if (url === 'api/user') {

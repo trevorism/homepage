@@ -1,8 +1,7 @@
 ## 3.0.0
 
-Move authentication onto micronaut-ui-auth and @trevorism/ui-auth. Nothing reads
-document.cookie any more, the guarded pages use the shared router guard, and logging
-out goes through the auth library rather than a hand rolled cookie clearing endpoint.
+- Move authentication onto micronaut-ui-auth and @trevorism/ui-auth. 
+- Remove mixpanel.
 
 ## 2.10.0
 

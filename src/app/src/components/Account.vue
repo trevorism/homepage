@@ -68,11 +68,10 @@ export default {
     }
   },
   mounted() {
-    const username = currentUser.value?.username
-
     axios.get('api/user').then((response) => {
-      this.user = response.data
+      this.user = response.data || {}
       this.loading = false
+      this.loadProfileImage(this.user.username || currentUser.value?.username)
     })
     axios
       .get('api/tenant')
@@ -82,18 +81,26 @@ export default {
       .catch(() => {
         this.tenant = {}
       })
-    axios
-      .get('api/image/' + username + '/profile', { responseType: 'arraybuffer' })
-      .then((response) => {
-        const base64 = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-        this.profileImage = 'data:image/png;base64,' + base64
-      })
-      .catch((error) => {
-        console.error('Failed to load profile image:', error)
-        this.profileImage = 'https://trevorism.com/favicon.ico'
-      })
   },
   methods: {
+    loadProfileImage(username) {
+      if (!username) {
+        this.profileImage = 'https://trevorism.com/favicon.ico'
+        return
+      }
+      axios
+        .get('api/image/' + username + '/profile', { responseType: 'arraybuffer' })
+        .then((response) => {
+          const base64 = btoa(
+            new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
+          )
+          this.profileImage = 'data:image/png;base64,' + base64
+        })
+        .catch((error) => {
+          console.error('Failed to load profile image:', error)
+          this.profileImage = 'https://trevorism.com/favicon.ico'
+        })
+    },
     handleFileAdded(file) {
       this.uploading = true
       const formData = new FormData()

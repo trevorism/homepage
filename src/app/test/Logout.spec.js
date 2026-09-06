@@ -8,17 +8,15 @@ vi.mock('@trevorism/ui-auth', () => ({
 }))
 
 const stubs = { HeaderBar: true }
-const mixpanel = { reset: vi.fn() }
 
 function mountLogout() {
-  return mount(Logout, { global: { stubs, provide: { mixpanel } } })
+  return mount(Logout, { global: { stubs } })
 }
 
 describe('Logout', () => {
   beforeEach(() => {
     logout.mockClear()
     logout.mockResolvedValue()
-    mixpanel.reset.mockClear()
   })
 
   it('clears the session through the auth library', async () => {
@@ -45,10 +43,6 @@ describe('Logout', () => {
   })
 
   it('does not let a failing analytics reset block the logout', async () => {
-    mixpanel.reset.mockImplementation(() => {
-      throw new Error('mixpanel down')
-    })
-
     mountLogout()
     await flushPromises()
 

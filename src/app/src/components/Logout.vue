@@ -17,7 +17,6 @@ import { MenuBar as HeaderBar } from '@trevorism/ui-header-bar'
 import { logout } from '@trevorism/ui-auth'
 
 export default {
-  inject: ['mixpanel'],
   name: 'Logout',
   components: {HeaderBar},
   data () {
@@ -29,11 +28,6 @@ export default {
   mounted () {
     let self = this
     this.disabled = true
-    try {
-      self.mixpanel.reset()
-    } catch (e) {
-      // mixpanel reset is best-effort; never let it block a logout
-    }
     logout()
       .then(() => {
         self.disabled = false
