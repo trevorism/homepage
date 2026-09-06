@@ -35,12 +35,10 @@
     "eslint-plugin-vue": "^10.10.0",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
-    "properties-reader": "^3.0.1",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.2",
     "vitest": "^4.1.11",
-    "vue-cli-plugin-vuestic-ui": "~1.0.11",
-    "vue3-cookies": "^1.0.6"
+    "vue-cli-plugin-vuestic-ui": "~1.0.11"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.62.5"
