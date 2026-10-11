@@ -25,6 +25,10 @@
         other Trevorism users and get answers
       </li>
       <li class="mt-2">
+        <va-chip class="w-1/6" flat href="https://goals.action.trevorism.com">Goals</va-chip> Track long-term goals
+        with metrics and progress
+      </li>
+      <li class="mt-2">
         <va-chip class="w-1/6" flat href="https://candlebot.trade.trevorism.com">Crypto Charts</va-chip> View
         cryptocurrency financial charts
       </li>
