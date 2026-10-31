@@ -30,6 +30,12 @@ Then(~/^the page is canonical at "([^"]*)"$/) { String url ->
     assert responseBody.contains("<link rel=\"canonical\" href=\"${url}\">")
 }
 
+Then(~/^the page's stylesheet carries the header bar's styles$/) { ->
+    String stylesheetPath = (responseBody =~ /href="(\/assets\/[^"]+\.css)"/)[0][1]
+    String stylesheet = new URL("${baseUrl}${stylesheetPath}").text
+    assert stylesheet.contains(".mini-menu[data-v-")
+}
+
 Then(~/^the page is not indexed$/) { ->
     assert responseBody.contains('<meta name="robots" content="noindex">')
 }

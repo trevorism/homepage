@@ -19,6 +19,11 @@ Feature: Pages crawlers can read
     Then the response status is 200
     And the page is not indexed
 
+  Scenario: The header bar is laid out before JavaScript runs
+    Given the application is alive
+    When a crawler requests "/"
+    Then the page's stylesheet carries the header bar's styles
+
   Scenario: The sitemap lists the pages
     Given the application is alive
     When a crawler requests "/sitemap.xml"

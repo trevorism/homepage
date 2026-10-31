@@ -7,6 +7,7 @@ import VueClickAway from "vue3-click-away";
 import { createVuestic } from 'vuestic-ui'
 import config from '../vuestic.config.js'
 import './style.css'
+import '@trevorism/ui-header-bar/style.css'
 
 const app = createApp(App)
 app.use(router)
