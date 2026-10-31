@@ -143,8 +143,14 @@ tasks.register('runApp', NpmTask) {
 tasks.register('copyFrontEnd', Copy) {
     dependsOn("buildApp")
     mustRunAfter(compileGroovy)
-    from "src/app/dist"
-    into layout.buildDirectory.dir("resources/main/public")
+    into layout.buildDirectory.dir("resources/main")
+    from("src/app/dist") {
+        exclude "pages/**"
+        into "public"
+    }
+    from("src/app/dist/pages") {
+        into "pages"
+    }
 }
 
 jar.dependsOn("copyFrontEnd")

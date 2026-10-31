@@ -1,3 +1,9 @@
+## 3.1.0
+
+Prerender the public pages so every crawler and link preview can read them, give each page its own title, description
+and share card, return real 404s, redirect trevorism.com to www.trevorism.com, and publish a sitemap. Link the header
+bar's stylesheet (ui-header-bar 6.3.0) so the bar is laid out before JavaScript runs.
+
 ## 3.0.0
 
 Complete migration to new ui-auth and micronaut-ui-auth libraries. Remove all references to mixpanel.

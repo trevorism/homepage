@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       cardVisible: 1,
-      height: window.innerHeight - 70,
+      height: null,
       loading: true
     }
   },
@@ -82,7 +82,7 @@ export default {
       }
     },
     getMenuHeight: function () {
-      return 'height: ' + (this.height) + 'px'
+      return this.height === null ? '' : 'height: ' + (this.height) + 'px'
     },
     updateMenuHeight: function () {
       this.height = window.innerHeight - 70
