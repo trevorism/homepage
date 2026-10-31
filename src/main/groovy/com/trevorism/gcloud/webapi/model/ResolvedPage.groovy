@@ -8,5 +8,6 @@ class ResolvedPage {
 
     HttpStatus status
     URL document
+    String redirectTo
 
 }

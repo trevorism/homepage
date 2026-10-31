@@ -23,6 +23,9 @@ class NotFoundRouteController {
             return HttpResponse.notFound()
         }
         ResolvedPage page = pageResolver.resolve(request.path)
+        if (page.redirectTo) {
+            return HttpResponse.redirect(URI.create(page.redirectTo))
+        }
         if (!page.document) {
             return HttpResponse.notFound()
         }

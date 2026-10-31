@@ -2,7 +2,7 @@
   <div id="apps">
     <HeaderBar :local="true"></HeaderBar>
     <h1 class="text-3xl font-bold ml-4 mb-2">Apps</h1>
-    <p class="ml-4 mb-2">This following applications were built using Trevorism.</p>
+    <p class="ml-4 mb-2">Everything here runs on the platform your business would get.</p>
     <ul class="list-disc ml-10">
       <li>
         <va-chip class="w-1/6" flat href="https://active.project.trevorism.com">Service Registry</va-chip> View a list
@@ -41,10 +41,9 @@
       </li>
     </ul>
 
-    <h2 class="text-2xl font-bold ml-4 mt-6 mb-2">Run your own tenant</h2>
-    <p class="ml-4 mb-2">
-      <va-chip class="w-1/6" flat :to="{ name: 'Tenant' }">Create a Tenant</va-chip> Get your own isolated slice of
-      Trevorism for $10.00 / month. You become its administrator and can invite your own users.
+    <p class="ml-4 mt-6 mb-2">
+      Want something like this for your business?
+      <router-link to="/assessment" class="underline">Get a free assessment</router-link>.
     </p>
   </div>
 </template>

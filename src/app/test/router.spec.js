@@ -38,9 +38,14 @@ describe('router', () => {
   })
 
   it('leaves the public pages open', () => {
-    for (const path of ['/', '/register', '/contact', '/apps', '/logout']) {
+    for (const path of ['/', '/register', '/services', '/no-lock-in', '/assessment', '/about', '/privacy', '/apps', '/logout']) {
       expect(router.resolve(path).meta.requiresAuth, path).toBeUndefined()
     }
+  })
+
+  it('sends the retired contact page to the assessment', async () => {
+    await router.push('/contact')
+    expect(router.currentRoute.value.path).toBe('/assessment')
   })
 
   it('gives every indexed page a title and a description that fits a search snippet', () => {

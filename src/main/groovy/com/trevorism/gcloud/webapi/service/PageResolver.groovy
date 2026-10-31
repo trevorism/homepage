@@ -17,12 +17,14 @@ class PageResolver {
     static final String APP_SHELL = "_app.html"
     static final String NOT_FOUND_PAGE = "_404.html"
     static final String APP_ROUTES = "_app-routes.json"
+    static final String REDIRECTS = "_redirects.json"
 
     private static final Pattern PRERENDERED_PATH = ~/^(\/[a-z0-9]+(-[a-z0-9]+)*)+$/
 
     private final ResourceResolver resourceResolver
     private final String pagesRoot
     private final List<Pattern> appRoutePatterns
+    private final Map<String, String> redirects
 
     @Inject
     PageResolver(ResourceResolver resourceResolver) {
@@ -33,9 +35,14 @@ class PageResolver {
         this.resourceResolver = resourceResolver
         this.pagesRoot = pagesRoot
         this.appRoutePatterns = loadAppRoutePatterns()
+        this.redirects = loadRedirects()
     }
 
     ResolvedPage resolve(String path) {
+        String redirectTo = redirects[path]
+        if (redirectTo) {
+            return new ResolvedPage(HttpStatus.MOVED_PERMANENTLY, null, redirectTo)
+        }
         URL prerendered = find(prerenderedFile(path))
         if (prerendered) {
             return new ResolvedPage(HttpStatus.OK, prerendered)
@@ -71,5 +78,10 @@ class PageResolver {
         }
         List<String> routePaths = new Gson().fromJson(manifest.text, List)
         return routePaths.collect { toPattern(it) }
+    }
+
+    private Map<String, String> loadRedirects() {
+        URL manifest = find(REDIRECTS)
+        return manifest ? new Gson().fromJson(manifest.text, Map) : [:]
     }
 }

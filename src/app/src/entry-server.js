@@ -7,7 +7,7 @@ import App from './App.vue'
 import config from '../vuestic.config.js'
 import { routes } from './router/routes.js'
 
-export { pageRoutes, appRoutes, notFoundRoute } from './router/routes.js'
+export { pageRoutes, appRoutes, redirectRoutes, notFoundRoute } from './router/routes.js'
 export { headTags, noindexHeadTags, pageFile, sitemap } from './seo.js'
 
 export async function render(path) {

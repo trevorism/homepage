@@ -4,7 +4,11 @@ import Account from "../components/Account.vue";
 import ChangePassword from "../components/ChangePassword.vue";
 import Register from "../components/Register.vue";
 import Apps from "../components/Apps.vue";
-import Contact from "../components/Contact.vue";
+import Services from "../components/Services.vue";
+import NoLockIn from "../components/NoLockIn.vue";
+import Assessment from "../components/Assessment.vue";
+import About from "../components/About.vue";
+import Privacy from "../components/Privacy.vue";
 import Prototype from "../components/articles/Prototype.vue";
 import Trends from "../components/articles/Trends.vue";
 import Production from "../components/articles/Production.vue";
@@ -19,8 +23,62 @@ export const pageRoutes = [
         name: 'Splash',
         component: Splash,
         meta: {
-            title: 'Trevorism | Develop your software ecosystem',
-            description: 'Trevorism is an open source platform of web services for authentication, data, actions and testing. Build software that balances complexity with elegance.'
+            title: 'Elegant software for startups | Trevorism',
+            description: 'Small businesses can use the platform to handle common startup needs, hosted by us or in your own Google Cloud account. No vendor lock-in.'
+        }
+    },
+    {
+        path: '/services',
+        name: 'Services',
+        component: Services,
+        meta: {
+            title: 'Services and pricing | Trevorism',
+            description: 'A free assessment, a fixed-price setup and a monthly plan to keep adding tools, hosted by us or in your own Google Cloud account. No lock-in.'
+        }
+    },
+    {
+        path: '/no-lock-in',
+        name: 'NoLockIn',
+        component: NoLockIn,
+        meta: {
+            title: 'No vendor lock-in | Trevorism',
+            description: 'Open source code, data that is always yours, and your choice of hosting: ours or your own Google Cloud account. What owning your software means.'
+        }
+    },
+    {
+        path: '/assessment',
+        name: 'Assessment',
+        component: Assessment,
+        meta: {
+            title: 'Free software assessment for small businesses | Trevorism',
+            description: 'Tell us about your business and its pain points.'
+        }
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: About,
+        meta: {
+            title: 'About Trevor | Trevorism',
+            description: 'A software engineer who builds and runs the Trevorism platform and sets small businesses up on it.'
+        }
+    },
+    {
+        path: '/privacy',
+        name: 'Privacy',
+        component: Privacy,
+        meta: {
+            title: 'Privacy policy | Trevorism',
+            description: 'What Trevorism LLC collects when you use this site or request an assessment, why, how long we keep it, and how to have it deleted.'
+        }
+    },
+    {
+        path: '/apps',
+        name: 'Apps',
+        component: Apps,
+        meta: {
+            title: 'Apps running on Trevorism | Trevorism',
+            description: 'Real tools running on the Trevorism platform today, from goal tracking to changelogs and timelines. The same platform your business would run on.'
         }
     },
     {
@@ -30,24 +88,6 @@ export const pageRoutes = [
         meta: {
             title: 'Documentation | Trevorism',
             description: 'How the Trevorism platform works: its auth, data, action and testing services, the technology choices behind them, and links to each API and its source code.'
-        }
-    },
-    {
-        path: '/apps',
-        name: 'Apps',
-        component: Apps,
-        meta: {
-            title: 'Apps | Trevorism',
-            description: 'Apps that run on the Trevorism platform, from goal tracking to changelogs and timelines, and how to run your own Trevorism tenant.'
-        }
-    },
-    {
-        path: '/contact',
-        name: 'Contact',
-        component: Contact,
-        meta: {
-            title: 'Contact | Trevorism',
-            description: 'Contact Trevorism for pricing, feature requests or general questions, or set up your own Trevorism tenant.'
         }
     },
     {
@@ -119,6 +159,13 @@ export const appRoutes = [
     }
 ]
 
+export const redirectRoutes = [
+    {
+        path: '/contact',
+        redirect: '/assessment'
+    }
+]
+
 export const notFoundRoute = {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -126,4 +173,4 @@ export const notFoundRoute = {
     meta: { title: 'Not Found | Trevorism' }
 }
 
-export const routes = [...pageRoutes, ...appRoutes, notFoundRoute]
+export const routes = [...pageRoutes, ...appRoutes, ...redirectRoutes, notFoundRoute]

@@ -2,6 +2,7 @@ package com.trevorism.gcloud.webapi.controller
 
 import com.trevorism.gcloud.webapi.service.PageResolver
 import io.micronaut.core.io.ResourceResolver
+import io.micronaut.http.HttpHeaders
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
@@ -18,6 +19,13 @@ class NotFoundRouteControllerTest {
         def response = controller.forward(HttpRequest.GET("/docs").accept(MediaType.ALL_TYPE))
         assert response.status == HttpStatus.OK
         assert (response.body() as StreamedFile).mediaType == MediaType.TEXT_HTML_TYPE
+    }
+
+    @Test
+    void testRetiredPagesRedirectPermanently() {
+        def response = controller.forward(HttpRequest.GET("/contact"))
+        assert response.status == HttpStatus.MOVED_PERMANENTLY
+        assert response.headers.get(HttpHeaders.LOCATION) == "/assessment"
     }
 
     @Test
