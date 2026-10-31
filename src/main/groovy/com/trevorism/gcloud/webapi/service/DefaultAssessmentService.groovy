@@ -46,11 +46,11 @@ class DefaultAssessmentService implements AssessmentService {
     @Override
     boolean isValid(AssessmentSubmission submission) {
         return submission &&
-                isPresent(submission.name, MAX_NAME_LENGTH) &&
                 isEmail(submission.email) &&
-                isPresent(submission.business, MAX_BUSINESS_LENGTH) &&
-                isPresent(submission.task, MAX_TEXT_LENGTH) &&
-                (submission.tools ?: "").length() <= MAX_TEXT_LENGTH &&
+                fits(submission.name, MAX_NAME_LENGTH) &&
+                fits(submission.business, MAX_BUSINESS_LENGTH) &&
+                fits(submission.tools, MAX_TEXT_LENGTH) &&
+                fits(submission.task, MAX_TEXT_LENGTH) &&
                 isChoiceOrBlank(submission.teamSize, TeamSizeType.ALL) &&
                 isChoiceOrBlank(submission.hosting, HostingPreferenceType.ALL)
     }
@@ -64,7 +64,7 @@ class DefaultAssessmentService implements AssessmentService {
 
     private void notifyOwner(AssessmentRequest request) {
         Mail mail = new Mail(
-                subject: "New assessment request from ${request.business}",
+                subject: "New assessment request from ${request.business ?: request.name ?: request.email}",
                 recipients: [NOTIFICATION_ADDRESS],
                 body: notificationBody(request)
         )
@@ -79,20 +79,19 @@ class DefaultAssessmentService implements AssessmentService {
         [
                 "A new assessment request arrived. Reply within a week.",
                 "",
-                "Name: ${request.name}",
                 "Email: ${request.email}",
-                "Business: ${request.business}",
+                "Name: ${request.name ?: 'not given'}",
+                "Business: ${request.business ?: 'not given'}",
                 "Team size: ${request.teamSize ?: 'not given'}",
                 "Tools they pay for: ${request.tools ?: 'not given'}",
-                "Task to stop doing by hand: ${request.task}",
+                "Task to stop doing by hand: ${request.task ?: 'not given'}",
                 "Where it should run: ${request.hosting ?: 'not given'}",
                 "Request id: ${request.id}"
         ].join("\n")
     }
 
-    private static boolean isPresent(String value, int maxLength) {
-        String trimmed = value?.trim()
-        return trimmed && trimmed.length() <= maxLength
+    private static boolean fits(String value, int maxLength) {
+        return (value?.trim() ?: "").length() <= maxLength
     }
 
     private static boolean isEmail(String value) {

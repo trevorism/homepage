@@ -35,8 +35,8 @@ When(~/^a crawler requests "([^"]*)" without following redirects$/) { String pat
     send("GET", path, false, null)
 }
 
-When(~/^an incomplete assessment request is submitted$/) { ->
-    send("POST", "/api/assessment", true, '{"name":"","email":"not-an-email","business":"","task":""}')
+When(~/^an assessment request without a valid email is submitted$/) { ->
+    send("POST", "/api/assessment", true, '{"name":"Pat","email":"not-an-email"}')
 }
 
 Then(~/^the response status is (\d+)$/) { int status ->

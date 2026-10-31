@@ -1,8 +1,8 @@
 ## 3.2.0
 
-Turn the homepage into the consulting offer: new home, services, no lock-in, about and privacy pages, and a free
-assessment form that stores each request and emails the owner. The contact page redirects to the assessment, and every
-page gets a footer with the privacy policy.
+Turn the homepage into the consulting offer: new home, services, no lock-in, AI and about pages, and a free assessment
+form that needs only an email, stores each request and emails the owner. The contact page redirects to the assessment,
+and every page gets a footer linking the offer.
 
 ## 3.1.0
 

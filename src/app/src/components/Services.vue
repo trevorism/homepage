@@ -40,7 +40,7 @@
           </tbody>
         </table>
       </div>
-      <p class="mb-10">Not sure? Start hosted by us and move to your own account whenever you like.</p>
+      <p class="mb-10">Not sure? Start hosted by us and move whenever you like.</p>
 
       <h2 class="text-2xl font-bold mb-4">Questions</h2>
       <dl class="mb-10">
@@ -68,19 +68,19 @@ const plans = [
     name: 'Free assessment',
     price: 'Free',
     time: 'A few days',
-    includes: 'A written plan for your business'
+    includes: 'A written plan for what to automate first'
   },
   {
     name: 'Starter',
     price: 'Fixed quote after the assessment',
     time: 'A month',
-    includes: 'A custom solution for your business leveraging the platform'
+    includes: 'Your first tasks automated, built around how you work'
   },
   {
     name: 'Grow',
-    price: "Monthly, based on what you run and where it's hosted",
+    price: 'Monthly, based on what you need',
     time: 'Ongoing',
-    includes: 'New tools and improvements, support, and hosting if we host it'
+    includes: 'New tools and improvements as your business changes, plus support'
   }
 ]
 
@@ -91,8 +91,8 @@ const planRows = [
 ]
 
 const hostingRows = [
-  { label: 'Google Cloud account', hostedByUs: 'Ours', ownAccount: "Yours, in your company's name" },
-  { label: 'Hosting bill', hostedByUs: 'Included in your monthly plan', ownAccount: 'Paid by you, directly to Google' },
+  { label: 'Cloud account', hostedByUs: 'Ours', ownAccount: "Yours, in your company's name" },
+  { label: 'Hosting bill', hostedByUs: 'Included in your monthly plan', ownAccount: 'Paid by you, directly to your cloud provider' },
   { label: 'Your data', hostedByUs: 'Yours. We move it to your own account whenever you ask', ownAccount: 'Yours, in your account from day one' },
   { label: 'Best for', hostedByUs: 'Getting started with nothing to manage', ownAccount: 'Businesses that want full control' }
 ]
@@ -100,37 +100,21 @@ const hostingRows = [
 const faq = [
   {
     question: 'How much does it cost?',
-    answer: 'It depends on what you need. After the free assessment we quote a fixed price for setup and a monthly plan that fits what you run.'
+    answer: 'It depends on what you need. After the free assessment we quote a fixed price for setup and a monthly plan that fits.'
   },
   {
     question: 'Do I need a developer?',
     answer: 'No. We build it and show your team how to use it.'
   },
   {
-    question: 'Do I need a Google Cloud account?',
-    answer: "Only if you want it in your own account. We'll help you create one in your company's name. Otherwise we host it for you."
-  },
-  {
-    question: 'Can I switch later?',
-    answer: 'Yes. Start hosted by us and move to your own account whenever you like; we move the software and data for you.'
-  },
-  {
-    question: 'What access do you have?',
-    answer: 'In your own account, only the access you grant, and you can remove it at any time.'
-  },
-  {
-    question: 'What if I want to leave?',
-    answer: 'Your software and data come with you. In your own account, remove our access and everything keeps running. If we host it, we move it into your own Google Cloud account first.',
-    link: { to: '/no-lock-in', text: 'No lock-in' }
-  },
-  {
     question: 'Can it use AI?',
-    answer: 'Yes. Your tools can use models from Anthropic or OpenAI, and assistants such as Claude can work with your business data through MCP.',
+    answer: 'Yes. It can draft replies, summarize notes and sort requests, and you can connect an AI assistant such as Claude.',
     link: { to: '/ai', text: 'AI built in' }
   },
   {
-    question: 'What does it run on?',
-    answer: 'Google Cloud, with every change tested before it ships.'
+    question: 'What if I want to leave?',
+    answer: 'Your software and data come with you.',
+    link: { to: '/no-lock-in', text: 'No lock-in' }
   }
 ]
 </script>

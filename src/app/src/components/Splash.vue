@@ -5,10 +5,10 @@
     <section class="glassBackground">
       <div class="container mx-auto px-6 py-16">
         <div class="max-w-2xl rounded-md bg-white/90 p-8 shadow">
-          <h1 class="text-4xl font-bold mb-4">Own your business functions.</h1>
+          <h1 class="text-4xl font-bold mb-4">Own Your Business Functions</h1>
           <p class="text-lg mb-6">
-            The Trevorism platform allows for simple and progressive inclusion of common business functions. We can
-            host it for you or run it in your own Google Cloud account. Either way, the software and the data are yours.
+            Stop losing hours to spreadsheets, copy and paste, and tools that don't talk to each other. We build software
+            around how your business works, and it's yours: your data, your code, no lock-in.
           </p>
           <div class="flex flex-wrap items-center gap-6">
             <va-button color="success" to="/assessment">Get a free assessment</va-button>
@@ -31,22 +31,22 @@
 
     <section class="bg-slate-100">
       <div class="container mx-auto px-6 py-12">
-        <h2 class="text-2xl font-bold mb-6">Why it's different</h2>
+        <h2 class="text-2xl font-bold mb-6">What changes for you</h2>
         <ul class="grid gap-6 md:grid-cols-2">
-          <li v-for="reason in reasons" :key="reason.title">
-            <h3 class="text-lg font-bold mb-1">{{ reason.title }}</h3>
-            <p>{{ reason.detail }}</p>
+          <li v-for="outcome in outcomes" :key="outcome.title">
+            <h3 class="text-lg font-bold mb-1">{{ outcome.title }}</h3>
+            <p>{{ outcome.detail }}</p>
           </li>
         </ul>
       </div>
     </section>
 
     <section class="container mx-auto px-6 py-12">
-      <h2 class="text-2xl font-bold mb-6">AI built in</h2>
+      <h2 class="text-2xl font-bold mb-6">AI that does the busywork</h2>
       <ul class="grid gap-6 md:grid-cols-2 mb-4">
-        <li v-for="capability in aiCapabilities" :key="capability.title">
-          <h3 class="text-lg font-bold mb-1">{{ capability.title }}</h3>
-          <p>{{ capability.detail }}</p>
+        <li v-for="use in aiUses" :key="use.title">
+          <h3 class="text-lg font-bold mb-1">{{ use.title }}</h3>
+          <p>{{ use.detail }}</p>
         </li>
       </ul>
       <router-link to="/ai" class="underline">How AI fits in</router-link>
@@ -78,46 +78,50 @@ import HeaderBar from '@trevorism/ui-header-bar';
 
 const steps = [
   {
-    title: 'Evaluate your business needs',
-    detail: 'Which tools you pay for, what lives in spreadsheets, what you do by hand every week. You get a written plan back, free.'
+    title: 'Determine business capabilities in need of automation',
+    detail: 'Tell us where the time goes: the spreadsheets, the copy and paste, the tasks you repeat every week. You get a written plan back, free.'
   },
   {
     title: 'Customize Trevorism for you',
-    detail: 'Using platform tooling, we create a custom solution integrating already built enterprise functionality, hosted by us or in your own Google Cloud account.'
+    detail: 'Using platform tooling, we build a custom solution from already built enterprise functionality, hosted by us or in your own cloud account.'
   },
   {
     title: 'You own it',
-    detail: 'The software and data are yours wherever they run. Take control of what has been built and use us as support when needed.'
+    detail: "The software and data are yours. Take control of what's been built and use us as support when needed."
   }
 ]
 
-const aiCapabilities = [
+const outcomes = [
   {
-    title: 'Your tools can use AI',
-    detail: 'Draft replies, summarize notes and sort incoming requests with models from Anthropic or OpenAI, through one interface, so you can change models without rebuilding.'
+    title: 'Hours back every week',
+    detail: 'The work you repeat by hand runs itself.'
   },
   {
-    title: 'Your AI assistant can work with your business',
-    detail: 'Through MCP, assistants such as Claude can look up your records, add new ones and run tasks, using your login and only your permissions.'
+    title: 'Fewer subscriptions',
+    detail: 'One system replaces the patchwork of tools you pay for.'
+  },
+  {
+    title: 'Your data, always',
+    detail: 'The software and everything in it belong to you. Leave any time without losing a thing.'
+  },
+  {
+    title: 'Room to grow',
+    detail: 'Start with one task and add more as your business changes, without switching tools.'
+  },
+  {
+    title: 'Reliable from day one',
+    detail: 'The platform behind it already runs about 40 production services and is tested on every change.'
   }
 ]
 
-const reasons = [
+const aiUses = [
   {
-    title: 'You own it, wherever it runs',
-    detail: 'The platform is open source and your data is yours, whether we host it or it runs in your own Google Cloud account.'
+    title: 'Answer and sort faster',
+    detail: 'Draft replies, summarize notes and sort incoming requests automatically.'
   },
   {
-    title: 'Your choice of hosting',
-    detail: 'Let us run it for you, or keep it in your own Google Cloud account and pay Google directly. You can switch later.'
-  },
-  {
-    title: 'One place, not ten subscriptions',
-    detail: 'Logins, data and automation live together and grow together.'
-  },
-  {
-    title: 'Built to last',
-    detail: 'About 40 production services run on this platform, checked by 110+ automated test suites on every change.'
+    title: 'Ask your business anything',
+    detail: 'Connect an AI assistant such as Claude and ask it to look up records, add new ones or run tasks, with only your permissions.'
   }
 ]
 </script>

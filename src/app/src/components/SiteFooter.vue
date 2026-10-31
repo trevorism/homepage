@@ -17,7 +17,6 @@ const links = [
   { to: '/assessment', text: 'Free assessment' },
   { to: '/about', text: 'About' },
   { to: '/apps', text: 'Apps' },
-  { to: '/docs', text: 'Docs' },
-  { to: '/privacy', text: 'Privacy' }
+  { to: '/docs', text: 'Docs' }
 ]
 </script>

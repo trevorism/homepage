@@ -29,7 +29,7 @@ Feature: Pages crawlers can read
     When a crawler requests "/assessment"
     Then the response status is 200
     And the page contains "Get a free assessment"
-    And the page contains "privacy policy"
+    And the page contains "Only your email is required"
 
   Scenario: The retired contact page points to the assessment
     Given the application is alive
@@ -37,9 +37,9 @@ Feature: Pages crawlers can read
     Then the response status is 301
     And it redirects to "/assessment"
 
-  Scenario: An incomplete assessment request is refused
+  Scenario: An assessment request without a valid email is refused
     Given the application is alive
-    When an incomplete assessment request is submitted
+    When an assessment request without a valid email is submitted
     Then the response status is 400
 
   Scenario: The sitemap lists the pages

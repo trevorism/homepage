@@ -42,22 +42,17 @@ class DefaultAssessmentServiceTest {
     }
 
     @Test
-    void testOptionalFieldsMayBeLeftOut() {
-        def submission = completeSubmission()
-        submission.teamSize = null
-        submission.tools = null
-        submission.hosting = ""
-        assert serviceWith([], []).isValid(submission)
+    void testOnlyTheEmailIsRequired() {
+        assert serviceWith([], []).isValid(new AssessmentSubmission(email: "pat@example.com", hosting: ""))
     }
 
     @Test
-    void testMissingOrMalformedRequiredFieldsAreInvalid() {
+    void testAMissingOrMalformedEmailIsInvalid() {
         def service = serviceWith([], [])
         assert !service.isValid(null)
-        assert !service.isValid(completeSubmission().tap { name = "  " })
+        assert !service.isValid(completeSubmission().tap { email = null })
+        assert !service.isValid(completeSubmission().tap { email = "  " })
         assert !service.isValid(completeSubmission().tap { email = "not-an-email" })
-        assert !service.isValid(completeSubmission().tap { business = null })
-        assert !service.isValid(completeSubmission().tap { task = "" })
     }
 
     @Test
@@ -65,6 +60,7 @@ class DefaultAssessmentServiceTest {
         def service = serviceWith([], [])
         assert !service.isValid(completeSubmission().tap { name = "x" * (DefaultAssessmentService.MAX_NAME_LENGTH + 1) })
         assert !service.isValid(completeSubmission().tap { tools = "x" * (DefaultAssessmentService.MAX_TEXT_LENGTH + 1) })
+        assert !service.isValid(completeSubmission().tap { task = "x" * (DefaultAssessmentService.MAX_TEXT_LENGTH + 1) })
         assert !service.isValid(completeSubmission().tap { teamSize = "1000" })
         assert !service.isValid(completeSubmission().tap { hosting = "on-premises" })
     }
@@ -92,6 +88,18 @@ class DefaultAssessmentServiceTest {
         assert mail.subject.contains("Pat's Bakery")
         assert mail.body.contains("pat@example.com")
         assert mail.body.contains("Tracking wholesale orders")
+    }
+
+    @Test
+    void testAnEmailOnlyRequestStillTellsTheOwnerWhoToReplyTo() {
+        List<AssessmentRequest> stored = []
+        List<Map> posts = []
+        serviceWith(stored, posts).submit(new AssessmentSubmission(email: "pat@example.com", name: " "))
+
+        assert stored[0].name == null
+        Mail mail = new Gson().fromJson(posts[0].body as String, Mail)
+        assert mail.subject.contains("pat@example.com")
+        assert mail.body.contains("Business: not given")
     }
 
     @Test

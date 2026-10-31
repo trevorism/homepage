@@ -14,12 +14,12 @@ class AssessmentRequest {
 
     static AssessmentRequest from(AssessmentSubmission submission, Date createdDate) {
         new AssessmentRequest(
-                name: submission.name?.trim(),
+                name: submission.name?.trim() ?: null,
                 email: submission.email?.trim(),
-                business: submission.business?.trim(),
+                business: submission.business?.trim() ?: null,
                 teamSize: submission.teamSize ?: null,
                 tools: submission.tools?.trim() ?: null,
-                task: submission.task?.trim(),
+                task: submission.task?.trim() ?: null,
                 hosting: submission.hosting ?: null,
                 createdDate: createdDate
         )

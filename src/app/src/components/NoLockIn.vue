@@ -24,12 +24,12 @@ const promises = [
     detail: "Every part of the platform is public on GitHub. Nothing is hidden, and it doesn't need Trevorism infrastructure to run."
   },
   {
-    title: 'Your data is yours, wherever it runs.',
-    detail: "All data for your business is owned by you. In your own Google Cloud account it's yours from day one; if we host it, we move it into your own account whenever you ask."
+    title: 'Your data is yours.',
+    detail: 'Everything your business stores belongs to you, and you can take all of it with you at any time.'
   },
   {
-    title: 'You choose where it runs, and can change your mind.',
-    detail: 'In your own account, we work with the access you grant and you can remove it at any time; your software keeps running. Hosted by us, you can move to your own account whenever you like.'
+    title: "You're in control.",
+    detail: 'Move it into your own cloud account whenever you like. There, you decide who has access, and your software keeps running if we stop working together.'
   }
 ]
 </script>

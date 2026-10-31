@@ -47,8 +47,8 @@ describe('Assessment.vue', () => {
   it('asks for every answer the plan needs', () => {
     const labels = mountAssessment().findAll('[data-label]').map((input) => input.attributes('data-label'))
     expect(labels).toEqual([
-      'Your name',
       'Email',
+      'Your name',
       'Business name and what it does',
       'Team size',
       'Tools you pay for today',
@@ -57,18 +57,23 @@ describe('Assessment.vue', () => {
     ])
   })
 
-  it('links the privacy policy next to the button', () => {
-    const link = mountAssessment().findComponent(RouterLinkStub)
-    expect(link.props('to')).toBe('/privacy')
-  })
-
-  it('asks for missing details instead of sending an incomplete request', async () => {
+  it('asks for a valid email before sending anything', async () => {
     const wrapper = mountAssessment()
     await fill(wrapper, { 'Your name': 'Pat', Email: 'not-an-email' })
     await wrapper.find('.submit').trigger('click')
 
     expect(axios.post).not.toHaveBeenCalled()
     expect(wrapper.find('.alert').text()).toContain('valid email')
+  })
+
+  it('sends a request with nothing but an email', async () => {
+    const wrapper = mountAssessment()
+    await fill(wrapper, { Email: 'pat@example.com' })
+    await wrapper.find('.submit').trigger('click')
+    await flushPromises()
+
+    expect(axios.post.mock.calls[0][1]).toMatchObject({ email: 'pat@example.com', name: '', task: '' })
+    expect(wrapper.text()).toContain("Thanks. We'll read this personally and reply within a week.")
   })
 
   it('sends the answers and thanks the visitor', async () => {

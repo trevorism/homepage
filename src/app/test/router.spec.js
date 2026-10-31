@@ -38,7 +38,7 @@ describe('router', () => {
   })
 
   it('leaves the public pages open', () => {
-    for (const path of ['/', '/register', '/services', '/no-lock-in', '/ai', '/assessment', '/about', '/privacy', '/apps', '/logout']) {
+    for (const path of ['/', '/register', '/services', '/no-lock-in', '/ai', '/assessment', '/about', '/apps', '/logout']) {
       expect(router.resolve(path).meta.requiresAuth, path).toBeUndefined()
     }
   })

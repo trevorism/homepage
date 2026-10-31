@@ -9,7 +9,6 @@ import NoLockIn from "../components/NoLockIn.vue";
 import AiBuiltIn from "../components/AiBuiltIn.vue";
 import Assessment from "../components/Assessment.vue";
 import About from "../components/About.vue";
-import Privacy from "../components/Privacy.vue";
 import Prototype from "../components/articles/Prototype.vue";
 import Trends from "../components/articles/Trends.vue";
 import Production from "../components/articles/Production.vue";
@@ -25,7 +24,7 @@ export const pageRoutes = [
         component: Splash,
         meta: {
             title: 'Elegant software for startups | Trevorism',
-            description: 'Small businesses can use the platform to handle common startup needs, hosted by us or in your own Google Cloud account. No vendor lock-in.'
+            description: 'Spend less time on spreadsheets and repetitive admin. We build the tools your business needs, and you own them. No vendor lock-in.'
         }
     },
     {
@@ -34,7 +33,7 @@ export const pageRoutes = [
         component: Services,
         meta: {
             title: 'Services and pricing | Trevorism',
-            description: 'A free assessment, a fixed-price setup and a monthly plan to keep adding tools, hosted by us or in your own Google Cloud account. No lock-in.'
+            description: 'A free assessment, a fixed-price setup and a monthly plan to keep improving your tools, quoted to fit what your business needs. No lock-in.'
         }
     },
     {
@@ -43,7 +42,7 @@ export const pageRoutes = [
         component: NoLockIn,
         meta: {
             title: 'No vendor lock-in | Trevorism',
-            description: 'Open source code, data that is always yours, and your choice of hosting: ours or your own Google Cloud account. What owning your software means.'
+            description: 'Your software, your data and open source code. Leave whenever you want and take everything with you.'
         }
     },
     {
@@ -52,7 +51,7 @@ export const pageRoutes = [
         component: AiBuiltIn,
         meta: {
             title: 'AI built in | Trevorism',
-            description: 'Add AI to your business tools with models from Anthropic or OpenAI, and let assistants like Claude work with your business data through MCP.'
+            description: 'Let AI draft replies, summarize notes and sort requests, and connect assistants like Claude to your business through MCP.'
         }
     },
     {
@@ -71,15 +70,6 @@ export const pageRoutes = [
         meta: {
             title: 'About Trevor | Trevorism',
             description: 'A software engineer who builds and runs the Trevorism platform and sets small businesses up on it.'
-        }
-    },
-    {
-        path: '/privacy',
-        name: 'Privacy',
-        component: Privacy,
-        meta: {
-            title: 'Privacy policy | Trevorism',
-            description: 'What Trevorism LLC collects when you use this site or request an assessment, why, how long we keep it, and how to have it deleted.'
         }
     },
     {
