@@ -6,6 +6,7 @@ import Register from "../components/Register.vue";
 import Apps from "../components/Apps.vue";
 import Services from "../components/Services.vue";
 import NoLockIn from "../components/NoLockIn.vue";
+import AiBuiltIn from "../components/AiBuiltIn.vue";
 import Assessment from "../components/Assessment.vue";
 import About from "../components/About.vue";
 import Privacy from "../components/Privacy.vue";
@@ -43,6 +44,15 @@ export const pageRoutes = [
         meta: {
             title: 'No vendor lock-in | Trevorism',
             description: 'Open source code, data that is always yours, and your choice of hosting: ours or your own Google Cloud account. What owning your software means.'
+        }
+    },
+    {
+        path: '/ai',
+        name: 'AiBuiltIn',
+        component: AiBuiltIn,
+        meta: {
+            title: 'AI built in | Trevorism',
+            description: 'Add AI to your business tools with models from Anthropic or OpenAI, and let assistants like Claude work with your business data through MCP.'
         }
     },
     {

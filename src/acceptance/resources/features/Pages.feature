@@ -48,3 +48,4 @@ Feature: Pages crawlers can read
     Then the response status is 200
     And the page contains "<loc>https://www.trevorism.com/docs</loc>"
     And the page contains "<loc>https://www.trevorism.com/assessment</loc>"
+    And the page contains "<loc>https://www.trevorism.com/ai</loc>"

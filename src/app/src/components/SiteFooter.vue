@@ -13,6 +13,7 @@
 const links = [
   { to: '/services', text: 'Services' },
   { to: '/no-lock-in', text: 'No lock-in' },
+  { to: '/ai', text: 'AI built in' },
   { to: '/assessment', text: 'Free assessment' },
   { to: '/about', text: 'About' },
   { to: '/apps', text: 'Apps' },

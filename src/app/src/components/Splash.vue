@@ -42,12 +42,25 @@
     </section>
 
     <section class="container mx-auto px-6 py-12">
-      <h2 class="text-2xl font-bold mb-4">Already running on Trevorism</h2>
-      <p class="mb-2">Goals, prompt, timeline, changelog, health-dash and billing all run on the platform today.</p>
-      <router-link to="/apps" class="underline">See the apps</router-link>
+      <h2 class="text-2xl font-bold mb-6">AI built in</h2>
+      <ul class="grid gap-6 md:grid-cols-2 mb-4">
+        <li v-for="capability in aiCapabilities" :key="capability.title">
+          <h3 class="text-lg font-bold mb-1">{{ capability.title }}</h3>
+          <p>{{ capability.detail }}</p>
+        </li>
+      </ul>
+      <router-link to="/ai" class="underline">How AI fits in</router-link>
     </section>
 
     <section class="bg-slate-100">
+      <div class="container mx-auto px-6 py-12">
+        <h2 class="text-2xl font-bold mb-4">Already running on Trevorism</h2>
+        <p class="mb-2">Goals, prompt, timeline, changelog, health-dash and billing all run on the platform today.</p>
+        <router-link to="/apps" class="underline">See the apps</router-link>
+      </div>
+    </section>
+
+    <section>
       <div class="container mx-auto px-6 py-12 text-center">
         <h2 class="text-2xl font-bold mb-4">Not sure what you need?</h2>
         <p class="mb-6">
@@ -75,6 +88,17 @@ const steps = [
   {
     title: 'You own it',
     detail: 'The software and data are yours wherever they run. Take control of what has been built and use us as support when needed.'
+  }
+]
+
+const aiCapabilities = [
+  {
+    title: 'Your tools can use AI',
+    detail: 'Draft replies, summarize notes and sort incoming requests with models from Anthropic or OpenAI, through one interface, so you can change models without rebuilding.'
+  },
+  {
+    title: 'Your AI assistant can work with your business',
+    detail: 'Through MCP, assistants such as Claude can look up your records, add new ones and run tasks, using your login and only your permissions.'
   }
 ]
 

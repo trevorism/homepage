@@ -124,6 +124,11 @@ const faq = [
     link: { to: '/no-lock-in', text: 'No lock-in' }
   },
   {
+    question: 'Can it use AI?',
+    answer: 'Yes. Your tools can use models from Anthropic or OpenAI, and assistants such as Claude can work with your business data through MCP.',
+    link: { to: '/ai', text: 'AI built in' }
+  },
+  {
     question: 'What does it run on?',
     answer: 'Google Cloud, with every change tested before it ships.'
   }
