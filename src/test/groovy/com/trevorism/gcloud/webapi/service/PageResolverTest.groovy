@@ -41,6 +41,14 @@ class PageResolverTest {
     }
 
     @Test
+    void testRetiredPathsRedirectPermanentlyToTheirReplacement() {
+        def page = pageResolver.resolve("/contact")
+        assert page.status == HttpStatus.MOVED_PERMANENTLY
+        assert page.redirectTo == "/assessment"
+        assert !page.document
+    }
+
+    @Test
     void testOptionalRouteParametersMatchWithAndWithoutAValue() {
         def pattern = PageResolver.toPattern("/change/:guid?")
         assert "/change" ==~ pattern

@@ -9,7 +9,7 @@ const TEMPLATE_PATH = join(DIST_DIR, 'index.html')
 const TEMPLATE_TITLE = '<title>Trevorism</title>'
 const APP_MOUNT = '<div id="app"></div>'
 
-const { render, pageRoutes, appRoutes, notFoundRoute, headTags, noindexHeadTags, pageFile, sitemap } =
+const { render, pageRoutes, appRoutes, redirectRoutes, notFoundRoute, headTags, noindexHeadTags, pageFile, sitemap } =
   await import(pathToFileURL(join(APP_DIR, 'dist-ssr', 'entry-server.js')).href)
 
 const template = await readFile(TEMPLATE_PATH, 'utf8')
@@ -38,4 +38,5 @@ for (const route of pageRoutes) {
 await writePage('_app.html', documentWith(noindexHeadTags()))
 await writePage('_404.html', documentWith(noindexHeadTags(notFoundRoute.meta.title), await render('/_404')))
 await writePage('_app-routes.json', JSON.stringify(appRoutes.map((route) => route.path)))
+await writePage('_redirects.json', JSON.stringify(Object.fromEntries(redirectRoutes.map((route) => [route.path, route.redirect]))))
 await writeFile(join(DIST_DIR, 'sitemap.xml'), sitemap(pageRoutes))

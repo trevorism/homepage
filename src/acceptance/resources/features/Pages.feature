@@ -24,8 +24,28 @@ Feature: Pages crawlers can read
     When a crawler requests "/"
     Then the page's stylesheet carries the header bar's styles
 
+  Scenario: Visitors can request a free assessment
+    Given the application is alive
+    When a crawler requests "/assessment"
+    Then the response status is 200
+    And the page contains "Get a free assessment"
+    And the page contains "Only your email is required"
+
+  Scenario: The retired contact page points to the assessment
+    Given the application is alive
+    When a crawler requests "/contact" without following redirects
+    Then the response status is 301
+    And it redirects to "/assessment"
+
+  Scenario: An assessment request without a valid email is refused
+    Given the application is alive
+    When an assessment request without a valid email is submitted
+    Then the response status is 400
+
   Scenario: The sitemap lists the pages
     Given the application is alive
     When a crawler requests "/sitemap.xml"
     Then the response status is 200
     And the page contains "<loc>https://www.trevorism.com/docs</loc>"
+    And the page contains "<loc>https://www.trevorism.com/assessment</loc>"
+    And the page contains "<loc>https://www.trevorism.com/ai</loc>"
