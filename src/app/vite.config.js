@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
     plugins: [tailwindcss(), vue()],
+    ssr: {
+        noExternal: ['vue3-click-away']
+    },
     server: {
         host: "localhost",
         proxy: {
