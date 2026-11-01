@@ -17,7 +17,7 @@ const checkout = async () => {
   }
 
   try {
-    const response = await axios.post('api/payment/session', request)
+    const response = await axios.post('/api/payment/session', request)
     if (!response.data?.url) {
       throw new Error('No checkout url returned')
     }
