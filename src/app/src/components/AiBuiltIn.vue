@@ -13,7 +13,7 @@
 
       <h2 class="text-xl font-bold mb-2">Ask your business anything</h2>
       <p class="mb-8">
-        Connect an AI assistant such as Claude through MCP, the open standard assistants use to work with other software.
+        Connect your AI assistant through MCP, the open standard assistants use to work with other software.
         Ask it to look up records, add new ones or run tasks, and it acts with your login and only your permissions.
       </p>
 

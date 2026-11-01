@@ -108,7 +108,7 @@ const faq = [
   },
   {
     question: 'Can it use AI?',
-    answer: 'Yes. It can draft replies, summarize notes and sort requests, and you can connect an AI assistant such as Claude.',
+    answer: 'Yes. It can draft replies, summarize notes and sort requests, and you can connect your AI assistant.',
     link: { to: '/ai', text: 'AI built in' }
   },
   {

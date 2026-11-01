@@ -1,3 +1,7 @@
+## 3.2.1
+
+Refer to "your AI assistant" instead of naming Claude, and describe the apps built on the platform instead of listing them.
+
 ## 3.2.0
 
 Turn the homepage into the consulting offer: new home, services, no lock-in, AI and about pages, and a free assessment

@@ -55,7 +55,7 @@
     <section class="bg-slate-100">
       <div class="container mx-auto px-6 py-12">
         <h2 class="text-2xl font-bold mb-4">Already running on Trevorism</h2>
-        <p class="mb-2">Goals, prompt, timeline, changelog, health-dash and billing all run on the platform today.</p>
+        <p class="mb-2">Several apps have been built using the platform capabilities. The Trevorism platform enables fast time to market for business applications.</p>
         <router-link to="/apps" class="underline">See the apps</router-link>
       </div>
     </section>
@@ -121,7 +121,7 @@ const aiUses = [
   },
   {
     title: 'Ask your business anything',
-    detail: 'Connect an AI assistant such as Claude and ask it to look up records, add new ones or run tasks, with only your permissions.'
+    detail: 'Connect your AI assistant and ask it to look up records, add new ones or run tasks, with only your permissions.'
   }
 ]
 </script>
