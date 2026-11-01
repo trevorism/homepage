@@ -51,7 +51,7 @@ export const pageRoutes = [
         component: AiBuiltIn,
         meta: {
             title: 'AI built in | Trevorism',
-            description: 'Let AI draft replies, summarize notes and sort requests, and connect assistants like Claude to your business through MCP.'
+            description: 'Let AI draft replies, summarize notes and sort requests, and connect your AI assistant to your business through MCP.'
         }
     },
     {

@@ -1,6 +1,6 @@
 ## 3.2.1
 
-Name a generic AI assistant instead of Claude on the home page.
+Refer to "your AI assistant" instead of naming Claude, and describe the apps built on the platform instead of listing them.
 
 ## 3.2.0
 
