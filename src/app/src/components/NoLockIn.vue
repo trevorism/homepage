@@ -21,15 +21,15 @@ import HeaderBar from '@trevorism/ui-header-bar'
 const promises = [
   {
     title: 'The code is open.',
-    detail: "Every part of the platform is public on GitHub. Nothing is hidden, and it doesn't need Trevorism infrastructure to run."
+    detail: "Every part of the platform is public on GitHub. Nothing is hidden."
   },
   {
     title: 'Your data is yours.',
-    detail: 'Everything your business stores belongs to you, and you can take all of it with you at any time.'
+    detail: 'Everything your business stores belongs to you. Ask at any time and we export all of it for you.'
   },
   {
     title: "You're in control.",
-    detail: 'Move it into your own cloud account whenever you like. There, you decide who has access, and your software keeps running if we stop working together.'
+    detail: 'Prefer your own cloud account? We can set your software up there, where you decide who has access.'
   }
 ]
 </script>
