@@ -102,7 +102,7 @@ const outcomes = [
   },
   {
     title: 'Your data, always',
-    detail: 'The software and everything in it belong to you. Ask any time and we export your data for you.'
+    detail: 'The software and everything in it belong to you.'
   },
   {
     title: 'Room to grow',

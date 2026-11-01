@@ -25,7 +25,7 @@ const promises = [
   },
   {
     title: 'Your data is yours.',
-    detail: 'Everything your business stores belongs to you. Ask at any time and we export all of it for you.'
+    detail: 'Everything your business stores belongs to you. Ask, and we export all of it.'
   },
   {
     title: "You're in control.",
