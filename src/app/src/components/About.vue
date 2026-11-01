@@ -16,10 +16,14 @@
           <va-button color="success" to="/assessment">Get a free assessment</va-button>
         </div>
       </div>
+      <h2 class="text-xl font-bold mt-10 mb-2">Donate</h2>
+      <p class="mb-2">Help fund Trevorism by making a payment below. We certainly would appreciate it!</p>
+      <div class="mt-6"><Stripe></Stripe></div>
     </div>
   </div>
 </template>
 
 <script setup>
 import HeaderBar from '@trevorism/ui-header-bar'
+import Stripe from './Stripe.vue'
 </script>

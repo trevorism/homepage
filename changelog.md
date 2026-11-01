@@ -1,3 +1,7 @@
+## 3.3.0
+
+Bring back the donate form on the about page, paid through Stripe.
+
 ## 3.2.2
 
 Say the AI page uses "the leading models" instead of naming vendors.
