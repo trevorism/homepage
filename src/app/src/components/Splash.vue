@@ -7,7 +7,7 @@
         <div class="max-w-2xl rounded-md bg-white/90 p-8 shadow">
           <h1 class="text-4xl font-bold mb-4">Own Your Business Functions</h1>
           <p class="text-lg mb-6">
-            Stop losing hours to spreadsheets, copy and paste, and tools that don't talk to each other. We build software
+            Stop losing hours to manual work and tools that don't talk to each other. We build software
             around how your business works, and it's yours: your data, your code, no lock-in.
           </p>
           <div class="flex flex-wrap items-center gap-6">
