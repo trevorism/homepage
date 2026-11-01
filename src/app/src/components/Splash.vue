@@ -121,7 +121,7 @@ const aiUses = [
   },
   {
     title: 'Ask your business anything',
-    detail: 'Connect an AI assistant such as Claude and ask it to look up records, add new ones or run tasks, with only your permissions.'
+    detail: 'Connect your AI assistant and ask it to look up records, add new ones or run tasks, with only your permissions.'
   }
 ]
 </script>
