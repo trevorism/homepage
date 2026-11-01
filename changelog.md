@@ -1,3 +1,7 @@
+## 3.2.1
+
+Name a generic AI assistant instead of Claude on the home page.
+
 ## 3.2.0
 
 Turn the homepage into the consulting offer: new home, services, no lock-in, AI and about pages, and a free assessment
