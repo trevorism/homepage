@@ -1,3 +1,7 @@
+## 3.2.2
+
+Say the AI page uses "the leading models" instead of naming vendors.
+
 ## 3.2.1
 
 Refer to "your AI assistant" instead of naming Claude, and describe the apps built on the platform instead of listing them.

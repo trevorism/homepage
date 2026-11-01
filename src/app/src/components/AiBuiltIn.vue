@@ -7,8 +7,8 @@
 
       <h2 class="text-xl font-bold mb-2">Spend less time on busywork</h2>
       <p class="mb-8">
-        Your tools can draft emails, summarize notes, sort incoming requests and answer common questions, using leading
-        models from Anthropic or OpenAI. Switch models any time without rebuilding.
+        Your tools can draft emails, summarize notes, sort incoming requests and answer common questions, using the
+        leading models. Switch models any time without rebuilding.
       </p>
 
       <h2 class="text-xl font-bold mb-2">Ask your business anything</h2>
