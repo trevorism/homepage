@@ -11,7 +11,8 @@
           <h2 class="text-xl font-bold mb-2">Trevor</h2>
           <p class="mb-4">
             Trevor is a software engineer and the founder of Trevorism LLC. He built and runs the Trevorism platform, a
-            set of about 40 open source web services, and sets small businesses up on it.
+            reference implementation of an enterprise software ecosystem. With 20 years experience, he knows how to impact
+            businesses by reducing friction through automation.
           </p>
           <va-button color="success" to="/assessment">Get a free assessment</va-button>
         </div>
