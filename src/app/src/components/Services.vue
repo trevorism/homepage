@@ -40,7 +40,7 @@
           </tbody>
         </table>
       </div>
-      <p class="mb-10">Not sure? Start hosted by us; we can move you to your own account later.</p>
+      <p class="mb-10">Not sure? Start hosted by us. We can transfer it to your cloud account.</p>
 
       <h2 class="text-2xl font-bold mb-4">Questions</h2>
       <dl class="mb-10">
@@ -93,7 +93,6 @@ const planRows = [
 const hostingRows = [
   { label: 'Cloud account', hostedByUs: 'Ours', ownAccount: "Yours, in your company's name" },
   { label: 'Hosting bill', hostedByUs: 'Included in your monthly plan', ownAccount: 'Paid by you, directly to your cloud provider' },
-  { label: 'Your data', hostedByUs: 'Yours', ownAccount: 'Yours' },
   { label: 'Best for', hostedByUs: 'Getting started with nothing to manage', ownAccount: 'Businesses that want full control' }
 ]
 
