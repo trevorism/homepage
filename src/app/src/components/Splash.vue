@@ -83,7 +83,7 @@ const steps = [
   },
   {
     title: 'Customize Trevorism for you',
-    detail: 'Using platform tooling, we build a custom solution from already built enterprise functionality, hosted by us or in your own cloud account.'
+    detail: 'Using platform tooling, we build a custom solution from already built enterprise functionality, hosted by us or, if you prefer, set up in your own cloud account.'
   },
   {
     title: 'You own it',
@@ -102,7 +102,7 @@ const outcomes = [
   },
   {
     title: 'Your data, always',
-    detail: 'The software and everything in it belong to you. Leave any time without losing a thing.'
+    detail: 'The software and everything in it belong to you.'
   },
   {
     title: 'Room to grow',

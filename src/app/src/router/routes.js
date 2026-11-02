@@ -42,7 +42,7 @@ export const pageRoutes = [
         component: NoLockIn,
         meta: {
             title: 'No vendor lock-in | Trevorism',
-            description: 'Your software, your data and open source code. Leave whenever you want and take everything with you.'
+            description: 'Open source code, and software and data that belong to you.'
         }
     },
     {
