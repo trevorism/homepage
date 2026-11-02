@@ -40,7 +40,7 @@
           </tbody>
         </table>
       </div>
-      <p class="mb-10">Not sure? Start hosted by us. We can transfer it to your cloud account.</p>
+      <p class="mb-10">Not sure? Start hosted by us, and we can transfer it to your cloud account later.</p>
 
       <h2 class="text-2xl font-bold mb-4">Questions</h2>
       <dl class="mb-10">
