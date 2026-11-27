@@ -42,7 +42,7 @@ class UserController {
     }
 
     @Tag(name = "User Operations")
-    @Operation(summary = "Change a user's password **Secure")
+    @Operation(summary = "Change a user's password")
     @Post(value = "/change", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     boolean changePassword(@Body ChangePasswordRequest request) {
         def result = userSessionService.changePassword(request)
